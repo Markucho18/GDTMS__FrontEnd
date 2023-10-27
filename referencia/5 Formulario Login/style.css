@@ -1,0 +1,181 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: rgb(150, 0, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+span{
+    text-align: center;
+}
+.todo{
+    width: 80%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(100, 240, 137);
+    border-radius: 10px;
+    overflow: hidden;/* Esto es para que el border radius se mantenga y no se buguee */
+}
+
+.formulario, .sideImage{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.formulario{
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+}
+
+.formulario div{
+    width: 80%;
+}
+
+.sideImage{
+    background-image: url(./assets/Minecraft.png);
+    background-size: cover;
+    background-position: center;
+
+}
+
+.formLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.formLogin h1{
+    font-size: 48px;
+    margin: 0;
+    padding: 15px;
+}
+
+.formLogin label{
+    width: 100%;
+    font-weight: bold;
+}
+.formLogin label input[type="text"]{
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0px;
+    box-sizing: border-box;
+}
+.formLogin label input[type="text"]:focus{
+    outline: 2px solid rgb(0, 153, 255);
+}
+
+.formLogin a{
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(0, 170, 255);
+}
+
+.formLogin a:hover{
+    text-decoration: underline;
+}
+
+.formLogin .rememberForgot{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.formLogin .logIn{
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+}
+
+.formLogin .logIn:hover{
+    background-color: rgb(20, 20, 20);
+    outline: 2px solid cyan;
+}
+
+.formButtons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.button{
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.formButtons .google{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border: 1px solid grey;
+}
+
+.formButtons .google:hover{
+    background-color: rgb(240, 240, 240);
+    outline: 1px solid black;
+}
+
+.formButtons .facebook{
+    background-color: rgb(0, 50, 255);
+    color: white;
+}
+
+.formButtons .facebook:hover{
+    background-color: rgb(0, 80, 255);
+    outline: 1px solid black;
+}
+
+.formButtons .twitter{
+    background-color: rgb(0, 190, 180);
+    color: white;
+}
+
+.formButtons .twitter:hover{
+    background-color: rgb(0, 160, 180);
+    outline: 1px solid black;
+}
+
+@media screen and (max-width: 1350px) {
+    .todo{
+        width: 90%;
+        height: 90%;
+    }
+    .formulario{
+        width: 60%;
+        padding: 0;
+    }
+    .sideImage{
+        width: 40%;
+    }
+    .formulario > div{
+        width: 400px;
+    }
+}
+@media screen and (max-width: 850px){
+    .sideImage{
+        width: 0%;
+    }
+    .formulario{
+        width: 100%;
+    }
+    .formulario > div{
+        width: 350px;
+    }
+}

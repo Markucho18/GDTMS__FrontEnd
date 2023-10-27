@@ -1,0 +1,92 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: darkslateblue;
+}
+
+.sideBar{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(30, 30, 30);
+    height: 100%;
+    width: 80px;
+    transition: all .3s ease-in-out;
+    overflow: hidden;
+}
+
+.sideBar:hover{
+    width: 250px;
+    justify-content:unset;
+}
+
+.sideBar:hover .profile{
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.sideBar:hover .options > div span{
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.sideBar .profile{
+    display: flex;
+    opacity: 0;
+    transform: translateX(-300px);
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    margin-bottom: 50px;
+    transition: transform .3s ease-in-out, opacity 1s ease-in-out;
+}
+
+.sideBar .profile img{
+    width: 150px;
+    border: 3px solid white;
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+
+.sideBar .profile .name{
+    color: white;
+    font-size: 32px;
+    user-select: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.sideBar .options{
+    display: flex;
+    flex-direction: column;
+}
+
+.sideBar .options > div{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0px 10px 10px;
+    user-select: none;
+}
+
+.sideBar .options > div:hover{
+    cursor: pointer;
+    background-color: rgb(30, 150, 200);
+}
+
+.sideBar .options > div img{
+    width: 50px;
+    height: 50px;
+}
+
+.sideBar .options > div span{
+    opacity: 0;
+    transform: translateX(-300px);
+    display: flex;
+    color: white;
+    white-space: nowrap;
+    transition: transform .3s ease-in-out, opacity 1s ease-in-out;
+}

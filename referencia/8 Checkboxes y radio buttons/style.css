@@ -1,0 +1,73 @@
+body{
+    margin: 0;
+    padding: 100px;
+    width: 100vw;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.checkBoxContainer{
+    position: relative;
+    display: block;
+    font-size: 24px;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.checkBoxContainer input{
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    cursor: pointer;
+}
+
+.checkBoxContainer .checkMark{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+    background-color: #eee;
+    transition: .3s ease-in-out;
+}
+
+.checkBoxContainer .radio{
+    border-radius: 50%;
+}
+
+.checkBoxContainer .checkMark .material-icons{
+    transform: scale(0);
+    color: white;
+    transition: .3s ease-in-out;
+}
+
+.checkBoxContainer .radio .circle{
+    transform: scale(0);
+    border-radius: 50%;
+    position: absolute;
+    top: 7px;
+    left: 6px;
+    height: 12px;
+    width: 12px;
+    background-color: white;
+    transition: .3 ease-in-out;
+}
+
+.checkBoxContainer input:checked ~ .checkMark {
+    background-color: rgb(0, 150, 255);
+}
+
+.checkBoxContainer input:checked ~ .checkMark .material-icons{
+    transform: scale(1);
+}
+
+.checkBoxContainer input:checked ~ .checkMark.radio .circle{
+    transform: scale(1);
+}
+
+
+
