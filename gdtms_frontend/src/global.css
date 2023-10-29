@@ -1,0 +1,18 @@
+.App{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+}
+
+.col{
+    display: flex;
+    flex-direction: column;
+}
+
+.cen{
+    align-items: center;
+    justify-content: center;
+}

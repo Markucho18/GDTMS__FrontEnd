@@ -1,0 +1,60 @@
+.contenedorTarea{
+    border-radius: 5px;
+    border: 2px solid red;
+    padding: 10px;
+    width: 500px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 70%);
+}
+
+.seccionTarea{
+    width: 100%;
+}
+
+.seccionTarea.superior{
+    justify-content: space-between;
+}
+
+.seccionTarea.medio{
+    gap: 10px;
+    align-items: center;
+}
+
+.estadoTarea{
+    width: 20px;
+    height: 20px;
+}
+
+.nombreTarea{
+    font-size: 20px;
+}
+
+.acciones{
+    gap: 5px;
+}
+
+.accion{
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.accion:hover{
+    cursor: pointer;
+    color: rgb(40, 40, 40);
+    background-color: rgb(235, 235, 235);
+}
+
+.fecha{
+    gap: 5px;
+}
+
+.etiqueta{
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgba(100, 149, 237, 70%);
+}
+
+.desc{
+    color: rgb(70, 70, 70);
+}
