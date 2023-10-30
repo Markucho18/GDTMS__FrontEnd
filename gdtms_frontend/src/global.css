@@ -16,3 +16,17 @@
     align-items: center;
     justify-content: center;
 }
+
+.btn{
+    user-select: none;
+    cursor: pointer;
+    background-color: cornflowerblue;
+    text-align: center;
+    padding: 10px 0px;
+    color: white;
+    width: 100%;
+}
+
+.btn:hover{
+    background-color: rgb(89, 127, 199);
+}

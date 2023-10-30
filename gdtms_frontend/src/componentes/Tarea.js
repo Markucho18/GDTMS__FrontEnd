@@ -27,7 +27,6 @@ export function Tarea(props) {
               <span className="etiqueta">{tarea.etiqueta}</span>
             </div>
             <div className="seccionTarea row">
-              {" "}
               <span className="desc">{tarea.descripcion}</span>
             </div>
           </div>

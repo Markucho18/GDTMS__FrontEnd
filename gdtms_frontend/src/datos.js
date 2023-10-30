@@ -18,6 +18,13 @@ export const datos = [
         titulo: "Ver partido Boca vs Fluminense",
         fecha: "04/11/23",
         etiqueta: "fuchibol",
-        descripcion: "La final de la copa libertadores. DALE BOCAA DALE BOCAAAAA"
+        descripcion: "La final de la copa libertadores."
+    },
+    {
+        id: 4,
+        titulo: "Estudiar",
+        fecha: "21/11/23",
+        etiqueta: "matematica",
+        descripcion: "Estudiar qcyo algo asi"
     }
 ]

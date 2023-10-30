@@ -1,0 +1,11 @@
+.contenedorForm{
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    gap: 10px;
+}
+
+.contenedorForm h1{
+    margin: 2px;
+}
