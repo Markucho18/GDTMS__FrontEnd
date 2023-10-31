@@ -1,4 +1,3 @@
-import "../estilos/tarea.css";
 
 export function Tarea(props) {
   return (

@@ -2,6 +2,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ESTILOS GLOBALES------------------------------------------------------------------ */
 .row{
     display: flex;
     flex-direction: row;
@@ -29,4 +30,122 @@
 
 .btn:hover{
     background-color: rgb(89, 127, 199);
+}
+
+.fondoModal{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,30%);
+}
+
+/* ESTILOS HEADER -----------------------------------------------------------------*/
+
+
+/* ESTILOS TAREA -----------------------------------------------------------------*/
+
+.contenedorTarea{
+    border: 2px solid red;
+    padding: 10px;
+    width: 500px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 70%);
+}
+
+.contenedorTarea .seccionTarea{
+    width: 100%;
+}
+
+.contenedorTarea .seccionTarea.superior{
+    justify-content: space-between;
+}
+
+.contenedorTarea .seccionTarea.medio{
+    gap: 10px;
+    align-items: center;
+}
+
+.contenedorTarea .estadoTarea{
+    width: 20px;
+    height: 20px;
+}
+
+.contenedorTarea .nombreTarea{
+    font-size: 20px;
+}
+
+.contenedorTarea .acciones{
+    gap: 5px;
+}
+
+.contenedorTarea .accion{
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.contenedorTarea .accion:hover{
+    cursor: pointer;
+    color: rgb(40, 40, 40);
+    background-color: rgb(235, 235, 235);
+}
+
+.contenedorTarea .fecha{
+    gap: 5px;
+}
+
+.contenedorTarea .etiqueta{
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgba(100, 149, 237, 70%);
+}
+
+.contenedorTarea .desc{
+    color: rgb(70, 70, 70);
+}
+
+/* ESTILOS MODALTAREA -----------------------------------------------------------------*/
+
+.contenedorModal{
+    width: 300px;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 10px;
+    border: 3px solid rgb(30, 30, 100);
+    background-color: white;
+}
+
+.contenedorModal label{
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 5px;
+}
+
+.contenedorModal .modalDesc{
+    resize: none;
+    width: 100%;
+    height: 80px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ESTILOS FORMULARIO -----------------------------------------------------------------*/
+
+.contenedorForm{
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    gap: 10px;
+}
+
+.contenedorForm h1{
+    text-align: center;
+    margin: 2px;
+}
+
+.contenedorForm label, input{
+    width: 90%;
 }

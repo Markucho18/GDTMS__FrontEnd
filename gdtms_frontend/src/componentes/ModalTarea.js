@@ -1,4 +1,4 @@
-import '../estilos/modalTarea.css'
+
 
 export function ModalTarea(props) {
     return (
