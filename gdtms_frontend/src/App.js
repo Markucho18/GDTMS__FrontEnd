@@ -1,17 +1,17 @@
-import {Tarea} from './componentes/Tarea';
-import {ModalTarea} from './componentes/ModalTarea'
-import {Formulario} from './componentes/Formulario'
 import {Header} from './componentes/Header'
-import { datos } from './datos';
+import { Sidebar } from './componentes/Sidebar'
+import { Main } from './componentes/Main'
 
 
 function App() {
   return (
-    <div className="App">
+    <div className="App col">
       <Header/>
-      {/* <Tarea data={datos}/> */}
-      <Formulario form="register"/>
-      
+      {/* <Formulario form="register"/> */}
+      <div className="sidebarMain row">
+        <Sidebar/>
+        <Main/>
+      </div>
     </div>
   );
 }
