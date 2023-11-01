@@ -1,4 +1,4 @@
-export const datos = [
+export const tareas = [
     {
         id: 1,
         titulo: "Pasear al perro",
@@ -15,13 +15,6 @@ export const datos = [
     },
     {
         id: 3,
-        titulo: "Ver partido Boca vs Fluminense",
-        fecha: "04/11/23",
-        etiqueta: "fuchibol",
-        descripcion: "La final de la copa libertadores."
-    },
-    {
-        id: 4,
         titulo: "Estudiar",
         fecha: "21/11/23",
         etiqueta: "matematica",

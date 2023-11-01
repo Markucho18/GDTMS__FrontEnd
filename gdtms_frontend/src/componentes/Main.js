@@ -1,13 +1,13 @@
 import {ModalTarea} from './ModalTarea'
 import {Formulario} from './Formulario'
 import { Tarea } from './Tarea'
-import { datos } from '../datos';
+import { tareas } from '../datosSimulados/tareas';
 
 export function Main(props){
     return(
         <div className="contenedorMain col" >
             <div className="listaTareas col">
-                <Tarea data={datos}/>
+                <Tarea data={tareas}/>
             </div>
         </div>
     )
