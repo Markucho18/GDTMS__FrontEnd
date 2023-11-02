@@ -13,6 +13,8 @@ body{
     height: 100%;
 }
 
+/* COLORES --------------------------------------------------- */
+
 .rojo{
     color: red;
 }
@@ -31,6 +33,23 @@ body{
 
 .purpura{
     color: plum;
+}
+
+.naranja{
+    color: orange;
+}
+
+.p1{
+    border: 3px solid red;
+}
+.p2{
+    border: 3px solid orange;
+}
+.p3{
+    border: 3px solid yellow;
+}
+.p4{
+    border: 3px solid lightskyblue;
 }
 
 /* ESTILOS GLOBALES------------------------------------------------------------------ */
@@ -144,7 +163,6 @@ body{
 /* ESTILOS TAREA -----------------------------------------------------------------*/
 
 .contenedorTarea{
-    border: 2px solid red;
     padding: 10px;
     width: 500px;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 70%);

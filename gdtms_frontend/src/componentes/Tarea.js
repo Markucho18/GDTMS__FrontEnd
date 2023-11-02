@@ -4,7 +4,7 @@ export function Tarea(props) {
     <>
       {props.data.map((tarea, i) => {
         return (
-          <div key={i} className="contenedorTarea col cen">
+          <div key={i} className={`contenedorTarea col cen p${tarea.prioridad}`}>
             <div className="seccionTarea superior row cen">
               <div className="info cen">
                 <input type="checkbox" className="estadoTarea" />

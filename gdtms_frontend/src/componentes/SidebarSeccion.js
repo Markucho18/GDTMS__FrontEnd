@@ -1,23 +1,16 @@
-import {etiquetas} from "../datosSimulados/etiquetas"
-import {Etiquetas} from "./Etiquetas"
+import {Contexto} from '../Contexto'
+import {useContext} from 'react'
 
-const mostrarEtiquetas = ()=>{
-    etiquetas.map((etiqueta, index) =>{
-        console.log(etiqueta.nombre)
-        console.log(etiqueta.color)
-        return (
-            <Etiquetas key={index} nombre={etiqueta.nombre} color={etiqueta.color}/>
-        )
-    })
-}
 
 export function SidebarSeccion({ icono, texto }) {
+
+    const {mostrarEtiquetas} = useContext(Contexto)
+
     return texto === "Etiquetas" ? (
-        <div className="sidebarSeccion row" onClick={()=> mostrarEtiquetas()}>
+        <div className="sidebarSeccion row" onClick={mostrarEtiquetas}>
             <i className={icono + " icono"}></i>
             <span>{texto}</span>
             <i className="fa-solid fa-angle-down flechita"></i> 
-            <Etiquetas/>
         </div>
     ) : (
         <div className="sidebarSeccion row">
