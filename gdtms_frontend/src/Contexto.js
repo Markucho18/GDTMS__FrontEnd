@@ -1,14 +1,22 @@
+import { SidebarSeccion } from "./componentes/SidebarSeccion";
 import { etiquetas } from "./datosSimulados/etiquetas";
 import { createContext } from "react";
 
 export const Contexto = createContext();
 
 export function ContextoProvider({ children }) {
-  const mostrarEtiquetas = () => {
-    etiquetas.map((etiqueta) => {
-      console.log(etiqueta.nombre);
-      console.log(etiqueta.color);
-    });
+  let mostrarModal = false;
+  const toggleMostrarModal = () => (mostrarModal = !mostrarModal);
+  let crearEtiquetas = false;
+  const toggleCrearEtiquetas = () => {
+    crearEtiquetas = !crearEtiquetas;
+    console.log("crearEtiquetas = " + crearEtiquetas);
   };
-  return <Contexto.Provider>{children}</Contexto.Provider>;
+  return (
+    <Contexto.Provider
+      value={{ crearEtiquetas, toggleCrearEtiquetas, mostrarModal , toggleMostrarModal }}
+    >
+      {children}
+    </Contexto.Provider>
+  );
 }

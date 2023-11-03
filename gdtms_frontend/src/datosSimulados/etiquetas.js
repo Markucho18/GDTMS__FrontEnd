@@ -17,7 +17,7 @@ export const etiquetas = [
     },
     {
         id_etiqueta: 4,
-        nombre: "No se",
+        nombre: "Musica",
         color: "purpura"
     },
 ]
