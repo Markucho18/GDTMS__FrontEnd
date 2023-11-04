@@ -1,17 +1,21 @@
 import { Contexto } from "./Contexto";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Header } from "./componentes/Header";
 import { Sidebar } from "./componentes/Sidebar";
 import { Main } from "./componentes/Main";
 import { ModalTarea } from "./componentes/ModalTarea";
 
 function App() {
-  const { mostrarModal } = useContext(Contexto);
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const handleModalTarea = () => modalAbierto === false ? setModalAbierto(true) : setModalAbierto(false)
+  useEffect(() => {
+    console.log(modalAbierto);
+  }, [modalAbierto]);
+
   return (
     <div className="App col">
-      {mostrarModal === true ? <ModalTarea /> : null}
-      <Header />
-      {/* <Formulario form="register"/> */}
+      {modalAbierto === true ? (<ModalTarea cerrarModalTarea={handleModalTarea} />) : null}
+      <Header abrirModalTarea={handleModalTarea} />
       <div className="sidebarMain row">
         <Sidebar />
         <Main />

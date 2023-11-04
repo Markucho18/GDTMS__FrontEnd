@@ -5,8 +5,7 @@ import { createContext } from "react";
 export const Contexto = createContext();
 
 export function ContextoProvider({ children }) {
-  let mostrarModal = false;
-  const toggleMostrarModal = () => (mostrarModal = !mostrarModal);
+  
   let crearEtiquetas = false;
   const toggleCrearEtiquetas = () => {
     crearEtiquetas = !crearEtiquetas;
@@ -14,7 +13,7 @@ export function ContextoProvider({ children }) {
   };
   return (
     <Contexto.Provider
-      value={{ crearEtiquetas, toggleCrearEtiquetas, mostrarModal , toggleMostrarModal }}
+      value={{ crearEtiquetas, toggleCrearEtiquetas}}
     >
       {children}
     </Contexto.Provider>

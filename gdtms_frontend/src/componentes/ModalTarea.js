@@ -1,6 +1,6 @@
 import { etiquetas } from "../datosSimulados/etiquetas";
 
-export function ModalTarea(props) {
+export function ModalTarea({cerrarModalTarea}) {
   return (
     <div className="fondoModal cen col">
       <div className="contenedorModal cen col">
@@ -10,7 +10,7 @@ export function ModalTarea(props) {
         </label>
         <label className="row">
           Fecha:
-          <input type="date" classNAme="modalFecha" />
+          <input type="date" className="modalFecha" />
         </label>
         <label className="row">
             Prioridad:
@@ -36,7 +36,7 @@ export function ModalTarea(props) {
           Descripcion:{" "}
           <textarea className="modalDesc" maxLength={150}></textarea>
         </label>
-        <span class="btn">Guardar</span>
+        <span className="btn" onClick={cerrarModalTarea}>Guardar</span>
       </div>
     </div>
   );

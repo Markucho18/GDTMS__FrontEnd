@@ -11,6 +11,7 @@ export function ListaEtiquetas(props) {
           texto={etiqueta.nombre}
         />
       ))}
+      <SidebarSeccion icono="fa-solid fa-gear" texto="Gestionar"/>
     </div>
   );
 }
