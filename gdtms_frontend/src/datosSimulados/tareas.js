@@ -2,7 +2,7 @@ export const tareas = [
     {
         id: 1,
         titulo: "Pasear al perro",
-        fecha: "30/10/23",
+        fecha: "05/11/23",
         etiqueta: "Ocio",
         prioridad: 1,
         descripcion: "Esta tarea consiste en salira dar un paseo con el susodicho animal canino"
@@ -22,5 +22,21 @@ export const tareas = [
         etiqueta: "matematica",
         prioridad: 3,
         descripcion: "Estudiar qcyo algo asi"
-    }
+    },
+    {
+        id: 4,
+        titulo: "Practicar tocar la guitarra",
+        fecha: "25/11/23",
+        etiqueta: "musica",
+        prioridad: 4,
+        descripcion: "Aguante pink floyd"
+    },
+    {
+        id: 5,
+        titulo: "Ir a comprar al supermercado",
+        fecha: "",
+        etiqueta: "ocio",
+        prioridad: 2,
+        descripcion: "Llevar la lista de compras o algo asi no se"
+    },
 ]

@@ -36,7 +36,10 @@ export function ModalTarea({cerrarModalTarea}) {
           Descripcion:{" "}
           <textarea className="modalDesc" maxLength={150}></textarea>
         </label>
-        <span className="btn" onClick={cerrarModalTarea}>Guardar</span>
+        <div className="botones row">
+          <span className="btn" onClick={cerrarModalTarea}>Cancelar</span>
+          <span className="btn" onClick={cerrarModalTarea}>Guardar</span>
+        </div>
       </div>
     </div>
   );

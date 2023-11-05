@@ -1,20 +1,12 @@
-import { SidebarSeccion } from "./componentes/SidebarSeccion";
-import { etiquetas } from "./datosSimulados/etiquetas";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const Contexto = createContext();
 
 export function ContextoProvider({ children }) {
-  
-  let crearEtiquetas = false;
-  const toggleCrearEtiquetas = () => {
-    crearEtiquetas = !crearEtiquetas;
-    console.log("crearEtiquetas = " + crearEtiquetas);
-  };
+  const [ tareasConsulta, setTareasConsulta ] = useState();
+
   return (
-    <Contexto.Provider
-      value={{ crearEtiquetas, toggleCrearEtiquetas}}
-    >
+    <Contexto.Provider value={{tareasConsulta, setTareasConsulta}}>
       {children}
     </Contexto.Provider>
   );
