@@ -10,7 +10,7 @@ export const tareas = [
     {
         id: 2,
         titulo: "Hacer componente de busqueda",
-        fecha: "02/11/23",
+        fecha: "06/11/23",
         etiqueta: "Programacion",
         prioridad: 2,
         descripcion: "Hacer componente de reactjs"
