@@ -1,8 +1,5 @@
-import { Contexto } from "../Contexto";
-import { useContext } from "react";
 
 export function Tarea({prioridad, titulo, fecha, etiqueta, descripcion}) {
-  const { tareasConsulta, setTareasConsulta } = useContext(Contexto);
 
   return (
     <div className={`contenedorTarea col cen p${prioridad}`}>

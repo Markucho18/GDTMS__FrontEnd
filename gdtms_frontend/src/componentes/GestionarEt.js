@@ -21,6 +21,7 @@ export function GestionarEt(props) {
           </div>
         </div>
       ))}
+      <span className="btn">Crear Etiqueta</span>
     </div>
   );
 }

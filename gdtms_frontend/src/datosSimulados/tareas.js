@@ -10,7 +10,7 @@ export const tareas = [
     {
         id: 2,
         titulo: "Hacer componente de busqueda",
-        fecha: "06/11/23",
+        fecha: "07/11/23",
         etiqueta: "Programacion",
         prioridad: 2,
         descripcion: "Hacer componente de reactjs"
@@ -19,7 +19,7 @@ export const tareas = [
         id: 3,
         titulo: "Estudiar",
         fecha: "21/11/23",
-        etiqueta: "matematica",
+        etiqueta: "Matematica",
         prioridad: 3,
         descripcion: "Estudiar qcyo algo asi"
     },
@@ -27,7 +27,7 @@ export const tareas = [
         id: 4,
         titulo: "Practicar tocar la guitarra",
         fecha: "25/11/23",
-        etiqueta: "musica",
+        etiqueta: "Musica",
         prioridad: 4,
         descripcion: "Aguante pink floyd"
     },
@@ -35,7 +35,7 @@ export const tareas = [
         id: 5,
         titulo: "Ir a comprar al supermercado",
         fecha: "",
-        etiqueta: "ocio",
+        etiqueta: "Ocio",
         prioridad: 2,
         descripcion: "Llevar la lista de compras o algo asi no se"
     },

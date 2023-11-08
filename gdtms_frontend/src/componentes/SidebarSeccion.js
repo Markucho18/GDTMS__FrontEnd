@@ -1,5 +1,3 @@
-import { Contexto } from "../Contexto";
-import { useContext } from "react";
 
 export function SidebarSeccion({ icono, texto, click }) {
   return (
