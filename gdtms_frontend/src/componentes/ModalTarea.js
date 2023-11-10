@@ -34,7 +34,7 @@ export function ModalTarea({cerrarModalTarea}) {
         </label>
         <label className="col">
           Descripcion:{" "}
-          <textarea className="modalDesc" maxLength={150}></textarea>
+          <textarea className="modalDesc" maxLength={80}></textarea>
         </label>
         <div className="botones row">
           <span className="btn" onClick={cerrarModalTarea}>Cancelar</span>

@@ -17,10 +17,6 @@ export function Main(props) {
     console.log(tareasMostradas)
   }, [tareasMostradas]) */
 
-  //CAMBIAR NOMBRE A TAREACONSULTA
-  //SEGUN QUE CASO SE AÑADEN TAREAS A tareasMostradas Y LO QUE HACE EL COMPONENTE ES SIMPLEMENTE LEER EL ARRAY
-  //DESPUES DE QUE CAMBIE EL ARRAY (useEffect) SE VACIA Y SE PUSHEA LO NUEVO
-
   if (tareasConsulta == "inbox") {
     tareasMostradas = [];
     const tareasInbox = tareas.filter((tarea) => tarea.fecha == "");
@@ -58,6 +54,7 @@ export function Main(props) {
     tareasMostradas = [];
     const tareasEtiqueta = tareas.filter(tarea => tarea.etiqueta == etiquetaRecibida);
     tareasMostradas.push(...tareasEtiqueta);
+    console.log(tareasMostradas)
   }
 
   return (
