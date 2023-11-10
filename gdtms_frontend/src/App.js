@@ -12,11 +12,11 @@ function App() {
   const handleModalTarea = () => modalAbierto === false ? setModalAbierto(true) : setModalAbierto(false)
 
   const [formulario, setFormulario] = useState("login");
-  const handleFormulario = ()=> formulario === "login" ? setFormulario("register") : setFormulario("login")
+  const handleForm = ()=> formulario === "login" ? setFormulario("register") : setFormulario("login")
 
   return (
     <div className="App col">
-      {formulario === "login" ? <Login click={handleFormulario}/> : <Register click={handleFormulario}/> }
+      {formulario === "login" ? <Login handleForm={handleForm}/> : <Register handleForm={handleForm}/> }
       {/* {modalAbierto === true ? (<ModalTarea cerrarModalTarea={handleModalTarea} />) : null}
       <Header abrirModalTarea={handleModalTarea} />
       <div className="sidebarMain row">

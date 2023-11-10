@@ -1,4 +1,4 @@
-export function Register({click}) {
+export function Register({handleForm}) {
 
   const enviarDatos = (e) => {
     e.preventDefault();
@@ -32,10 +32,10 @@ export function Register({click}) {
             Confirmar contraseña:
             <input type="password" />
           </label>
-          <button type="submit" className="btn">
+          <button type="submit" className="btn" onSubmit={enviarDatos}>
             CREAR CUENTA
           </button>
-          <span className="cambiarForm" onClick={click}>Iniciar sesion</span>
+          <span className="cambiarForm" onClick={handleForm}>Iniciar sesion</span>
         </form>
       </div>
     </div>
