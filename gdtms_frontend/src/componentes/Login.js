@@ -18,7 +18,7 @@ export function Login({ handleForm }) {
     )
   }
 
-  const consoleDatos = (e) => {
+  const validarDatos = (e) => {
     e.preventDefault();
     console.log("Datos del form:", formData)
   }
@@ -27,7 +27,7 @@ export function Login({ handleForm }) {
     <div className="fondoFormulario col cen">
       <div className="contenedorFormulario login col">
         <h1>Login</h1>
-        <form className="col" onSubmit={consoleDatos}>
+        <form className="col" onSubmit={validarDatos}>
           <label className="col">
             Username:
             <input type="text" name="username" value={formData.username} onChange={handleInputChange} />

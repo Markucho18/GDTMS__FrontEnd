@@ -257,7 +257,7 @@ body{
     gap: 10px;
 }
 
-/* ESTILOS LOGIN -----------------------------------------------------------------*/
+/* ESTILOS LOGIN & REGISTER-----------------------------------------------------------------*/
 
 .fondoFormulario{
     height: 100vh;
@@ -329,6 +329,12 @@ body{
 
 .contenedorFormulario .cambiarForm:hover{
     text-decoration:underline;
+}
+
+.codigoError{
+    color: red;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 /* ESTILOS GESTIONAR ETIQUETAS -----------------------------------------------------------------*/
