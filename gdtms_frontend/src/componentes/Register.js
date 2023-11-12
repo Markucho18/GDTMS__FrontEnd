@@ -1,13 +1,12 @@
 //Register.js
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 export function Register({ handleForm }) {
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    pais: "",
+    pais: 0,
     password: "",
     confPassword: "",
   });
@@ -20,7 +19,7 @@ export function Register({ handleForm }) {
     });
   };
 
-  const [codigoError, setCodigoError] = useState("");
+  const [msgError, setmsgError] = useState("");
 
   const validarDatos = async (e) => {
     e.preventDefault();
@@ -35,30 +34,50 @@ export function Register({ handleForm }) {
         throw new Error("La contraseña debe tener al menor 8 caracteres");
       if (formData.password !== formData.confPassword)
         throw new Error("Las contraseñas no coinciden");
-      setCodigoError("");
+      setmsgError("");
       await enviarDatos();
-      setFormData({username: "", email: "", pais:"", password: "", confPassword: ""});
+      setFormData({
+        username: "",
+        email: "",
+        pais: "",
+        password: "",
+        confPassword: "",
+      });
       alert("Datos enviados correctamente");
     } catch (err) {
       console.log(err);
-      setCodigoError(err.message);
-      console.log(codigoError);
+      setmsgError(err.message);
+      console.log(msgError);
     }
     console.log("Datos del form:", formData);
   };
 
-  const enviarDatos = async ()=>{
-    try{
-      const response = await axios.post('http://localhost:3001/usuarios', formData, {
-        headers: { 'Content-type': 'application/json'}
-      })
+  const enviarDatos = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/usuarios",
+        formData,
+        {
+          headers: { "Content-type": "application/json" },
+        }
+      );
       console.log(response.data);
+    } catch (err) {
+      console.log("Error:", err);
     }
-    catch(err){
-      console.log('Error:', err);
+    console.log("se ha ejecutado enviarDatos", formData);
+  };
+
+  const [paises, setPaises] = useState()
+
+  const getPaises = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/paises");
+      setPaises(response.data)
+    } catch (err) {
+      console.log("Ocurrio un error al solicitar paises: ", err)
     }
-    console.log("se ha ejecutado enviarDatos", formData)
-  }
+  };
 
   return (
     <div className="fondoFormulario col cen">
@@ -89,9 +108,11 @@ export function Register({ handleForm }) {
               name="pais"
               value={formData.pais}
               onChange={handleInputChange}
+              onClick={getPaises}
             >
-              <option value={1}>Afganistan</option>
-              <option value={2}>Argentina</option>
+              {paises ? paises.map(pais =>(
+                <option key={pais.id} value={pais.id}>{pais.nombre}</option>
+              )) : null}
             </select>
           </label>
           <label className="col">
@@ -120,7 +141,9 @@ export function Register({ handleForm }) {
           </span>
         </form>
       </div>
-      {codigoError.length > 0 ? <span className="codigoError">{codigoError}</span> : null}
+      {msgError.length > 0 ? (
+        <span className="msgError">{msgError}</span>
+      ) : null}
     </div>
   );
 }

@@ -331,7 +331,7 @@ body{
     text-decoration:underline;
 }
 
-.codigoError{
+.msgError{
     color: red;
     font-size: 20px;
     margin-top: 10px;
