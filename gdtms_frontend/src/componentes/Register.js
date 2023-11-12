@@ -52,6 +52,27 @@ export function Register({ handleForm }) {
     console.log("Datos del form:", formData);
   };
 
+  const validarEmail = async ()=>{
+    console.log(formData.email)
+    try{
+      const response = await axios.post("http://localhost:3001/usuarios", formData.email)
+      console.log(response.data);
+    }
+    catch(err){
+      console.log("Error en validarEmail:", err.response);
+    }
+  }
+
+  const pedirUsuarios = async ()=>{
+    try{
+      const res = await axios.get("http://localhost:3001/usuarios")
+      console.log(res.data)
+    }
+    catch(err){
+      console.log("Erro al pedir usuarios", err.response)
+    }
+  }
+
   const enviarDatos = async () => {
     try {
       const response = await axios.post(
@@ -82,6 +103,8 @@ export function Register({ handleForm }) {
   return (
     <div className="fondoFormulario col cen">
       <div className="contenedorFormulario register col">
+        <button onClick={pedirUsuarios}>PedirUsuarios</button>
+        <button onClick={validarEmail}>ValidarEmail</button>
         <h1>Registro</h1>
         <form className="col" onSubmit={validarDatos}>
           <label className="col">
