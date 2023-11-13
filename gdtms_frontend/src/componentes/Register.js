@@ -26,12 +26,18 @@ export function Register({ handleForm }) {
     try {
       if (formData.username.length < 3)
         throw new Error("El username debe tener al menos 3 caracteres");
+      if(await validarUsuario() == true)
+        throw new Error("El username ya esta en uso")
       if (!formData.email.includes("@"))
         throw new Error("Debes ingresar un e-mail valido");
       if (formData.email.length < 10)
         throw new Error("Debes ingresar un e-mail valido");
+      if(await validarEmail() == true){
+        console.log("Se ha ejecutado el if validarEmail()")
+        throw new Error("El e-mail ya esta en uso")
+      }
       if (formData.password.length < 8)
-        throw new Error("La contraseña debe tener al menor 8 caracteres");
+        throw new Error("La contraseña debe tener al menos 8 caracteres");
       if (formData.password !== formData.confPassword)
         throw new Error("Las contraseñas no coinciden");
       setmsgError("");
@@ -52,36 +58,31 @@ export function Register({ handleForm }) {
     console.log("Datos del form:", formData);
   };
 
-  const validarEmail = async ()=>{
-    console.log(formData.email)
+  const validarUsuario = async ()=>{
     try{
-      const response = await axios.post("http://localhost:3001/usuarios", formData.email)
+      const res = await axios.post("http://localhost:3001/register/username", formData);
+      console.log(res.data);
+      if(res.data.resultado.length > 0) return true
+     }
+    catch(err){
+      console.log("Error en validarUsuario:", err.response);
+    }
+  }
+
+  const validarEmail = async ()=>{
+    try{
+      const response = await axios.post("http://localhost:3001/register/email", formData)
       console.log(response.data);
+      if(response.data.resultado.length > 0) return true
     }
     catch(err){
       console.log("Error en validarEmail:", err.response);
     }
   }
 
-  const pedirUsuarios = async ()=>{
-    try{
-      const res = await axios.get("http://localhost:3001/usuarios")
-      console.log(res.data)
-    }
-    catch(err){
-      console.log("Erro al pedir usuarios", err.response)
-    }
-  }
-
   const enviarDatos = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/usuarios",
-        formData,
-        {
-          headers: { "Content-type": "application/json" },
-        }
-      );
+      const response = await axios.post("http://localhost:3001/register", formData);
       console.log(response.data);
     } catch (err) {
       console.log("Error:", err);
@@ -103,7 +104,7 @@ export function Register({ handleForm }) {
   return (
     <div className="fondoFormulario col cen">
       <div className="contenedorFormulario register col">
-        <button onClick={pedirUsuarios}>PedirUsuarios</button>
+        <button onClick={validarUsuario}>ValidarUsuario</button>
         <button onClick={validarEmail}>ValidarEmail</button>
         <h1>Registro</h1>
         <form className="col" onSubmit={validarDatos}>
