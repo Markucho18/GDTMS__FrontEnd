@@ -332,7 +332,7 @@ body{
 }
 
 .msgError{
-    color: red;
+    color: rgb(184, 11, 11);
     font-size: 20px;
     margin-top: 10px;
 }

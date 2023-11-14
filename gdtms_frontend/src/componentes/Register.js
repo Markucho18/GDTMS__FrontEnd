@@ -23,22 +23,25 @@ export function Register({ handleForm }) {
 
   const validarDatos = async (e) => {
     e.preventDefault();
+    const usuarioNoValido = await validarUsuario();
+    const emailNoValido = await validarEmail();
     try {
-      //TIRAR EL THROW DENTRO DE LAS FUNCIONES Y ACCEDER AL ERROR DENTRO 
       if (formData.username.length < 3)
         throw new Error("El username debe tener al menos 3 caracteres");
-      /* if( validarUsuario() == true)
-        throw new Error("El username ya esta en uso"); */
       if (!formData.email.includes("@"))
         throw new Error("Debes ingresar un e-mail valido");
       if (formData.email.length < 10)
         throw new Error("Debes ingresar un e-mail valido");
-      /* if(validarEmail() == true)
-        throw new Error("El e-mail ya esta en uso") */
+      if (formData.pais == 0)
+        throw new Error("Debes elegir un pais")
       if (formData.password.length < 8)
         throw new Error("La contraseña debe tener al menos 8 caracteres");
       if (formData.password !== formData.confPassword)
         throw new Error("Las contraseñas no coinciden");
+      if(usuarioNoValido)
+        throw new Error(usuarioNoValido)
+      if(emailNoValido)
+        throw new Error(emailNoValido)
       setmsgError("");
       await enviarDatos();
       setFormData({
@@ -61,10 +64,11 @@ export function Register({ handleForm }) {
     try{
       const res = await axios.post("http://localhost:3001/register/username", formData);
       console.log(res.data);
-      if(res.data.resultado.length > 0) return true //throw el error 
+      if(res.data.resultado.length > 0) return "El username ya esta en uso"
+      else return
      }
     catch(err){
-      console.log("Error en validarUsuario:", err.response); //return en vez de consolelog
+      console.log("Error en validarUsuario:", err.response); 
     }
   }
 
@@ -72,7 +76,8 @@ export function Register({ handleForm }) {
     try{
       const response = await axios.post("http://localhost:3001/register/email", formData)
       console.log(response.data);
-      if(response.data.resultado.length > 0) return true
+      if(response.data.resultado.length > 0) return "El e-mail ya esta en uso"
+      else return
     }
     catch(err){
       console.log("Error en validarEmail:", err.response);
@@ -103,8 +108,6 @@ export function Register({ handleForm }) {
   return (
     <div className="fondoFormulario col cen">
       <div className="contenedorFormulario register col">
-        <button onClick={validarUsuario}>ValidarUsuario</button>
-        <button onClick={validarEmail}>ValidarEmail</button>
         <h1>Registro</h1>
         <form className="col" onSubmit={validarDatos}>
           <label className="col">
