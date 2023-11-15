@@ -4,7 +4,7 @@ import axios from "axios";
 
 export function Login({ handleForm }) {
 
-  const { token, setToken } = useContext(Contexto);
+  const { token, setToken, verificarToken } = useContext(Contexto);
 
   useEffect(() => {
     console.log(token);
@@ -62,22 +62,12 @@ export function Login({ handleForm }) {
         formData
       );
       const tokenData = tokenResponse.data.token;
+      console.log(tokenResponse.data);
       setToken(tokenData);
     } catch (err) {
       console.log("Hubo un error al crear el token: ", err);
     }
   };
-
-  const verificarToken = async ()=>{
-    try{
-      const verifyResponse = await axios.post("http://localhost:3001/token/verify", {token});
-      if(verifyResponse.data.msg == "valido") return true
-      else return false
-    }
-    catch(err){
-      console.log("Hubo un error al verificar el token", err)
-    }
-  }
 
   return (
     <div className="fondoFormulario col cen">
@@ -117,3 +107,6 @@ export function Login({ handleForm }) {
     </div>
   );
 }
+
+//ENVIAR TOKEN CADA VEZ QUE QUIERA MANDAR DATOS AL BACK (CREAR TAREAS; ELIMINAR Y ESO)
+//PONER FECHATOKEN CAMPO Y COMPARAR SI PASARON 24HS
