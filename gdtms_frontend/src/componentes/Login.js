@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { Contexto } from "../Contexto";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 export function Login({ handleForm }) {
+
+  const { token, setToken } = useContext(Contexto);
+
+  useEffect(() => {
+    console.log(token);
+  }, [token]);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -21,17 +29,15 @@ export function Login({ handleForm }) {
 
   const validarDatos = async (e) => {
     e.preventDefault();
-    const resUsername = await axios.post("http://localhost:3001/register/username",formData);
-    const resPassword = await axios.post("http://localhost:3001/login/password",formData);
-    const token = await axios.post("http://localhost:3001/login/token", formData);
-    console.log("Respuesta de obtener token:", token.data);
+    const resUsername = await axios.post(
+      "http://localhost:3001/register/username",
+      formData
+    );
+    const resPassword = await axios.post(
+      "http://localhost:3001/login/password",
+      formData
+    );
     try {
-      // Comprobar si hay cookies
-      if (document.cookie) {
-        console.log("Tienes cookies en el navegador.");
-      } else {
-        console.log("No hay cookies en el navegador.");
-      }
       if (resUsername.data.resultado.length == 0)
         throw new Error("El username no es correcto");
       else console.log("El username esta bien");
@@ -43,15 +49,41 @@ export function Login({ handleForm }) {
         username: "",
         password: "",
       });
+      await crearToken();
     } catch (err) {
       setMsgError(err.message);
     }
   };
 
+  const crearToken = async () => {
+    try {
+      const tokenResponse = await axios.post(
+        "http://localhost:3001/token/create",
+        formData
+      );
+      const tokenData = tokenResponse.data.token;
+      setToken(tokenData);
+    } catch (err) {
+      console.log("Hubo un error al crear el token: ", err);
+    }
+  };
+
+  const verificarToken = async ()=>{
+    try{
+      const verifyResponse = await axios.post("http://localhost:3001/token/verify", {token});
+      if(verifyResponse.data.msg == "valido") return true
+      else return false
+    }
+    catch(err){
+      console.log("Hubo un error al verificar el token", err)
+    }
+  }
+
   return (
     <div className="fondoFormulario col cen">
       <div className="contenedorFormulario login col">
         <h1>Login</h1>
+        <button onClick={verificarToken}>Verificar Token</button>
         <form className="col" onSubmit={validarDatos}>
           <label className="col">
             Username:
@@ -85,10 +117,3 @@ export function Login({ handleForm }) {
     </div>
   );
 }
-
-//SIGUIENTES PASOS:
-//COMPROBAR QUE EL EMAIL NO SE REPITA EN EL REGISTRO
-//COMPROBAR QUE EXISTA EL USERNAME EN LA DATABASE
-//DESENCRIPTAR HASH Y COMPARAR CON LA CONTRA EN LA DATABASE
-//AÑADIR TOKEN DE LOGIN EN EL NAVEGADOR (LOCAL STORAGE(COOKIES))
-//(!)SEPARAR LOGICA EN EXPRESS DE LOGIN Y REGISTER

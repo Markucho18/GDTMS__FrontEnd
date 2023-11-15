@@ -8,6 +8,9 @@ import { Main } from "./componentes/Main";
 import { ModalTarea } from "./componentes/ModalTarea";
 
 function App() {
+
+  const {verificarToken} = useContext(Contexto);
+
   const [modalAbierto, setModalAbierto] = useState(false);
   const handleModalTarea = () => modalAbierto === false ? setModalAbierto(true) : setModalAbierto(false)
 

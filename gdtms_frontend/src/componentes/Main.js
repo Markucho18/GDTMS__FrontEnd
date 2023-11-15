@@ -5,6 +5,7 @@ import { tareas } from "../datosSimulados/tareas";
 import { GestionarEt } from "./GestionarEt";
 
 export function Main(props) {
+  
   const { tareasConsulta, setTareasConsulta } = useContext(Contexto);
 
   let tareasMostradas = [];
