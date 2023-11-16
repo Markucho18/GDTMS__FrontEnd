@@ -4,7 +4,7 @@ import axios from "axios";
 
 export function Login({ handleForm }) {
 
-  const { token, setToken, verificarToken } = useContext(Contexto);
+  const { token, setToken} = useContext(Contexto);
 
   useEffect(() => {
     console.log(token);
@@ -40,10 +40,8 @@ export function Login({ handleForm }) {
     try {
       if (resUsername.data.resultado.length == 0)
         throw new Error("El username no es correcto");
-      else console.log("El username esta bien");
       if (resPassword.data == false)
         throw new Error("La contraseña es incorrecta");
-      else console.log("La contraseña es correcta");
       setMsgError("");
       setFormData({
         username: "",
@@ -62,7 +60,6 @@ export function Login({ handleForm }) {
         formData
       );
       const tokenData = tokenResponse.data.token;
-      console.log(tokenResponse.data);
       setToken(tokenData);
     } catch (err) {
       console.log("Hubo un error al crear el token: ", err);
@@ -73,7 +70,6 @@ export function Login({ handleForm }) {
     <div className="fondoFormulario col cen">
       <div className="contenedorFormulario login col">
         <h1>Login</h1>
-        <button onClick={verificarToken}>Verificar Token</button>
         <form className="col" onSubmit={validarDatos}>
           <label className="col">
             Username:

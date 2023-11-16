@@ -10,7 +10,7 @@ export function Main(props) {
 
   let tareasMostradas = [];
 
-    useEffect(() => {
+  useEffect(() => {
     console.log(tareasConsulta);
   }, [tareasConsulta]);
 
@@ -34,12 +34,9 @@ export function Main(props) {
       console.log(fechaTarea)
       return fechaTarea.getTime() === fechaActual.getTime()
     });
-
-    console.log("Tareas Hoy");
-    console.log(tareasHoy);
+    console.log("Tareas Hoy", tareasHoy);
     tareasMostradas.push(...tareasHoy)
-    console.log("Tareas Mostradas");
-    console.log(tareasMostradas);
+    console.log("Tareas Mostradas", tareasMostradas);
   }
 
   if(tareasConsulta == "proximo"){

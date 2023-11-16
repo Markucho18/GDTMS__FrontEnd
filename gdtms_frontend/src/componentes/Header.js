@@ -1,5 +1,5 @@
 import { Contexto } from '../Contexto'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import tskLogo from '../assets/TskLogo.png'
 
 export function Header({abrirModalTarea}){

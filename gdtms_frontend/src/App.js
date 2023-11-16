@@ -9,7 +9,7 @@ import { ModalTarea } from "./componentes/ModalTarea";
 
 function App() {
 
-  const {verificarToken} = useContext(Contexto);
+  const {tokenValido, setTokenValido, verificarToken} = useContext(Contexto);
 
   const [modalAbierto, setModalAbierto] = useState(false);
   const handleModalTarea = () => modalAbierto === false ? setModalAbierto(true) : setModalAbierto(false)
@@ -17,15 +17,30 @@ function App() {
   const [formulario, setFormulario] = useState("login");
   const handleForm = ()=> formulario === "login" ? setFormulario("register") : setFormulario("login")
 
+  useEffect(()=>{
+    verificarToken();
+  },[])
+
+
   return (
     <div className="App col">
-      {formulario === "login" ? <Login handleForm={handleForm}/> : <Register handleForm={handleForm}/> }
-      {/* {modalAbierto === true ? (<ModalTarea cerrarModalTarea={handleModalTarea} />) : null}
-      <Header abrirModalTarea={handleModalTarea} />
-      <div className="sidebarMain row">
-        <Sidebar />
-        <Main />
-      </div> */}
+      {tokenValido == false && formulario === "login" ? <Login handleForm={handleForm}/>
+      : tokenValido == false && formulario == "register" ? <Register handleForm={handleForm}/> : null  }
+
+      {tokenValido == true ? (
+        <>
+        <Header abrirModalTarea={handleModalTarea} />
+        <div className="sidebarMain row">
+          <Sidebar />
+          <Main />
+        </div>
+        </>
+        )
+        : null
+      }
+
+      {modalAbierto === true ? (<ModalTarea cerrarModalTarea={handleModalTarea} />) : null}
+
     </div>
   );
 }

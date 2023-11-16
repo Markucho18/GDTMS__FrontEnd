@@ -1,5 +1,5 @@
 import { Contexto } from "../Contexto";
-import { useContext, useState} from "react";
+import { useContext, useState, useEffect} from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
 import { etiquetas } from "../datosSimulados/etiquetas";
 
