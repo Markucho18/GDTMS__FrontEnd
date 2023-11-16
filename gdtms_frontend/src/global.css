@@ -257,6 +257,12 @@ body{
     gap: 10px;
 }
 
+.contenedorModal .btn{
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+
 /* ESTILOS LOGIN & REGISTER-----------------------------------------------------------------*/
 
 .fondoFormulario{

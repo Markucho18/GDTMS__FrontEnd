@@ -11,7 +11,9 @@ export function ContextoProvider({ children }) {
 
   const verificarToken = async ()=>{
     try{
+      console.log(token);
       const verifyResponse = await axios.post("http://localhost:3001/token/verify", {token});
+      console.log(verifyResponse.data);
       setTokenValido(verifyResponse.data.valido);
     }
     catch(err){
