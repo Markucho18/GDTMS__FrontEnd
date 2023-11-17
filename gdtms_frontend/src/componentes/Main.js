@@ -10,13 +10,9 @@ export function Main(props) {
 
   let tareasMostradas = [];
 
-  useEffect(() => {
+/*   useEffect(() => {
     console.log(tareasConsulta);
-  }, [tareasConsulta]);
-
-  /*   useEffect(() =>{
-    console.log(tareasMostradas)
-  }, [tareasMostradas]) */
+  }, [tareasConsulta]); */
 
   if (tareasConsulta == "inbox") {
     tareasMostradas = [];
@@ -52,7 +48,7 @@ export function Main(props) {
     tareasMostradas = [];
     const tareasEtiqueta = tareas.filter(tarea => tarea.etiqueta == etiquetaRecibida);
     tareasMostradas.push(...tareasEtiqueta);
-    console.log(tareasMostradas)
+    /* console.log(tareasMostradas) */
   }
 
   return (

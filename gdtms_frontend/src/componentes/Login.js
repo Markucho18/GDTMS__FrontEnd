@@ -6,10 +6,6 @@ export function Login({ handleForm }) {
 
   const { token, setToken} = useContext(Contexto);
 
-  useEffect(() => {
-    console.log(token);
-  }, [token]);
-
   const [formData, setFormData] = useState({
     username: "",
     password: "",

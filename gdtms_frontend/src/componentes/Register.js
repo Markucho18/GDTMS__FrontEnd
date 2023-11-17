@@ -1,5 +1,5 @@
 //Register.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export function Register({ handleForm }) {
@@ -95,7 +95,6 @@ export function Register({ handleForm }) {
   };
 
   const [paises, setPaises] = useState()
-
   const getPaises = async () => {
     try {
       const response = await axios.get("http://localhost:3001/paises");

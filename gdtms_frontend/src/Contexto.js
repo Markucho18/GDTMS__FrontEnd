@@ -9,11 +9,13 @@ export function ContextoProvider({ children }) {
 
   const [tokenValido, setTokenValido] = useState(false);
 
+
+  const [counter, setCounter] = useState(0);
   const verificarToken = async ()=>{
     try{
-      console.log(token);
+      /* console.log("verificarToken() ha recibido el token: ", token); */
       const verifyResponse = await axios.post("http://localhost:3001/token/verify", {token});
-      console.log(verifyResponse.data);
+      /* console.log("verificarToken() ha devuelto: ", verifyResponse.data); */
       setTokenValido(verifyResponse.data.valido);
     }
     catch(err){
@@ -22,7 +24,10 @@ export function ContextoProvider({ children }) {
   }
 
   useEffect(()=>{
+    /* console.log("Contexto dice que el valor de token ha cambiado a: ", token); */
     verificarToken();
+    setCounter(counter + 1);
+    console.log(`La funcion verificarToken se ha ejecutado ${counter} veces`);
   },[token])
 
   const [ tareasConsulta, setTareasConsulta ] = useState("");

@@ -17,11 +17,6 @@ function App() {
   const [formulario, setFormulario] = useState("login");
   const handleForm = ()=> formulario === "login" ? setFormulario("register") : setFormulario("login")
 
-  useEffect(()=>{
-    verificarToken();
-  },[])
-
-
   return (
     <div className="App col">
       {tokenValido == false && formulario === "login" ? <Login handleForm={handleForm}/>

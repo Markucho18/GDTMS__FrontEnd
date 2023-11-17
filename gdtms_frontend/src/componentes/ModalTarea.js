@@ -1,7 +1,6 @@
 import {Contexto} from '../Contexto';
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { tareas } from '../datosSimulados/tareas';
 
 export function ModalTarea({ cerrarModalTarea }) {
 
@@ -10,28 +9,40 @@ export function ModalTarea({ cerrarModalTarea }) {
   const [modalData, setModalData] = useState({
     nombre: "",
     fecha: "",
-    prioridad: "",
-    idEtiqueta: "",
+    prioridad: 0,
+    idEtiqueta: 0,
     descripcion: "",
-    usuario: token.username,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    //Convetir a numero si le llega el valor de prioridad o idEtiqueta
+    const intValue = name === "prioridad" || name === "idEtiqueta" ? parseInt(value) : value;
     setModalData({
       ...modalData,
-      [name]: value,
+      [name]: intValue,
     });
   };
 
-  const crearTarea = async () => {
+  const crearTarea = async (e) => {
+    e.preventDefault();
     try{
       await verificarToken();
       if(tokenValido == true){
-        const obtenerUsuario = await axios.get(`http://localhost:3001/usuarios/obtener?usuario=${modalData.usuario}`);
-        console.log(obtenerUsuario.data);
-/*         const tareaResp = await axios.post("http://localhost:3001/tareas/crear", modalData);
-        console.log(tareaResp.data); */
+        console.log("crearTarea() dice que el token es: ", token);
+        const obtenerUsuario = await axios.post("http://localhost:3001/usuarios/obtener", {token} );
+        const nuevoId = obtenerUsuario.data.result[0].id_usuario;
+        const nuevoModalData = {...modalData, idUsuario: nuevoId};
+        const tareaResponse = await axios.post("http://localhost:3001/tareas/crear", nuevoModalData);
+        console.log(tareaResponse);
+        alert("Tarea creada correctamente");
+        setModalData({
+          nombre: "",
+          fecha: "",
+          prioridad: "",
+          idEtiqueta: "",
+          descripcion: ""
+        })
       }
       else throw new Error("El token es invalido")
     }
@@ -94,7 +105,7 @@ export function ModalTarea({ cerrarModalTarea }) {
           Etiqueta:
           <select
             onClick={getEtiquetas}
-            name="etiqueta"
+            name="idEtiqueta"
             value={modalData.idEtiqueta}
             onChange={handleInputChange}
           >
