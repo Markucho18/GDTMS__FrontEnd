@@ -1,17 +1,17 @@
 import {Contexto} from '../Contexto';
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import axios from "axios";
 
 export function ModalTarea({ cerrarModalTarea }) {
 
-  const {token, setToken, tokenValido, setTokenValido, verificarToken} = useContext(Contexto)
+  const {token, tokenValido, verificarToken} = useContext(Contexto)
 
   const [modalData, setModalData] = useState({
     nombre: "",
     fecha: "",
     prioridad: 0,
     idEtiqueta: 0,
-    descripcion: "",
+    descripcion: null,
   });
 
   const handleInputChange = (e) => {
@@ -30,6 +30,7 @@ export function ModalTarea({ cerrarModalTarea }) {
       await verificarToken();
       if(tokenValido == true){
         console.log("crearTarea() dice que el token es: ", token);
+        if(modalData.nombre.length < 5) throw new Error("La tarea debe contener un nombre");
         const obtenerUsuario = await axios.post("http://localhost:3001/usuarios/obtener", {token} );
         const nuevoId = obtenerUsuario.data.result[0].id_usuario;
         const nuevoModalData = {...modalData, idUsuario: nuevoId};
@@ -43,11 +44,13 @@ export function ModalTarea({ cerrarModalTarea }) {
           idEtiqueta: "",
           descripcion: ""
         })
+        cerrarModalTarea();
       }
       else throw new Error("El token es invalido")
     }
     catch(err){
-      console.log("Hubo un error al crear la tarea: ", err)
+      alert(err);
+      console.log("Hubo un error al crear la tarea: ", err);
     }
   };
 
@@ -122,7 +125,7 @@ export function ModalTarea({ cerrarModalTarea }) {
             ) : (
               <option>...</option>
             )}
-            <option>Ninguna</option>
+            <option value={null}>Ninguna</option>
           </select>
         </label>
         <label className="col">

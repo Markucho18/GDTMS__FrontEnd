@@ -86,7 +86,7 @@ export function Login({ handleForm }) {
             />
           </label>
           <button type="submit" className="btn">
-            LOG IN
+            INICIAR SESION
           </button>
           <span className="cambiarForm" onClick={handleForm}>
             Registrarse
