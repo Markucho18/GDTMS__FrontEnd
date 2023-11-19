@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import {Contexto} from '../Contexto';
+import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 
 export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, descripcion}) {
+
+  const {actualizarMain, setActualizarMain, modalAbierto, setModalAbierto, handleModalTarea} = useContext(Contexto);
 
   const [nomEtiqueta, setNomEtiqueta] = useState("");
   const getEtiquetas = async () => {
@@ -14,9 +17,18 @@ export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, de
     let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
     if(confirmar == true){
       const eliminarRes = await axios.delete(`http://localhost:3001/tareas?idTarea=${idTarea}`);
-      console.log(eliminarRes.data);
+      setActualizarMain(true);
     }
     else return
+  }
+  
+  const datosTarea = {
+    idTarea,
+    nombre,
+    prioridad,
+    fecha,
+    descripcion,
+    idEtiqueta
   }
   
   useEffect(()=>{
@@ -30,7 +42,7 @@ export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, de
           <input type="checkbox" className="estadoTarea" />
           <span className="nombreTarea">{nombre}</span>
         </div>
-        <div className="acciones row">
+        <div className="acciones row" onClick={()=> handleModalTarea("editar")}>
           <span className="accion">
             <i className="fa-solid fa-pen-to-square"></i>
           </span>

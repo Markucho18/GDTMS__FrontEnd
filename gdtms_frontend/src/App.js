@@ -9,13 +9,14 @@ import { ModalTarea } from "./componentes/ModalTarea";
 
 function App() {
 
-  const {tokenValido, setTokenValido, verificarToken} = useContext(Contexto);
-
-  const [modalAbierto, setModalAbierto] = useState(false);
-  const handleModalTarea = () => modalAbierto === false ? setModalAbierto(true) : setModalAbierto(false)
+  const {tokenValido, setTokenValido, verificarToken, modalAbierto, setModalAbierto, handleModalTarea} = useContext(Contexto);
 
   const [formulario, setFormulario] = useState("login");
   const handleForm = ()=> formulario === "login" ? setFormulario("register") : setFormulario("login")
+
+  useEffect(()=>{
+    console.log("Modal abierto es: ", modalAbierto);
+  },[])
 
   return (
     <div className="App col">
@@ -24,7 +25,7 @@ function App() {
 
       {tokenValido == true ? (
         <>
-        <Header abrirModalTarea={handleModalTarea} />
+        <Header/>
         <div className="sidebarMain row">
           <Sidebar />
           <Main />
@@ -33,8 +34,13 @@ function App() {
         )
         : null
       }
+      {typeof modalAbierto === 'string' ? 
+      modalAbierto == "editar" ?
+      <ModalTarea cerrarModalTarea={handleModalTarea} accion="editar"/>
+      : <ModalTarea cerrarModalTarea={handleModalTarea} accion="crear"/> 
+      : null}
 
-      {modalAbierto === true ? (<ModalTarea cerrarModalTarea={handleModalTarea} />) : null}
+      {/* Y AHORA COMO CORNO RECIBE LOS DATOS DE LA TAREA EL MODAL ??? , probablemente con otro useState mas en el contexto  */}
 
     </div>
   );

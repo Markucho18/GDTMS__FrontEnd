@@ -2,9 +2,9 @@ import {Contexto} from '../Contexto';
 import { useState, useContext} from "react";
 import axios from "axios";
 
-export function ModalTarea({ cerrarModalTarea }) {
+export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
 
-  const {token, tokenValido, verificarToken} = useContext(Contexto)
+  const {token, tokenValido, verificarToken, actualizarMain, setActualizarMain} = useContext(Contexto)
 
   const [modalData, setModalData] = useState({
     nombre: "",
@@ -44,6 +44,7 @@ export function ModalTarea({ cerrarModalTarea }) {
           idEtiqueta: "",
           descripcion: ""
         })
+        setActualizarMain(true);
         cerrarModalTarea();
       }
       else throw new Error("El token es invalido")
@@ -53,6 +54,17 @@ export function ModalTarea({ cerrarModalTarea }) {
       console.log("Hubo un error al crear la tarea: ", err);
     }
   };
+
+  const editarTarea = async (e) =>{
+    e.preventDefault();
+    //defaultValue para mostrar datos de la tarea en el form
+    try{
+
+    }
+    catch(err){
+      console.log("Hubo un error al editar la tarea", err);
+    }
+  }
 
   const [etiquetas, setEtiquetas] = useState();
   const getEtiquetas = async () => {
@@ -144,9 +156,9 @@ export function ModalTarea({ cerrarModalTarea }) {
           </button>
           <button
             type="submit"
-            className="btn" /* onClick={cerrarModalTarea} */
+            className="btn"
           >
-            Guardar
+            {accion == "editar" ? "Editar" : "Guardar"}
           </button>
         </div>
       </form>
