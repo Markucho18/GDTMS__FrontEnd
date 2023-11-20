@@ -1,10 +1,10 @@
 import {Contexto} from '../Contexto';
-import { useState, useContext} from "react";
+import { useState, useContext, useEffect} from "react";
 import axios from "axios";
 
-export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
+export function ModalTarea({ cerrarModalTarea, accion}) {
 
-  const {token, tokenValido, verificarToken, actualizarMain, setActualizarMain} = useContext(Contexto)
+  const {token, tokenValido, verificarToken, setActualizarMain, datosTarea} = useContext(Contexto)
 
   const [modalData, setModalData] = useState({
     nombre: "",
@@ -13,6 +13,25 @@ export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
     idEtiqueta: 0,
     descripcion: null,
   });
+
+  useEffect(()=>{
+    getEtiquetas();
+  },[])
+
+  useEffect(()=>{
+    if(accion === "editar"){
+      setModalData((prevData)=>({
+        ...prevData,
+        nombre: datosTarea.nombre,
+        fecha: datosTarea.fecha,
+        prioridad: datosTarea.prioridad,
+        idEtiqueta: datosTarea.idEtiqueta,
+        descripcion: datosTarea.descripcion,
+        idTarea: datosTarea.idTarea
+      }))
+    }
+  },[accion, datosTarea])
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +47,7 @@ export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
     e.preventDefault();
     try{
       await verificarToken();
-      if(tokenValido == true){
+      if(tokenValido === true){
         console.log("crearTarea() dice que el token es: ", token);
         if(modalData.nombre.length < 5) throw new Error("La tarea debe contener un nombre");
         const obtenerUsuario = await axios.post("http://localhost:3001/usuarios/obtener", {token} );
@@ -57,9 +76,19 @@ export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
 
   const editarTarea = async (e) =>{
     e.preventDefault();
-    //defaultValue para mostrar datos de la tarea en el form
     try{
-
+      const editarResponse = await axios.put("http://localhost:3001/tareas", modalData);
+      alert("Tarea Editada correctamente");
+      setModalData({
+        nombre: "",
+        fecha: "",
+        prioridad: "",
+        idEtiqueta: "",
+        descripcion: "",
+        idTarea: ""
+      })
+      setActualizarMain(true);
+      cerrarModalTarea();
     }
     catch(err){
       console.log("Hubo un error al editar la tarea", err);
@@ -74,7 +103,8 @@ export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
 
   return (
     <div className="fondoModal cen col">
-      <form onSubmit={crearTarea} className="contenedorModal cen col">
+      <button onClick={()=> console.log(modalData.fecha)}>mostrarFecha()</button>
+      <form onSubmit={accion === "editar" ? editarTarea : crearTarea} className="contenedorModal cen col">
         <label className="row">
           Nombre:
           <input
@@ -119,7 +149,6 @@ export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
         <label className="row">
           Etiqueta:
           <select
-            onClick={getEtiquetas}
             name="idEtiqueta"
             value={modalData.idEtiqueta}
             onChange={handleInputChange}
@@ -158,7 +187,7 @@ export function ModalTarea({ cerrarModalTarea, accion, datosTarea }) {
             type="submit"
             className="btn"
           >
-            {accion == "editar" ? "Editar" : "Guardar"}
+            {accion === "editar" ? "Editar" : "Guardar"}
           </button>
         </div>
       </form>

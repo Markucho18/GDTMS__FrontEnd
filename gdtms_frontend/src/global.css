@@ -104,9 +104,43 @@ body{
     border-bottom: 2px solid black;
 }
 
+.contenedorHeader .ladoIzquierdo{
+    gap: 20px;
+}
+
 .contenedorHeader img{
     width: 60px;
     height: 60px;
+}
+
+.contenedorHeader .busqueda{
+    width: 350px;
+    overflow: hidden;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.contenedorHeader .busqueda input{
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+}
+
+.contenedorHeader .busqueda input:focus{
+    outline: none;
+}
+
+.contenedorHeader .busqueda .lupa{
+    padding: 15px;
+    color: black;
+    user-select: none;
+    cursor: pointer;
+}
+
+.contenedorHeader .busqueda .lupa:hover{
+    color: cornflowerblue;
 }
 
 .btnCrearTarea{
@@ -223,6 +257,9 @@ body{
 
 .contenedorTarea .desc{
     color: rgb(70, 70, 70);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ESTILOS MODALTAREA -----------------------------------------------------------------*/

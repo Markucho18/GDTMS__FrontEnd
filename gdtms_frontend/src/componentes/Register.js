@@ -1,8 +1,9 @@
 //Register.js
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 export function Register({ handleForm }) {
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -32,7 +33,7 @@ export function Register({ handleForm }) {
         throw new Error("Debes ingresar un e-mail valido");
       if (formData.email.length < 10)
         throw new Error("Debes ingresar un e-mail valido");
-      if (formData.pais == 0)
+      if (formData.pais === 0)
         throw new Error("Debes elegir un pais")
       if (formData.password.length < 8)
         throw new Error("La contraseña debe tener al menos 8 caracteres");

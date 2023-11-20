@@ -1,10 +1,10 @@
 import { Contexto } from "../Contexto";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import axios from "axios";
 
 export function Login({ handleForm }) {
 
-  const { token, setToken} = useContext(Contexto);
+  const {setToken} = useContext(Contexto);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -34,9 +34,9 @@ export function Login({ handleForm }) {
       formData
     );
     try {
-      if (resUsername.data.resultado.length == 0)
+      if (resUsername.data.resultado.length === 0)
         throw new Error("El username no es correcto");
-      if (resPassword.data == false)
+      if (resPassword.data === false)
         throw new Error("La contraseña es incorrecta");
       setMsgError("");
       setFormData({

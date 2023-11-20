@@ -4,6 +4,7 @@ import axios from "axios";
 export const Contexto = createContext();
 
 export function ContextoProvider({ children }) {
+
   const [token, setToken] = useState("");
 
   const [tokenValido, setTokenValido] = useState(false);
@@ -12,6 +13,12 @@ export function ContextoProvider({ children }) {
 
   const [modalAbierto, setModalAbierto] = useState(false);
 
+  const [datosTarea, setDatosTarea] = useState();
+
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+
+  const [tareasConsulta, setTareasConsulta] = useState("inbox");
+  
   const handleModalTarea = (accion) =>{
     console.log(accion);
     modalAbierto === false ? setModalAbierto(accion) : setModalAbierto(false);
@@ -37,7 +44,6 @@ export function ContextoProvider({ children }) {
     console.log(`La funcion verificarToken se ha ejecutado ${counter} veces`);
   }, [token]);
 
-  const [tareasConsulta, setTareasConsulta] = useState("inbox");
 
   return (
     <Contexto.Provider
@@ -54,6 +60,10 @@ export function ContextoProvider({ children }) {
         modalAbierto,
         setModalAbierto,
         handleModalTarea,
+        datosTarea,
+        setDatosTarea,
+        textoBusqueda,
+        setTextoBusqueda,
       }}
     >
       {children}

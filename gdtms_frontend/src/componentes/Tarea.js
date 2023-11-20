@@ -2,9 +2,9 @@ import {Contexto} from '../Contexto';
 import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 
-export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, descripcion}) {
+export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
-  const {actualizarMain, setActualizarMain, modalAbierto, setModalAbierto, handleModalTarea} = useContext(Contexto);
+  const {setActualizarMain, handleModalTarea, setDatosTarea} = useContext(Contexto);
 
   const [nomEtiqueta, setNomEtiqueta] = useState("");
   const getEtiquetas = async () => {
@@ -15,25 +15,20 @@ export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, de
   
   const eliminarTarea = async ()=>{
     let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
-    if(confirmar == true){
-      const eliminarRes = await axios.delete(`http://localhost:3001/tareas?idTarea=${idTarea}`);
+    if(confirmar === true){
+      await axios.delete(`http://localhost:3001/tareas?idTarea=${idTarea}`);
       setActualizarMain(true);
     }
     else return
   }
-  
-  const datosTarea = {
-    idTarea,
-    nombre,
-    prioridad,
-    fecha,
-    descripcion,
-    idEtiqueta
+
+  const handleDatosTarea = ()=>{
+    setDatosTarea({idUsuario, idTarea, idEtiqueta, nombre, prioridad, fecha, descripcion});
   }
   
   useEffect(()=>{
     getEtiquetas();
-  },[])
+  })
 
   return (
     <div className={`contenedorTarea col cen p${prioridad}`}>
@@ -42,8 +37,11 @@ export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, de
           <input type="checkbox" className="estadoTarea" />
           <span className="nombreTarea">{nombre}</span>
         </div>
-        <div className="acciones row" onClick={()=> handleModalTarea("editar")}>
-          <span className="accion">
+        <div className="acciones row">
+          <span className="accion" onClick={()=>{
+          handleDatosTarea();
+          handleModalTarea("editar");
+        }}>
             <i className="fa-solid fa-pen-to-square"></i>
           </span>
           <span className="accion" onClick={eliminarTarea}>
@@ -54,7 +52,7 @@ export function Tarea({estado, prioridad, nombre, fecha, idTarea, idEtiqueta, de
       <div className="seccionTarea medio row">
         <span className="fecha row">
           <i className="fa-regular fa-calendar"></i>
-          {fecha == null ? "Sin Fecha" : fecha}
+          {fechaVista == null ? "Sin Fecha" : fechaVista}
         </span>
         <span className="etiqueta">{nomEtiqueta.length > 0 ? nomEtiqueta : "Sin Etiqueta"}</span>
       </div>
