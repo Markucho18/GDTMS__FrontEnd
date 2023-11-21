@@ -1,6 +1,7 @@
 import { Contexto } from "../Contexto";
 import { useContext, useEffect, useState } from "react";
 import { Tarea } from "./Tarea";
+import {Proximo} from './Proximo';
 import { GestionarEt } from "./GestionarEt";
 import axios from 'axios';
 import {format} from 'date-fns';
@@ -12,6 +13,7 @@ export function Main(props) {
   const [tareasMostradas, setTareasMostradas] = useState([]);
 
   useEffect(() => {
+    console.log("tareasConsulta: ", tareasConsulta);
     handleTareasConsulta();
   }, [tareasConsulta]);
 
@@ -48,13 +50,6 @@ export function Main(props) {
       formatearFechas(hoyArray);
       setTareasMostradas(hoyArray);
     }
-    else if(tareasConsulta === "proximo"){
-      const proximoRes = await axios.get("http://localhost:3001/tareas/proximo");
-      const proximoArray = proximoRes.data.result;
-      console.log("El array de las proximas tareas: ", proximoArray);
-      formatearFechas(proximoArray);
-      setTareasMostradas(proximoArray);
-    }
     else if(tareasConsulta === "busqueda"){
       const busquedaRes = await axios.post("http://localhost:3001/tareas/buscar", {textoBusqueda});
       console.log(busquedaRes);
@@ -62,7 +57,7 @@ export function Main(props) {
       formatearFechas(busquedaArray);
       setTareasMostradas(busquedaArray);
     }
-
+    console.log("Tareas mostradas: ", tareasMostradas);
   }
 
   return (
@@ -83,7 +78,8 @@ export function Main(props) {
             />
           ))
         : null}
-      {tareasConsulta === "gestionar" ? <GestionarEt /> : null}
+      {tareasConsulta === "proximo" && <Proximo formatearFechas={formatearFechas} setTareasMostradas={setTareasMostradas}/>}
+      {tareasConsulta === "gestionar" && <GestionarEt />}
     </div>
   );
 }
