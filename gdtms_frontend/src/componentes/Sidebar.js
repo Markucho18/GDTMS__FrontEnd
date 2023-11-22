@@ -1,14 +1,19 @@
 import { Contexto } from "../Contexto";
-import { useContext, useState, useEffect} from "react";
+import { useContext, useState, useEffect } from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
 import { etiquetas } from "../datosSimulados/etiquetas";
+import axios from 'axios';
 
 export function Sidebar(props) {
-  const { tareasConsulta, setTareasConsulta } = useContext(Contexto);
+  const { tareasConsulta, setTareasConsulta, etiquetas, setEtiquetas } = useContext(Contexto);
 
   const [listaAbierta, setListaAbierta] = useState(false);
-  const handleLista = () =>
-    listaAbierta === false ? setListaAbierta(true) : setListaAbierta(false);
+  const handleLista = () => setListaAbierta(!listaAbierta);
+  
+  const mostrarEtiquetas = async () => {
+    const etiquetasRes = await axios.get("http://localhost:3001/etiquetas");
+    setEtiquetas(etiquetasRes.data);
+  }
 
   return (
     <div className="contenedorSidebar col">
@@ -31,13 +36,14 @@ export function Sidebar(props) {
         icono="fa-solid fa-tags"
         texto="Etiquetas"
         click={handleLista}
+        click2={mostrarEtiquetas}
       />
       {listaAbierta === true ? (
         <div className="listaEtiquetas">
           {etiquetas.map((etiqueta, i) => (
             <SidebarSeccion
               key={i}
-              icono={"fa-solid fa-tags " + etiqueta.color}
+              icono={"fa-solid fa-tags " /* + etiqueta.color */}
               texto={etiqueta.nombre}
               click={() => setTareasConsulta(etiqueta.nombre)}
             />
@@ -46,6 +52,7 @@ export function Sidebar(props) {
             icono="fa-solid fa-gear"
             texto="Gestionar"
             click={() => setTareasConsulta("gestionar")}
+            click2={mostrarEtiquetas}
           />
         </div>
       ) : null}

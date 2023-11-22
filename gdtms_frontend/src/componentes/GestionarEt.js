@@ -1,13 +1,17 @@
-import { etiquetas } from "../datosSimulados/etiquetas";
+import { useContext, useState } from "react";
+import {Contexto} from '../Contexto';
 
 export function GestionarEt(props) {
+
+  const {etiquetas, setEtiquetas} = useContext(Contexto);
+
   return (
     <div className="contenedorGestionarEtiquetas col">
       {etiquetas.map((etiqueta, i) => (
         <div className="contenedorEtiqueta row" key={i}>
             <div className="datosEtiqueta row">
-                <i className={"fa-solid fa-tags " + etiqueta.color}></i>
-                <span className={"nombreEtiqueta " + etiqueta.color}>
+                <i className={"fa-solid fa-tags " /* + etiqueta.color */}></i>
+                <span className={"nombreEtiqueta " /* + etiqueta.color */}>
                 {etiqueta.nombre}
                 </span>
             </div>

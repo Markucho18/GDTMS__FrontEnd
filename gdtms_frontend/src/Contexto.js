@@ -18,7 +18,9 @@ export function ContextoProvider({ children }) {
   const [textoBusqueda, setTextoBusqueda] = useState("");
 
   const [tareasConsulta, setTareasConsulta] = useState("inbox");
-  
+
+  const [etiquetas, setEtiquetas] = useState([]);
+
   const handleModalTarea = (accion) =>{
     console.log(accion);
     modalAbierto === false ? setModalAbierto(accion) : setModalAbierto(false);
@@ -64,6 +66,8 @@ export function ContextoProvider({ children }) {
         setDatosTarea,
         textoBusqueda,
         setTextoBusqueda,
+        etiquetas,
+        setEtiquetas
       }}
     >
       {children}

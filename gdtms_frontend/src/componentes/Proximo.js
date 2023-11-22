@@ -39,8 +39,8 @@ export function Proximo({formatearFechas}){
     return (
         <>
             {tareasMostradas.length > 0 &&
-            tareasMostradas.map(tarea =>(
-                <span>{tarea.nombre}</span>
+            tareasMostradas.map((tarea, i) =>(
+                <span key={i}>{tarea.nombre}</span>
             ))}
             <span>Hola</span>
         </>

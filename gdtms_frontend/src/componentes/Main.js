@@ -8,7 +8,7 @@ import {format} from 'date-fns';
 
 export function Main(props) {
   
-  const { token, tareasConsulta, actualizarMain, setActualizarMain, textoBusqueda } = useContext(Contexto);
+  const { token, tareasConsulta, actualizarMain, setActualizarMain, textoBusqueda, etiquetas, SetEtiquetas } = useContext(Contexto);
 
   const [tareasMostradas, setTareasMostradas] = useState([]);
 
@@ -34,7 +34,6 @@ export function Main(props) {
     })
   }
 
-  //EN VERDAD DEBERIAN SER TODOS POST, PQ LE TENGO QUE MANDAR EL IDUSUARIO PARA QUE COMPRUBE SI SON MIAS LAS TAREAS
   const handleTareasConsulta = async () =>{
     await axios.post("http://localhost:3001/usuarios/obtener", {token});
     setTareasMostradas([]);
@@ -52,10 +51,15 @@ export function Main(props) {
     }
     else if(tareasConsulta === "busqueda"){
       const busquedaRes = await axios.post("http://localhost:3001/tareas/buscar", {textoBusqueda});
-      console.log(busquedaRes);
+      console.log("El texto enviado por la busqueda es:", busquedaRes);
       const busquedaArray = busquedaRes.data.result;
       formatearFechas(busquedaArray);
       setTareasMostradas(busquedaArray);
+    }
+    else{
+      console.log("tareasConsulta(que deberia contener una etiqueta) contiene: ", tareasConsulta);
+      const etiqueta = await axios.get(`http://localhost:3001/tareas?etiqueta=${tareasConsulta}`);
+      console.log("Los datos recibidos de la consulta etiqueta son: ", etiqueta.data);
     }
     console.log("Tareas mostradas: ", tareasMostradas);
   }
