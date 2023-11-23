@@ -45,8 +45,6 @@ function App() {
       : <ModalTarea cerrarModalTarea={handleModalTarea} accion="crear"/> 
       : null}
 
-      {/* Y AHORA COMO CORNO RECIBE LOS DATOS DE LA TAREA EL MODAL ??? , probablemente con otro useState mas en el contexto  */}
-
     </div>
   );
 }

@@ -37,6 +37,7 @@ export function Main(props) {
   const handleTareasConsulta = async () =>{
     await axios.post("http://localhost:3001/usuarios/obtener", {token});
     setTareasMostradas([]);
+    if(tareasConsulta === "proximo" || tareasConsulta === "gestionar") return
     if (tareasConsulta === "inbox") {
       const inboxRes = await axios.get("http://localhost:3001/tareas/inbox");
       const inboxArray = inboxRes.data.result;
@@ -58,10 +59,13 @@ export function Main(props) {
     }
     else{
       console.log("tareasConsulta(que deberia contener una etiqueta) contiene: ", tareasConsulta);
-      const etiqueta = await axios.get(`http://localhost:3001/tareas?etiqueta=${tareasConsulta}`);
-      console.log("Los datos recibidos de la consulta etiqueta son: ", etiqueta.data);
+      const idEtiquetaRes = await axios.get(`http://localhost:3001/etiquetas/getId?nomEtiqueta=${tareasConsulta}`);
+      const idEtiqueta = idEtiquetaRes.data[0].id_etiqueta;
+      console.log("idEtiqueta: ", idEtiqueta);
+      const tareasEtiquetaRes = await axios.get(`http://localhost:3001/tareas/etiqueta?idEtiqueta=${idEtiqueta}`)
+      console.log("tareaEtiquetaRes ha devuelto: ", tareasEtiquetaRes.data);
     }
-    console.log("Tareas mostradas: ", tareasMostradas);
+
   }
 
   return (

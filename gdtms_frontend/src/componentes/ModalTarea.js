@@ -103,7 +103,6 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
 
   return (
     <div className="fondoModal cen col">
-      <button onClick={()=> console.log(modalData.fecha)}>mostrarFecha()</button>
       <form onSubmit={accion === "editar" ? editarTarea : crearTarea} className="contenedorModal cen col">
         <label className="row">
           Nombre:
