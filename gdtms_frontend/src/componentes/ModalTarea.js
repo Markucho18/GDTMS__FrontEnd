@@ -4,8 +4,10 @@ import axios from "axios";
 
 export function ModalTarea({ cerrarModalTarea, accion}) {
 
+//IMPORTAR LOGICA DE TOKEN Y MODALES RESPECTIVAMENTE.
   const {token, tokenValido, verificarToken, setActualizarMain, datosTarea} = useContext(Contexto)
 
+//CUSTOM HOOK CON SUS PROPIOS METODOS
   const [modalData, setModalData] = useState({
     nombre: "",
     fecha: "",
@@ -18,6 +20,7 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
     getEtiquetas();
   },[])
 
+  //METODO
   useEffect(()=>{
     if(accion === "editar"){
       setModalData((prevData)=>({

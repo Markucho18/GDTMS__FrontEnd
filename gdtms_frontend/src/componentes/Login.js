@@ -6,6 +6,7 @@ export function Login({ handleForm }) {
 
   const {setToken} = useContext(Contexto);
 
+//AUTHCONTEXT o HOOK QUIZA, SE REPITE EN LOGIN Y REGISTER.
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -21,6 +22,7 @@ export function Login({ handleForm }) {
     });
   };
 
+//ESTO ESTA BIEN
   const [msgError, setMsgError] = useState("");
 
   const validarDatos = async (e) => {
@@ -49,6 +51,7 @@ export function Login({ handleForm }) {
     }
   };
 
+  //ESTO VA A LA LOGICA DE TOKEN
   const crearToken = async () => {
     try {
       const tokenResponse = await axios.post(

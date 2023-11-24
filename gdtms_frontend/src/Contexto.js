@@ -5,15 +5,25 @@ export const Contexto = createContext();
 
 export function ContextoProvider({ children }) {
 
+//USAR CODIGO APARTE DE TOKENS (CUSTOM HOOK)
   const [token, setToken] = useState("");
 
   const [tokenValido, setTokenValido] = useState(false);
 
+//ACTUALIZAR ESTO SIN NECESIDAD DE UN USESTATE
   const [actualizarMain, setActualizarMain] = useState(false);
 
+//SEPARAR LOGICA DE MODALES
   const [modalAbierto, setModalAbierto] = useState(false);
 
   const [datosTarea, setDatosTarea] = useState();
+  //CUSTOM HOOK
+  const handleModalTarea = (accion) =>{
+    console.log(accion);
+    modalAbierto === false ? setModalAbierto(accion) : setModalAbierto(false);
+    console.log(modalAbierto);
+  }
+
 
   const [textoBusqueda, setTextoBusqueda] = useState("");
 
@@ -21,12 +31,8 @@ export function ContextoProvider({ children }) {
 
   const [etiquetas, setEtiquetas] = useState([]);
 
-  const handleModalTarea = (accion) =>{
-    console.log(accion);
-    modalAbierto === false ? setModalAbierto(accion) : setModalAbierto(false);
-    console.log(modalAbierto);
-  }
 
+//USAR CODIGO APARTE DE TOKENS (CUSTOM HOOK) (x2)
   const [counter, setCounter] = useState(0);
   const verificarToken = async () => {
     try {
