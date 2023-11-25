@@ -5,7 +5,7 @@ import { etiquetas } from "../datosSimulados/etiquetas";
 import axios from 'axios';
 
 export function Sidebar(props) {
-  const { tareasConsulta, setTareasConsulta, etiquetas, setEtiquetas } = useContext(Contexto);
+  const { setTareasConsulta, etiquetas, setEtiquetas } = useContext(Contexto);
 
   const [listaAbierta, setListaAbierta] = useState(false);
   const handleLista = () => setListaAbierta(!listaAbierta);

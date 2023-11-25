@@ -8,7 +8,7 @@ import {format} from 'date-fns';
 
 export function Main(props) {
   
-  const { token, tareasConsulta, actualizarMain, setActualizarMain, textoBusqueda, etiquetas, SetEtiquetas } = useContext(Contexto);
+  const { token, tareasConsulta, actualizarMain, setActualizarMain, textoBusqueda} = useContext(Contexto);
 
   const [tareasMostradas, setTareasMostradas] = useState([]);
 
@@ -34,6 +34,9 @@ export function Main(props) {
     })
   }
 
+
+//PONER UN MIDDLEWARE EN EL BACKEND QUE PIDA EL USUARIO PARA DEVOLVER SUS TAREAS
+//VERIFICARTOKEN EN CADA OPERACION Y SI ES INVALIDO DEVOLVRTE AL LOGIN
   const handleTareasConsulta = async () =>{
     await axios.post("http://localhost:3001/usuarios/obtener", {token});
     setTareasMostradas([]);
@@ -42,7 +45,7 @@ export function Main(props) {
       const inboxRes = await axios.get("http://localhost:3001/tareas/inbox");
       const inboxArray = inboxRes.data.result;
       setTareasMostradas(inboxArray);
-    } 
+    }
     else if(tareasConsulta === "hoy"){
       const hoyRes = await axios.get("http://localhost:3001/tareas/hoy");
       const hoyArray = hoyRes.data.result;
@@ -70,8 +73,8 @@ export function Main(props) {
 
   return (
     <div className="contenedorMain col">
-      {tareasMostradas.length > 0
-        ? tareasMostradas.map((tarea, i) => (
+      {tareasMostradas.length > 0 && 
+      tareasMostradas.map((tarea, i) => (
             <Tarea
               key={i}
               estado={tarea.estado}
@@ -84,8 +87,7 @@ export function Main(props) {
               descripcion={tarea.descripcion}
               idUsuario={tarea.id_usuario}
             />
-          ))
-        : null}
+          ))}
       {tareasConsulta === "proximo" && <Proximo formatearFechas={formatearFechas} setTareasMostradas={setTareasMostradas}/>}
       {tareasConsulta === "gestionar" && <GestionarEt />}
     </div>

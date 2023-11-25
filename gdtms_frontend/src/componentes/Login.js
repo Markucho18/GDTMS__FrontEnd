@@ -1,32 +1,24 @@
-import { Contexto } from "../Contexto";
-import { useState, useContext} from "react";
+import { useState, useEffect} from "react";
+import {useFormData} from "../hooks/useFormData";
+import {useToken} from '../hooks/useToken';
 import axios from "axios";
 
 export function Login({ handleForm }) {
 
-  const {setToken} = useContext(Contexto);
+/*   const {setToken} = useContext(Contexto); */
 
-//AUTHCONTEXT o HOOK QUIZA, SE REPITE EN LOGIN Y REGISTER.
-  const [formData, setFormData] = useState({
+  const {formData, setFormData, handleInputChange} = useFormData({
     username: "",
-    password: "",
-  });
+    password: ""
+  })
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      //Lo que sea que este dentro de formData se mantiene igual
-      ...formData,
-      //[name] no es la propiedad si no la variable que contiene el nombre de la prop.
-      [name]: value,
-    });
-  };
+  const {token, crearToken, verificarToken} = useToken()
 
-//ESTO ESTA BIEN
   const [msgError, setMsgError] = useState("");
 
   const validarDatos = async (e) => {
     e.preventDefault();
+    //Comprueba si el username y contraseña existen en la DB
     const resUsername = await axios.post(
       "http://localhost:3001/register/username",
       formData
@@ -45,25 +37,22 @@ export function Login({ handleForm }) {
         username: "",
         password: "",
       });
-      await crearToken();
+      await crearToken(formData);
     } catch (err) {
       setMsgError(err.message);
     }
   };
 
-  //ESTO VA A LA LOGICA DE TOKEN
-  const crearToken = async () => {
-    try {
-      const tokenResponse = await axios.post(
-        "http://localhost:3001/token/create",
-        formData
-      );
-      const tokenData = tokenResponse.data.token;
-      setToken(tokenData);
-    } catch (err) {
-      console.log("Hubo un error al crear el token: ", err);
+  //Cuando se crea el token lo verifica y cambia el valor de tokenValido
+  //Lo que hace que se renderize la pantalla principal
+  useEffect(()=>{
+    if(token.length > 0){
+      const x = async ()=>{
+        await verificarToken();
+      }
+      x();
     }
-  };
+  },[token]) 
 
   return (
     <div className="fondoFormulario col cen">

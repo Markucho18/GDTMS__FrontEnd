@@ -1,24 +1,17 @@
 //Register.js
 import { useState } from "react";
+import { useFormData } from "../hooks/useFormData";
 import axios from "axios";
 
 export function Register({ handleForm }) {
 
-  const [formData, setFormData] = useState({
+  const {formData, setFormData, handleInputChange} = useFormData({
     username: "",
     email: "",
     pais: 0,
     password: "",
     confPassword: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  })
 
   const [msgError, setmsgError] = useState("");
 
