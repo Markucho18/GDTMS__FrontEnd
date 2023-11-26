@@ -1,12 +1,12 @@
 import { Contexto } from '../Contexto';
+import { useContext } from 'react';
+import { useModal } from '../hooks/useModal';
 import {Busqueda} from './Busqueda';
-import { useContext, useEffect } from 'react';
 import tskLogo from '../assets/TskLogo.png';
 
 export function Header(){
 
-    //IMPORTAR CUSTOM HOOK DE MODAL
-    const {modalAbierto, setModalAbierto, handleModalTarea} = useContext(Contexto);
+    const {handleModalTarea} = useModal();
 
     return (
         <div className="contenedorHeader row">

@@ -1,14 +1,13 @@
 import {Contexto} from '../Contexto';
 import { useState, useContext, useEffect} from "react";
+import { useFormData } from '../hooks/useFormData';
+import {useToken} from '../hooks/useToken';
+import {useModal} from '../hooks/useModal';
 import axios from "axios";
 
-export function ModalTarea({ cerrarModalTarea, accion}) {
+export function ModalTarea() {
 
-//IMPORTAR LOGICA DE TOKEN Y MODALES RESPECTIVAMENTE.
-  const {token, tokenValido, verificarToken, setActualizarMain, datosTarea} = useContext(Contexto)
-
-//CUSTOM HOOK CON SUS PROPIOS METODOS
-  const [modalData, setModalData] = useState({
+  const {formData, setFormData, handleInputChange} = useFormData({
     nombre: "",
     fecha: "",
     prioridad: 0,
@@ -16,14 +15,23 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
     descripcion: null,
   });
 
+  //TANTO LA ACCION COMO EL CERRAR EL MODAL SE ACCEDE DESDE USEMODAL
+
+  const {modalAbierto, setModalAbierto, handleModalTarea} = useModal()
+
+  /* const  {token, tokenValido, verificarToken} = useToken(); */
+
+//IMPORTAR LOGICA DE TOKEN Y MODALES RESPECTIVAMENTE.
+  const {token, tokenValido, verificarToken, setActualizarMain, datosTarea} = useContext(Contexto)
+
   useEffect(()=>{
     getEtiquetas();
   },[])
 
   //METODO
   useEffect(()=>{
-    if(accion === "editar"){
-      setModalData((prevData)=>({
+    if(modalAbierto.accion === "editar"){
+      setFormData((prevData)=>({
         ...prevData,
         nombre: datosTarea.nombre,
         fecha: datosTarea.fecha,
@@ -33,18 +41,7 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
         idTarea: datosTarea.idTarea
       }))
     }
-  },[accion, datosTarea])
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    //Convetir a numero si le llega el valor de prioridad o idEtiqueta
-    const intValue = name === "prioridad" || name === "idEtiqueta" ? parseInt(value) : value;
-    setModalData({
-      ...modalData,
-      [name]: intValue,
-    });
-  };
+  },[modalAbierto.accion , datosTarea])
 
   const crearTarea = async (e) => {
     e.preventDefault();
@@ -52,14 +49,14 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
       await verificarToken();
       if(tokenValido === true){
         console.log("crearTarea() dice que el token es: ", token);
-        if(modalData.nombre.length < 5) throw new Error("La tarea debe contener un nombre");
+        if(formData.nombre.length < 5) throw new Error("La tarea debe contener un nombre");
         const obtenerUsuario = await axios.post("http://localhost:3001/usuarios/obtener", {token} );
         const nuevoId = obtenerUsuario.data.result[0].id_usuario;
-        const nuevoModalData = {...modalData, idUsuario: nuevoId};
-        const tareaResponse = await axios.post("http://localhost:3001/tareas/crear", nuevoModalData);
+        const nuevoformData = {...formData, idUsuario: nuevoId};
+        const tareaResponse = await axios.post("http://localhost:3001/tareas/crear", nuevoformData);
         console.log(tareaResponse);
         alert("Tarea creada correctamente");
-        setModalData({
+        setFormData({
           nombre: "",
           fecha: "",
           prioridad: "",
@@ -67,7 +64,7 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
           descripcion: ""
         })
         setActualizarMain(true);
-        cerrarModalTarea();
+        handleModalTarea();
       }
       else throw new Error("El token es invalido")
     }
@@ -80,9 +77,9 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
   const editarTarea = async (e) =>{
     e.preventDefault();
     try{
-      const editarResponse = await axios.put("http://localhost:3001/tareas", modalData);
+      const editarResponse = await axios.put("http://localhost:3001/tareas", formData);
       alert("Tarea Editada correctamente");
-      setModalData({
+      setFormData({
         nombre: "",
         fecha: "",
         prioridad: "",
@@ -91,7 +88,7 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
         idTarea: ""
       })
       setActualizarMain(true);
-      cerrarModalTarea();
+      handleModalTarea();
     }
     catch(err){
       console.log("Hubo un error al editar la tarea", err);
@@ -106,14 +103,14 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
 
   return (
     <div className="fondoModal cen col">
-      <form onSubmit={accion === "editar" ? editarTarea : crearTarea} className="contenedorModal cen col">
+      <form onSubmit={modalAbierto.accion === "editar" ? editarTarea : crearTarea} className="contenedorModal cen col">
         <label className="row">
           Nombre:
           <input
             type="text"
             className="modalNombre"
             name="nombre"
-            value={modalData.nombre}
+            value={formData.nombre}
             onChange={handleInputChange}
           />
         </label>
@@ -123,15 +120,16 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
             type="date"
             className="modalFecha"
             name="fecha"
-            value={modalData.fecha}
+            value={formData.fecha}
             onChange={handleInputChange}
           />
         </label>
         <label className="row">
           Prioridad:
           <select
+            className='modalPrioridad'
             name="prioridad"
-            value={modalData.prioridad}
+            value={formData.prioridad}
             onChange={handleInputChange}
           >
             <option value={1} className="rojo">
@@ -151,8 +149,9 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
         <label className="row">
           Etiqueta:
           <select
+            className='modalEtiqueta'
             name="idEtiqueta"
-            value={modalData.idEtiqueta}
+            value={formData.idEtiqueta}
             onChange={handleInputChange}
           >
             {etiquetas ? (
@@ -177,19 +176,19 @@ export function ModalTarea({ cerrarModalTarea, accion}) {
             className="modalDesc"
             maxLength={80}
             name="descripcion"
-            value={modalData.descripcion}
+            value={formData.descripcion}
             onChange={handleInputChange}
           ></textarea>
         </label>
         <div className="botones row">
-          <button className="btn" onClick={cerrarModalTarea}>
+          <button className="btn" onClick={handleModalTarea}>
             Cancelar
           </button>
           <button
             type="submit"
             className="btn"
           >
-            {accion === "editar" ? "Editar" : "Guardar"}
+            {modalAbierto.accion === "editar" ? "Editar" : "Guardar"}
           </button>
         </div>
       </form>

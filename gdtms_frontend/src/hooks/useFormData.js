@@ -5,11 +5,23 @@ export function useFormData(initialValue) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
+        //Si viene de modalTarea hace unos ligeros cambios.
+        if(e.target.classList.value.includes("modal")){
+            const intValue = name === "prioridad" || name === "idEtiqueta" ? parseInt(value) : value;
+            setFormData({
             ...formData,
-            [name]: value,
-        });
+            [name]: intValue,
+            });
+        }
+        else{
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
     };
+
+
 
     return { formData, setFormData, handleInputChange };
 }

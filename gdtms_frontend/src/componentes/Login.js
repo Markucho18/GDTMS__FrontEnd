@@ -1,18 +1,17 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, useContext} from "react";
 import {useFormData} from "../hooks/useFormData";
 import {useToken} from '../hooks/useToken';
 import axios from "axios";
+import { TokenContext } from "../contexts/TokenContext";
 
 export function Login({ handleForm }) {
-
-/*   const {setToken} = useContext(Contexto); */
 
   const {formData, setFormData, handleInputChange} = useFormData({
     username: "",
     password: ""
   })
 
-  const {token, crearToken, verificarToken} = useToken()
+  const {token, tokenValido, crearToken} = useContext(TokenContext);
 
   const [msgError, setMsgError] = useState("");
 
@@ -43,16 +42,14 @@ export function Login({ handleForm }) {
     }
   };
 
-  //Cuando se crea el token lo verifica y cambia el valor de tokenValido
-  //Lo que hace que se renderize la pantalla principal
   useEffect(()=>{
-    if(token.length > 0){
-      const x = async ()=>{
-        await verificarToken();
-      }
-      x();
-    }
-  },[token]) 
+    console.log("El valor de Token en Login.js es: ", token);
+  },[token])
+
+  useEffect(()=>{
+    console.log("El valor de tokenValido en Login.js es:", tokenValido);
+  },[tokenValido])
+  
 
   return (
     <div className="fondoFormulario col cen">

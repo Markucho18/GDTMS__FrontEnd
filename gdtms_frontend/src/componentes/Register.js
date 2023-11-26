@@ -57,7 +57,6 @@ export function Register({ handleForm }) {
   const validarUsuario = async ()=>{
     try{
       const res = await axios.post("http://localhost:3001/register/username", formData);
-      console.log(res.data);
       if(res.data.resultado.length > 0) return "El username ya esta en uso"
       else return
      }
@@ -69,7 +68,6 @@ export function Register({ handleForm }) {
   const validarEmail = async ()=>{
     try{
       const response = await axios.post("http://localhost:3001/register/email", formData)
-      console.log(response.data);
       if(response.data.resultado.length > 0) return "El e-mail ya esta en uso"
       else return
     }
@@ -81,7 +79,6 @@ export function Register({ handleForm }) {
   const enviarDatos = async () => {
     try {
       const response = await axios.post("http://localhost:3001/register", formData);
-      console.log(response.data);
     } catch (err) {
       console.log("Error:", err);
     }

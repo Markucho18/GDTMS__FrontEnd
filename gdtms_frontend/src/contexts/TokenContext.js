@@ -1,8 +1,10 @@
-import { useEffect, useState} from "react";
+import { createContext, useEffect, useState} from "react";
 import axios from 'axios';
 
+export const TokenContext = createContext();
 
-export function useToken() {
+export function TokenContextProvider({children}){
+
     const [token, setToken] = useState("");
 
     const [tokenValido, setTokenValido] = useState(false);
@@ -48,10 +50,10 @@ export function useToken() {
         }
         else console.log("Token valido es: ", tokenValido, "& token es: ", token);
     },[tokenValido])
-    
 
-    return { token, setToken, tokenValido, setTokenValido, crearToken, verificarToken};
+    return (
+        <TokenContext.Provider value={{token, setToken, tokenValido, setTokenValido, crearToken, verificarToken}}>
+            {children}
+        </TokenContext.Provider>
+    )
 }
-    //CONTEXTO: FALTA IMPLEMENTARLO CON APP (PARA QUE REDIRECCIONE A LA PANTALLA PRINCIPAL)
-    //Y EN EL RESTO COMO BOTONES Y MODALTAREA PARA VERIFICAR.
-    //TAMBIEN USARLO PARA DEVOLVER LAS TAREAS MANDANDOLE EL USUARIO (que esta dentro del token).
