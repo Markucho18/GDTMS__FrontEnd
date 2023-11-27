@@ -1,22 +1,25 @@
 import { createContext, useEffect, useState} from "react";
-import axios from 'axios';
 
 export const ModalContext = createContext();
 
 export function ModalContextProvider({children}){
 
-    const [modalAbierto, setModalAbierto] = useState({accion: false});
+    const [modalAbierto, setModalAbierto] = useState(false);
 
     const [datosTarea, setDatosTarea] = useState();
 
-    const handleModalTarea = (accion) =>{
-        console.log("La accion recibida en handleModalTarea es: ", modalAbierto.accion);
-        modalAbierto.accion === false ? setModalAbierto({accion: accion}) : setModalAbierto({accion: false});
-        console.log("ModalAbierto ha cambiado a: ", modalAbierto);
-    }
+    useEffect(()=>{
+        console.log("En modalContext, datosTareas es: ", datosTarea);
+    },[datosTarea])
+
+    const handleDatosTarea = (datos) => setDatosTarea(datos);
+
+    const cerrarModalTarea = ()=> setModalAbierto(false);
+
+    const abrirModalTarea = (accion) => setModalAbierto(accion);
 
     return (
-        <ModalContext.Provider value={{modalAbierto, setModalAbierto, datosTarea, setDatosTarea, handleModalTarea}}>
+        <ModalContext.Provider value={{modalAbierto, setModalAbierto, datosTarea, setDatosTarea, handleDatosTarea, cerrarModalTarea, abrirModalTarea}}>
             {children}
         </ModalContext.Provider>
     )

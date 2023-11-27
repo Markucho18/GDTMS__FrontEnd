@@ -1,12 +1,11 @@
-import { Contexto } from '../Contexto';
 import { useContext } from 'react';
-import { useModal } from '../hooks/useModal';
+import { ModalContext } from '../contexts/ModalContext';
 import {Busqueda} from './Busqueda';
 import tskLogo from '../assets/TskLogo.png';
 
 export function Header(){
 
-    const {handleModalTarea} = useModal();
+    const {abrirModalTarea} = useContext(ModalContext);
 
     return (
         <div className="contenedorHeader row">
@@ -14,7 +13,7 @@ export function Header(){
                 <img src={tskLogo} alt="logo"/>
                 <Busqueda/>
             </div>
-            <span className="btnCrearTarea" onClick={()=> handleModalTarea("crear")}><i className="fa-solid fa-plus"></i> </span>
+            <span className="btnCrearTarea" onClick={()=> abrirModalTarea("crear")}><i className="fa-solid fa-plus"></i> </span>
         </div>
     )
 }

@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { useModal } from "./hooks/useModal";
 
 export const Contexto = createContext();
 

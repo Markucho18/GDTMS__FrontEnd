@@ -1,10 +1,13 @@
 import {Contexto} from '../Contexto';
 import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
+import { ModalContext } from '../contexts/ModalContext';
 
 export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
-  const {setActualizarMain, handleModalTarea, setDatosTarea} = useContext(Contexto);
+  const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
+
+  const {setActualizarMain} = useContext(Contexto);
 
   const [nomEtiqueta, setNomEtiqueta] = useState("");
   const getEtiquetas = async () => {
@@ -22,9 +25,19 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
     else return
   }
 
-  const handleDatosTarea = ()=>{
-    setDatosTarea({idUsuario, idTarea, idEtiqueta, nombre, prioridad, fecha, descripcion});
+  const atributos = {
+    idTarea: idTarea,
+    idUsuario: idUsuario,
+    idEtiqueta: idEtiqueta,
+    nombre: nombre,
+    prioridad: prioridad,
+    fecha: fecha,
+    descripcion: descripcion
   }
+  
+/*   useEffect(()=>{
+    console.log("A tareas le llego desde main: ", atributos);
+  }) */
   
   useEffect(()=>{
     getEtiquetas();
@@ -39,9 +52,9 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
         </div>
         <div className="acciones row">
           <span className="accion" onClick={()=>{
-          handleDatosTarea();
-          handleModalTarea("editar");
-        }}>
+          handleDatosTarea({idUsuario, idTarea, idEtiqueta, nombre, prioridad, fecha, descripcion});
+          abrirModalTarea("editar");
+          }}>
             <i className="fa-solid fa-pen-to-square"></i>
           </span>
           <span className="accion" onClick={eliminarTarea}>

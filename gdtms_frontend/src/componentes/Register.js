@@ -46,6 +46,7 @@ export function Register({ handleForm }) {
         confPassword: "",
       });
       alert("Datos enviados correctamente");
+      handleForm();
     } catch (err) {
       console.log(err);
       setmsgError(err.message);

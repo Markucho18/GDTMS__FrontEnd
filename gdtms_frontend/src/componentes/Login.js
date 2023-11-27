@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext} from "react";
 import {useFormData} from "../hooks/useFormData";
-import {useToken} from '../hooks/useToken';
 import axios from "axios";
 import { TokenContext } from "../contexts/TokenContext";
 
@@ -11,7 +10,7 @@ export function Login({ handleForm }) {
     password: ""
   })
 
-  const {token, tokenValido, crearToken} = useContext(TokenContext);
+  const {crearToken} = useContext(TokenContext);
 
   const [msgError, setMsgError] = useState("");
 
@@ -41,15 +40,6 @@ export function Login({ handleForm }) {
       setMsgError(err.message);
     }
   };
-
-  useEffect(()=>{
-    console.log("El valor de Token en Login.js es: ", token);
-  },[token])
-
-  useEffect(()=>{
-    console.log("El valor de tokenValido en Login.js es:", tokenValido);
-  },[tokenValido])
-  
 
   return (
     <div className="fondoFormulario col cen">
