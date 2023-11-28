@@ -3,9 +3,13 @@ import { useContext, useState, useEffect } from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
 import { etiquetas } from "../datosSimulados/etiquetas";
 import axios from 'axios';
+import { MainContext } from "../contexts/MainContext";
 
 export function Sidebar(props) {
-  const { setTareasConsulta, etiquetas, setEtiquetas } = useContext(Contexto);
+
+  const { actualizarTareas } = useContext(MainContext)
+
+  const { etiquetas, setEtiquetas } = useContext(Contexto);
 
   const [listaAbierta, setListaAbierta] = useState(false);
   const handleLista = () => setListaAbierta(!listaAbierta);
@@ -20,17 +24,17 @@ export function Sidebar(props) {
       <SidebarSeccion
         icono="fa-solid fa-inbox"
         texto="Inbox"
-        click={() => setTareasConsulta("inbox")}
+        click={() => actualizarTareas("inbox")}
       />
       <SidebarSeccion
         icono="fa-solid fa-thumbtack"
         texto="Hoy"
-        click={() => setTareasConsulta("hoy")}
+        click={() => actualizarTareas("hoy")}
       />
       <SidebarSeccion
         icono="fa-regular fa-calendar-plus"
         texto="Proximo"
-        click={() => setTareasConsulta("proximo")}
+        click={() => actualizarTareas("proximo")}
       />
       <SidebarSeccion
         icono="fa-solid fa-tags"
@@ -45,13 +49,13 @@ export function Sidebar(props) {
               key={i}
               icono={"fa-solid fa-tags " /* + etiqueta.color */}
               texto={etiqueta.nombre}
-              click={() => setTareasConsulta(etiqueta.nombre)}
+              click={() => actualizarTareas({etiqueta: etiqueta.nombre })}
             />
           ))}
           <SidebarSeccion
             icono="fa-solid fa-gear"
             texto="Gestionar"
-            click={() => setTareasConsulta("gestionar")}
+            click={() => actualizarTareas("gestionar")}
             click2={mostrarEtiquetas}
           />
         </div>

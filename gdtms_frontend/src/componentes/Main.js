@@ -25,16 +25,11 @@ export function Main(props) {
 
   const {token} = useContext(TokenContext);
 
-  const {actualizacion, setActualizacion, actualizarMain} = useContext(MainContext);
+  const {actualizacion, setActualizacion, actualizarMain, handleTareasConsulta, formatearFechas} = useContext(MainContext);
   
   const { tareasConsulta, textoBusqueda} = useContext(Contexto);
 
   const [tareasMostradas, setTareasMostradas] = useState([]);
-
-  useEffect(() => {
-    console.log("tareasConsulta: ", tareasConsulta);
-    handleTareasConsulta();
-  }, [tareasConsulta]);
 
   useEffect(()=>{
     if(actualizacion == true){
@@ -45,23 +40,12 @@ export function Main(props) {
     }
   },[actualizacion])
 
-  const formatearFechas = (array) =>{
-    return array.map((tarea, i)=>{
-      const fechaBack = new Date(tarea.fecha);
-      const fechaVista = format(fechaBack, 'dd/MM/yy');
-      const fechaValue = format(fechaBack, 'yyyy-MM-dd')
-      tarea.fechaVista = fechaVista;
-      tarea.fecha = fechaValue;
-      return tarea
-    })
-  }
-
 //COMPROBAR SI ES UN STRING (INBOX, HOY, PROXIMO, GESTIONAR) O UN OBJETO (BUSQUEDA, ETIQUETA);
 
 
 //PONER UN MIDDLEWARE EN EL BACKEND QUE PIDA EL USUARIO PARA DEVOLVER SUS TAREAS
 //VERIFICARTOKEN EN CADA OPERACION Y SI ES INVALIDO DEVOLVRTE AL LOGIN
-  const handleTareasConsulta = async () =>{
+  /* const handleTareasConsulta = async () =>{
     console.log("Se ha ejecutado handleTareasConsulta");
     console.log("handleTareasConsulta dice que tareasConsulta es :", tareasConsulta);
     console.log("handleTareasConsulta dice que tareasMostradas es :", tareasMostradas);
@@ -102,7 +86,7 @@ export function Main(props) {
       console.log("tareaEtiquetaRes ha devuelto: ", tareasEtiquetaRes.data);
     }
 
-  }
+  } */
 
   return (
     <div className="contenedorMain col">
