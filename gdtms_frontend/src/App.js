@@ -7,6 +7,7 @@ import { Header } from "./componentes/Header";
 import { Sidebar } from "./componentes/Sidebar";
 import { Main } from "./componentes/Main"; 
 import { ModalTarea } from "./componentes/ModalTarea";
+import { MainContextProvider } from "./contexts/MainContext";
 
 function App() {
 
@@ -26,28 +27,30 @@ function App() {
   },[token, tokenValido])
 
   return (
-    <div className="App col">
+    <MainContextProvider>
+      <div className="App col">
 
-      {tokenValido === false &&(
-        (formulario === "login" && <Login handleForm={handleForm} />) ||
-        (formulario === "register" && <Register handleForm={handleForm} />)
-      )}
+        {tokenValido === false &&(
+          (formulario === "login" && <Login handleForm={handleForm} />) ||
+          (formulario === "register" && <Register handleForm={handleForm} />)
+        )}
 
-      {tokenValido === true && (
-        <>
-          <Header />
-          <div className="sidebarMain row">
-            <Sidebar />
-            <Main />
-          </div>
-        </>
-      )}
+        {tokenValido === true && (
+          <>
+            <Header />
+            <div className="sidebarMain row">
+              <Sidebar />
+              <Main />
+            </div>
+          </>
+        )}
 
-      {modalAbierto === false ? null
-      : <ModalTarea/>
-      }
-      
-    </div>
+        {modalAbierto === false ? null
+        : <ModalTarea/>
+        }
+        
+      </div>
+    </MainContextProvider>
   );
 }
 

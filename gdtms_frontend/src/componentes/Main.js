@@ -6,6 +6,7 @@ import { GestionarEt } from "./GestionarEt";
 import axios from 'axios';
 import {format} from 'date-fns';
 import { TokenContext } from "../contexts/TokenContext";
+import { MainContext } from '../contexts/MainContext';
 
 export function Main(props) {
 
@@ -15,14 +16,18 @@ export function Main(props) {
     //TAMPOCO EJECUTAN VERIFICARTOKEN()
     //MAIN NO ESTA GESTIONANDO BIEN TAREAS CONSULTA
   //SUGERENCIAS:
-    //ACTUALIZARMAIN DEBERIA SER UNA FUNCION
-    //DEBERIA PASAR OBJETOS EN TAREAS CONSULTA Y QUE SE FIJE SI ES UNA FECHA, UNA BUSQUEDA O UNA ETIQUETA
-    //HANDLETAREACONSULTAS & FORMATEARFECHAS DEBERIA IR DENTRO DEL CONTEXTO
+    //USAR USEFORMDATA() EN Busqueda.js
+    //MEJORAR UN POCO EL BACK Y LIMPIAR CONSOLE.LOG QUE NO ESTEN APORTANDO
+    //ELIMINAR USESTATE TEXTOBUSQUEDA Y USAR HANDLETAREASCONSULTA MANDANDO UN OBJETO
+    //PONER ACTUALIZARMAIN DENTRO DE HANDLETAREASCONSULTA
+    //PROBAR HANDLETAREASCONSULTA DESDE EL CONTEXTO
     //MANDAR ID DE USUARIO POR QUERY Y DEVOLVER LAS TAREAS QUE TENGAN ESE ID
 
   const {token} = useContext(TokenContext);
+
+  const {actualizacion, setActualizacion, actualizarMain} = useContext(MainContext);
   
-  const { tareasConsulta, actualizarMain, setActualizarMain, textoBusqueda} = useContext(Contexto);
+  const { tareasConsulta, textoBusqueda} = useContext(Contexto);
 
   const [tareasMostradas, setTareasMostradas] = useState([]);
 
@@ -32,12 +37,13 @@ export function Main(props) {
   }, [tareasConsulta]);
 
   useEffect(()=>{
-    if(actualizarMain === true){
+    if(actualizacion == true){
+      /* setTareasMostradas([]) */
       handleTareasConsulta();
-      setActualizarMain(false);
-      console.log("Se ha re-renderizado main con los datos actualizados");
+      setActualizacion(false);
+      console.log("Se ha re-renderizado main con los datos actualizados.")
     }
-  }, [actualizarMain]);
+  },[actualizacion])
 
   const formatearFechas = (array) =>{
     return array.map((tarea, i)=>{
@@ -49,6 +55,8 @@ export function Main(props) {
       return tarea
     })
   }
+
+//COMPROBAR SI ES UN STRING (INBOX, HOY, PROXIMO, GESTIONAR) O UN OBJETO (BUSQUEDA, ETIQUETA);
 
 
 //PONER UN MIDDLEWARE EN EL BACKEND QUE PIDA EL USUARIO PARA DEVOLVER SUS TAREAS
@@ -98,7 +106,7 @@ export function Main(props) {
 
   return (
     <div className="contenedorMain col">
-      <button onClick={()=> setActualizarMain(true)}>actualizarMain</button>
+      <button onClick={()=> actualizarMain()}>actualizarMain</button>
       {tareasMostradas ? (
         tareasMostradas.map((tarea, i) => (
           <Tarea
