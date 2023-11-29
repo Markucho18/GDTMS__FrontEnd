@@ -1,9 +1,12 @@
 import axios from 'axios';
 import {format} from 'date-fns';
 import { es } from 'date-fns/locale';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { MainContext } from '../contexts/MainContext';
 
-export function Proximo({formatearFechas}){
+export function Proximo(){
+
+    const {formatearFechas} = useContext(MainContext);
 
     const [tareasMostradas, setTareasMostradas] = useState([]);
 
@@ -42,7 +45,7 @@ export function Proximo({formatearFechas}){
             tareasMostradas.map((tarea, i) =>(
                 <span key={i}>{tarea.nombre}</span>
             ))}
-            <span>Hola</span>
+            <span>{"<Proximo/>"}</span>
         </>
     )
 }

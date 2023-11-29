@@ -11,9 +11,12 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
 
   const [nomEtiqueta, setNomEtiqueta] = useState("");
   const getEtiquetas = async () => {
-    const etiquetasRes = await axios.get(`http://localhost:3001/etiquetas/getId?idEtiqueta=${idEtiqueta}`);
-    const etiquetaResSQL = etiquetasRes.data.result;
-    if(etiquetaResSQL.length > 0) setNomEtiqueta(etiquetaResSQL[0].nombre)
+    axios.get(`http://localhost:3001/etiquetas/getId`,{params:{idEtiqueta}})
+    .then((etiquetasRes)=>{
+      console.log(etiquetasRes);
+      const etiquetaResSQL = etiquetasRes.data?.result;
+      if(etiquetaResSQL.length > 0) setNomEtiqueta(etiquetaResSQL[0].nombre)
+    })
   };
   
   const eliminarTarea = async ()=>{

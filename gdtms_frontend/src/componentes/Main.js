@@ -55,7 +55,7 @@ export function Main() {
               idUsuario={tarea.id_usuario}
               />
               ))) : <p>No hay tareas...</p>
-            }
+      }
 
       {consulta === "proximo" && <Proximo />}
       {consulta === "gestionar" && <GestionarEt />}
