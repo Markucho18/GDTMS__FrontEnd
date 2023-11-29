@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState} from "react";
+import axios from 'axios';
 import {format} from 'date-fns';
 
 export const MainContext = createContext();
@@ -8,6 +9,8 @@ export function MainContextProvider({children}){
     const [tareasConsulta, setTareasConsulta] = useState("inbox");
 
     const [actualizacion, setActualizacion] = useState(false);
+
+    const [tareasMostradas, setTareasMostradas] = useState([]);
 
     const actualizarMain = ()=> setActualizacion(true);
 
@@ -25,11 +28,22 @@ export function MainContextProvider({children}){
     
     const handleTareasConsulta = async ()=>{
         if(typeof tareasConsulta === 'string'){
+            if(tareasConsulta === "proximo" || tareasConsulta === "gestionar") return
             console.log("tareasConsulta es un string");
             //De esto se encarga Main.js usando el operador ternario en el html
-            if(tareasConsulta === "proximo" || tareasConsulta === "gestionar") return
-            if(tareasConsulta === "inbox") console.log("tareasConsulta: inbox");
-            if(tareasConsulta === "hoy") console.log("tareasConsulta: hoy");
+            if(tareasConsulta === "inbox"){
+                console.log("tareasConsulta: inbox");
+                const inboxRes = await axios.get("http://localhost:3001/tareas/inbox");
+                const inboxArray = inboxRes.data.result;
+                setTareasMostradas(inboxArray);
+            }
+            if(tareasConsulta === "hoy"){
+                const hoyRes = await axios.get("http://localhost:3001/tareas/hoy");
+                const hoyArray = hoyRes.data.result;
+                console.log("El array de las tareas de hoy: ", hoyArray);
+                formatearFechas(hoyArray);
+                setTareasMostradas(hoyArray);
+            };
         }
         if(typeof tareasConsulta === 'object'){
             if(tareasConsulta.busqueda) console.log("tareasConsulta: {busqueda: x}");
@@ -46,6 +60,9 @@ export function MainContextProvider({children}){
         console.log("tareasConsulta: ", tareasConsulta);
     },[tareasConsulta])
 
+    useEffect(()=>{
+        console.log("tareasMostradas en MainContext es: ", tareasMostradas);
+    },[tareasMostradas])
 
     return (
         <MainContext.Provider value={{
@@ -53,7 +70,9 @@ export function MainContextProvider({children}){
             setTareasConsulta,
             actualizacion, 
             setActualizacion, 
-            actualizarMain, 
+            actualizarMain,
+            tareasMostradas,
+            setTareasMostradas, 
             handleTareasConsulta, 
             formatearFechas,
             actualizarTareas
