@@ -8,6 +8,7 @@ import { Sidebar } from "./componentes/Sidebar";
 import { Main } from "./componentes/Main"; 
 import { ModalTarea } from "./componentes/ModalTarea";
 import { MainContextProvider } from "./contexts/MainContext";
+import { EtiquetaContextProvider } from "./contexts/EtiquetaContext";
 
 function App() {
 
@@ -26,30 +27,33 @@ function App() {
     console.log("El valor de token en App.js es: ", token, "& el valor de tokenValido es: ", tokenValido);
   },[token, tokenValido])
 
+  //CONTEXTO: NO PUEDO SELECCIONAR "ninguna" EN LAS ETIQUETAS DEL MODAL TAREA
   return (
     <MainContextProvider>
-      <div className="App col">
+      <EtiquetaContextProvider>
+        <div className="App col">
 
-        {tokenValido === false &&(
-          (formulario === "login" && <Login handleForm={handleForm} />) ||
-          (formulario === "register" && <Register handleForm={handleForm} />)
-        )}
+          {tokenValido === false &&(
+            (formulario === "login" && <Login handleForm={handleForm} />) ||
+            (formulario === "register" && <Register handleForm={handleForm} />)
+          )}
 
-        {tokenValido === true && (
-          <>
-            <Header />
-            <div className="sidebarMain row">
-              <Sidebar />
-              <Main />
-            </div>
-          </>
-        )}
+          {tokenValido === true && (
+            <>
+              <Header />
+              <div className="sidebarMain row">
+                <Sidebar />
+                <Main />
+              </div>
+            </>
+          )}
 
-        {modalAbierto === false ? null
-        : <ModalTarea/>
-        }
-        
-      </div>
+          {modalAbierto === false ? null
+          : <ModalTarea/>
+          }
+          
+        </div>
+      </EtiquetaContextProvider>
     </MainContextProvider>
   );
 }

@@ -1,45 +1,41 @@
 //CONTEXTO:
 //ERRORES:
+  //DPS DE UN RATO DE CAMBIAR ENTRE CONSULTAS, SE JODE TODO Y NO ANDA NADA.
   //CREAR TAREA NI EDITAR NO ESTAN FUNCIONANDO
   //TAMPOCO EJECUTAN VERIFICARTOKEN()
   //MAIN NO ESTA GESTIONANDO BIEN TAREAS CONSULTA
 //SUGERENCIAS:
+  //ACTUALIZARMAIN SOLO ACTUALIZA MAIN
+
   //USAR USEFORMDATA() EN Busqueda.js
-  //MEJORAR UN POCO EL BACK Y LIMPIAR CONSOLE.LOG QUE NO ESTEN APORTANDO
-  //ELIMINAR USESTATE TEXTOBUSQUEDA Y USAR HANDLETAREASCONSULTA MANDANDO UN OBJETO
-  //PONER ACTUALIZARMAIN DENTRO DE HANDLETAREASCONSULTA
-  //PROBAR HANDLETAREASCONSULTA DESDE EL CONTEXTO
   //MANDAR ID DE USUARIO POR QUERY Y DEVOLVER LAS TAREAS QUE TENGAN ESE ID
 
-import { Contexto } from "../Contexto";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect} from "react";
 import { Tarea } from "./Tarea";
 import {Proximo} from './Proximo';
 import { GestionarEt } from "./GestionarEt";
-import axios from 'axios';
-import {format} from 'date-fns';
-import { TokenContext } from "../contexts/TokenContext";
 import { MainContext } from '../contexts/MainContext';
 
-export function Main(props) {
+export function Main() {
 
-
-  const {token} = useContext(TokenContext);
-
-  const {actualizacion, setActualizacion, actualizarMain, handleTareasConsulta, tareasMostradas, setTareasMostradas} = useContext(MainContext);
+  const {consulta, actualizacion, setActualizacion, actualizarMain, tareasMostradas } = useContext(MainContext);
   
-  const { tareasConsulta, textoBusqueda} = useContext(Contexto);
+  /* const { textoBusqueda } = useContext(Contexto); */
 
+  //ESTE EFFECT SOLO ES LLAMADO POR CREARTAREA O EDITARTAREA
   useEffect(()=>{
-    if(actualizacion == true){
-      setTareasMostradas([])
-      handleTareasConsulta();
+    if(actualizacion === true){
       setActualizacion(false);
       console.log("Se ha re-renderizado main con los datos actualizados.")
-      console.log("tareasMostradas dentro de main es: ", tareasMostradas);
     }
   },[actualizacion])
+  //IDEA: EN VEZ DE FORZAR UNA ACTUALIZACION, HACER QUE CREAR Y EDITARTAREA DEVUELVAN UNA TAREA,
+  //LA AGREGUEN A TAREASMOSTRADAS Y ACTUALIZEN ASI MAIN.
 
+  //MAIN SOLO LIMITA A RENDERIZARSE CUANDO CAMBIA TAREASMOSTRADAS
+  useEffect(()=>{
+    console.log("En Main.js tareasMostradas cambio su valor a: ", tareasMostradas); 
+  },[tareasMostradas])
   
   return (
     <div className="contenedorMain col">
@@ -61,11 +57,13 @@ export function Main(props) {
               ))) : <p>No hay tareas...</p>
             }
 
-      {tareasConsulta === "proximo" && <Proximo />}
-      {tareasConsulta === "gestionar" && <GestionarEt />}
+      {consulta === "proximo" && <Proximo />}
+      {consulta === "gestionar" && <GestionarEt />}
+
     </div>
   );
 }
+
 
       //COMPROBAR SI ES UN STRING (INBOX, HOY, PROXIMO, GESTIONAR) O UN OBJETO (BUSQUEDA, ETIQUETA);
       

@@ -4,12 +4,18 @@ import { useFormData } from '../hooks/useFormData';
 import axios from "axios";
 import { TokenContext } from '../contexts/TokenContext';
 import { ModalContext } from '../contexts/ModalContext';
+import { MainContext } from '../contexts/MainContext';
+import { EtiquetaContext } from '../contexts/EtiquetaContext';
 
 export function ModalTarea() {
   
   const {modalAbierto, datosTarea, cerrarModalTarea} = useContext(ModalContext);
 
   const  {token, tokenValido, verificarToken} = useContext(TokenContext);
+
+  const { actualizarMain } = useContext(MainContext);
+
+  const { etiquetas, getEtiquetas } = useContext(EtiquetaContext);
 
   const initialFormData = modalAbierto === "editar" ? datosTarea : {
     nombre: "",
@@ -21,13 +27,12 @@ export function ModalTarea() {
 
   const {formData, setFormData, handleInputChange} = useFormData(initialFormData);
 
-  const {setActualizarMain} = useContext(Contexto)
-
   useEffect(()=>{
     getEtiquetas();
   },[])
 
   const crearTarea = async (e) => {
+    console.log("crearTarea se ha ejecutado");
     e.preventDefault();
     try{
       await verificarToken();
@@ -47,7 +52,7 @@ export function ModalTarea() {
           idEtiqueta: "",
           descripcion: ""
         })
-        setActualizarMain(true);
+        actualizarMain();
         cerrarModalTarea();
       }
       else throw new Error("El token es invalido")
@@ -73,7 +78,7 @@ export function ModalTarea() {
         descripcion: "",
         idTarea: ""
       })
-      setActualizarMain(true);
+      actualizarMain();
       cerrarModalTarea();
     }
     catch(err){
@@ -81,12 +86,6 @@ export function ModalTarea() {
       console.log("Hubo un error al editar la tarea", err);
     }
   }
-
-  const [etiquetas, setEtiquetas] = useState();
-  const getEtiquetas = async () => {
-    const etiquetasRes = await axios.get("http://localhost:3001/etiquetas");
-    setEtiquetas(etiquetasRes.data);
-  };
 
   return (
     <div className="fondoModal cen col">

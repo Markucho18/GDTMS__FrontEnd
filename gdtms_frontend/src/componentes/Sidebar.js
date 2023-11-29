@@ -4,59 +4,55 @@ import { SidebarSeccion } from "./SidebarSeccion";
 import { etiquetas } from "../datosSimulados/etiquetas";
 import axios from 'axios';
 import { MainContext } from "../contexts/MainContext";
+import { EtiquetaContext } from "../contexts/EtiquetaContext";
 
 export function Sidebar(props) {
 
-  const { actualizarTareas } = useContext(MainContext)
+  const { handleConsulta } = useContext(MainContext)
 
-  const { etiquetas, setEtiquetas } = useContext(Contexto);
+  const { etiquetas, getEtiquetas } = useContext(EtiquetaContext)
 
   const [listaAbierta, setListaAbierta] = useState(false);
   const handleLista = () => setListaAbierta(!listaAbierta);
-  
-  const mostrarEtiquetas = async () => {
-    const etiquetasRes = await axios.get("http://localhost:3001/etiquetas");
-    setEtiquetas(etiquetasRes.data);
-  }
 
   return (
     <div className="contenedorSidebar col">
       <SidebarSeccion
         icono="fa-solid fa-inbox"
         texto="Inbox"
-        click={() => actualizarTareas("inbox")}
+        click={() => handleConsulta("inbox")}
       />
       <SidebarSeccion
         icono="fa-solid fa-thumbtack"
         texto="Hoy"
-        click={() => actualizarTareas("hoy")}
+        click={() => handleConsulta("hoy")}
       />
       <SidebarSeccion
         icono="fa-regular fa-calendar-plus"
         texto="Proximo"
-        click={() => actualizarTareas("proximo")}
+        click={() => handleConsulta("proximo")}
       />
       <SidebarSeccion
         icono="fa-solid fa-tags"
         texto="Etiquetas"
         click={handleLista}
-        click2={mostrarEtiquetas}
+        click2={getEtiquetas}
       />
       {listaAbierta === true ? (
         <div className="listaEtiquetas">
-          {etiquetas.map((etiqueta, i) => (
+          {etiquetas.length > 0 &&
+          etiquetas.map((etiqueta, i) => (
             <SidebarSeccion
               key={i}
               icono={"fa-solid fa-tags " /* + etiqueta.color */}
               texto={etiqueta.nombre}
-              click={() => actualizarTareas({etiqueta: etiqueta.nombre })}
+              click={() => handleConsulta({etiqueta: etiqueta.nombre })}
             />
           ))}
           <SidebarSeccion
             icono="fa-solid fa-gear"
             texto="Gestionar"
-            click={() => actualizarTareas("gestionar")}
-            click2={mostrarEtiquetas}
+            click={() => handleConsulta("gestionar")}
           />
         </div>
       ) : null}

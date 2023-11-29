@@ -1,9 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {Contexto} from '../Contexto';
+import { EtiquetaContext } from "../contexts/EtiquetaContext";
 
-export function GestionarEt(props) {
+export function GestionarEt() {
 
-  const {etiquetas, setEtiquetas} = useContext(Contexto);
+  const {etiquetas, getEtiquetas} = useContext(EtiquetaContext);
+
+  useEffect(()=>{
+    console.log("gestionarEt ha sido renderizado");
+    getEtiquetas();
+  })
 
   return (
     <div className="contenedorGestionarEtiquetas col">

@@ -6,7 +6,8 @@ export const MainContext = createContext();
 
 export function MainContextProvider({children}){
 
-    const [tareasConsulta, setTareasConsulta] = useState("inbox");
+    //A esto solo va acceder Main para renderizar segun que le llegó.
+    const [consulta, setConsulta] = useState("inbox");
 
     const [actualizacion, setActualizacion] = useState(false);
 
@@ -26,56 +27,62 @@ export function MainContextProvider({children}){
         })
       }
     
-    const handleTareasConsulta = async ()=>{
-        if(typeof tareasConsulta === 'string'){
-            if(tareasConsulta === "proximo" || tareasConsulta === "gestionar") return
-            console.log("tareasConsulta es un string");
+    const handleConsulta = async (consulta)=>{
+        setTareasMostradas([]);
+        if(typeof consulta === 'string'){
             //De esto se encarga Main.js usando el operador ternario en el html
-            if(tareasConsulta === "inbox"){
-                console.log("tareasConsulta: inbox");
+            if( consulta === "proximo" || consulta === "gestionar") return setConsulta(consulta);
+            //
+            console.log("consulta es un string");
+            if(consulta === "inbox"){
+                console.log("handleConsulta ha llegado a inbox");
                 const inboxRes = await axios.get("http://localhost:3001/tareas/inbox");
-                const inboxArray = inboxRes.data.result;
-                setTareasMostradas(inboxArray);
+                if(inboxRes){
+                    const inboxArray = inboxRes.data.result;
+                    console.log("Se ha recibido respuesta desde el BackEnd & INBOXARRAY es: ", inboxArray);
+                    setTareasMostradas(inboxArray);
+                }
+                else console.log("No hubo respuesta INBOX desde el backend");
             }
-            if(tareasConsulta === "hoy"){
+            if(consulta === "hoy"){
+                console.log("handleConsulta ha llegado a hoy")
                 const hoyRes = await axios.get("http://localhost:3001/tareas/hoy");
-                const hoyArray = hoyRes.data.result;
-                console.log("El array de las tareas de hoy: ", hoyArray);
-                formatearFechas(hoyArray);
-                setTareasMostradas(hoyArray);
+                if(hoyRes){
+                    const hoyArray = hoyRes.data.result;
+                    console.log("Se ha recibido respuesta desde el BackEnd & HOYARRAY es: ", hoyArray);
+                    formatearFechas(hoyArray);
+                    setTareasMostradas(hoyArray);
+                }
+                else console.log("No hubo respuesta HOY desde el backend");
             };
         }
-        if(typeof tareasConsulta === 'object'){
-            if(tareasConsulta.busqueda) console.log("tareasConsulta: {busqueda: x}");
-            if(tareasConsulta.etiqueta) console.log("tareasConsulta: {etiqueta: x}")
+        if(typeof consulta === 'object'){
+            if(consulta.busqueda) console.log("consulta: {busqueda: x}");
+            if(consulta.etiqueta) console.log("consulta: {etiqueta: x}");
         }
-    }
-
-    const actualizarTareas = (dato)=>{
-        setTareasConsulta(dato);
-        actualizarMain();
+        console.log("handleConsulta se ha terminado de ejecutar");
     }
 
     useEffect(()=>{
-        console.log("tareasConsulta: ", tareasConsulta);
-    },[tareasConsulta])
+        console.log("consulta en MainContext es: ", consulta);
+    },[consulta])
 
     useEffect(()=>{
-        console.log("tareasMostradas en MainContext es: ", tareasMostradas);
+        if(tareasMostradas.length > 0) console.log("tareasMostradas en MainContext ha cambiado a: ", tareasMostradas);
+        else console.log("tareasMostradas en MainContext esta vacio");
     },[tareasMostradas])
 
     return (
         <MainContext.Provider value={{
-            tareasConsulta,
-            setTareasConsulta,
+            consulta,
+            setConsulta,
             actualizacion, 
             setActualizacion, 
             actualizarMain,
             tareasMostradas,
             setTareasMostradas, 
-            handleTareasConsulta, 
-            formatearFechas,
-            actualizarTareas
+            handleConsulta, 
+            formatearFechas
             }}>
             {children}
         </MainContext.Provider>
