@@ -6,14 +6,18 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { ContextoProvider } from "./Contexto";
 import { TokenContextProvider } from "./contexts/TokenContext";
 import { ModalContextProvider} from './contexts/ModalContext';
+import { MainContextProvider } from "./contexts/MainContext";
+import { EtiquetaContextProvider } from "./contexts/EtiquetaContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <TokenContextProvider>
-    <ModalContextProvider>
-      <ContextoProvider>
-        <App />
-      </ContextoProvider>
-    </ModalContextProvider>
-  </TokenContextProvider>
+  <MainContextProvider>
+    <EtiquetaContextProvider>
+      <TokenContextProvider>
+        <ModalContextProvider>
+            <App />
+        </ModalContextProvider>
+      </TokenContextProvider>
+    </EtiquetaContextProvider>
+  </MainContextProvider>
 );

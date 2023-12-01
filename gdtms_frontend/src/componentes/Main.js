@@ -56,9 +56,9 @@ export function Main() {
               />
               ))) : <p>No hay tareas...</p>
       }
-
-      {consulta === "proximo" && <Proximo />}
-      {consulta === "gestionar" && <GestionarEt />}
+      
+      {/* {consulta === "proximo" && <Proximo />}
+      {consulta === "gestionar" && <GestionarEt />} */}
 
     </div>
   );
