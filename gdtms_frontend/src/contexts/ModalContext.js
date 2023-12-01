@@ -19,7 +19,16 @@ export function ModalContextProvider({children}){
     const abrirModalTarea = (accion) => setModalAbierto(accion);
 
     return (
-        <ModalContext.Provider value={{modalAbierto, setModalAbierto, datosTarea, setDatosTarea, handleDatosTarea, cerrarModalTarea, abrirModalTarea}}>
+        <ModalContext.Provider 
+            value={{
+                modalAbierto,
+                setModalAbierto, 
+                datosTarea, 
+                setDatosTarea, 
+                handleDatosTarea, 
+                cerrarModalTarea, 
+                abrirModalTarea}}
+        >
             {children}
         </ModalContext.Provider>
     )

@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import {Contexto} from '../Contexto';
 import { EtiquetaContext } from "../contexts/EtiquetaContext";
 
 export function GestionarEt() {

@@ -1,12 +1,20 @@
 import { useContext, useEffect, useState } from 'react';
+import {Tarea} from "./Tarea";
 import axios from 'axios';
+import { MainContext } from '../contexts/MainContext';
 
 export function TareasProximo(){
 
+    const [tareas, setTareas] = useState([])
+
+    const {formatearFechas} = useContext(MainContext);
+
     useEffect(()=>{
+        console.log("Se ha renderizado <TareasProximo/>");
         axios.get("http://localhost:3001/tareas/proximo")
             .then((proximoRes) => {
                 if (proximoRes) {
+                    console.log("La respuesta del back(proximoRes) es: ", proximoRes)
                     const proximoArray = proximoRes.data.result;
                     console.log("Se ha recibido respuesta desde el BackEnd & PROXIMOARRAY es: ", proximoArray);
                     formatearFechas(proximoArray);
@@ -21,6 +29,8 @@ export function TareasProximo(){
 
     return(
         <div className='tareasProximo'>
+            <span>Este es el componente TareasProximo</span>
+            <span>TareasInbox tambien deberia devolver tareas caducadas</span>
             {tareas && tareas.length > 0 ? (
                 tareas.map((tarea, i) => (
                     <Tarea

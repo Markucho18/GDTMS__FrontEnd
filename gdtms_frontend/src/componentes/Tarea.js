@@ -1,13 +1,13 @@
-import {Contexto} from '../Contexto';
 import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import { ModalContext } from '../contexts/ModalContext';
+import { MainContext } from "../contexts/MainContext";
 
 export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
-  const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
+  const {actualizarTareas} = useContext(MainContext);
 
-  const {setActualizarMain} = useContext(Contexto);
+  const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
 
   const [nomEtiqueta, setNomEtiqueta] = useState("");
   const getEtiquetas = async () => {
@@ -16,31 +16,18 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
       console.log(etiquetasRes);
       const etiquetaResSQL = etiquetasRes.data?.result;
       if(etiquetaResSQL.length > 0) setNomEtiqueta(etiquetaResSQL[0].nombre)
-    })
+    }).catch((err)=> console.log("Hubo un error en getEtiquetas: ", err))
   };
   
   const eliminarTarea = async ()=>{
     let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
     if(confirmar === true){
-      await axios.delete(`http://localhost:3001/tareas?idTarea=${idTarea}`);
-      setActualizarMain(true);
+      axios.delete(`http://localhost:3001/tareas?idTarea=${idTarea}`)
+      .then((res)=> actualizarTareas() )
+      .catch((err)=> console.log("Hubo un error al eliminarTarea: ", err) )
     }
     else return
   }
-
-  const atributos = {
-    idTarea: idTarea,
-    idUsuario: idUsuario,
-    idEtiqueta: idEtiqueta,
-    nombre: nombre,
-    prioridad: prioridad,
-    fecha: fecha,
-    descripcion: descripcion
-  }
-  
-/*   useEffect(()=>{
-    console.log("A tareas le llego desde main: ", atributos);
-  }) */
   
   useEffect(()=>{
     getEtiquetas();

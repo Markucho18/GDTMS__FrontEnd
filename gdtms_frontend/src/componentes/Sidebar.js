@@ -1,14 +1,12 @@
-import { Contexto } from "../Contexto";
 import { useContext, useState, useEffect } from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
-import { etiquetas } from "../datosSimulados/etiquetas";
 import axios from 'axios';
 import { MainContext } from "../contexts/MainContext";
 import { EtiquetaContext } from "../contexts/EtiquetaContext";
 
 export function Sidebar(props) {
 
-  const { handleConsulta } = useContext(MainContext)
+  const { enviarConsulta } = useContext(MainContext)
 
   const { etiquetas, getEtiquetas } = useContext(EtiquetaContext)
 
@@ -20,17 +18,17 @@ export function Sidebar(props) {
       <SidebarSeccion
         icono="fa-solid fa-inbox"
         texto="Inbox"
-        click={() => handleConsulta("inbox")}
+        click={() => enviarConsulta({fecha: "inbox"})}
       />
       <SidebarSeccion
         icono="fa-solid fa-thumbtack"
         texto="Hoy"
-        click={() => handleConsulta("hoy")}
+        click={() => enviarConsulta({fecha: "hoy"})}
       />
       <SidebarSeccion
         icono="fa-regular fa-calendar-plus"
         texto="Proximo"
-        click={() => handleConsulta("proximo")}
+        click={() => enviarConsulta({fecha: "proximo"})}
       />
       <SidebarSeccion
         icono="fa-solid fa-tags"
@@ -46,13 +44,13 @@ export function Sidebar(props) {
               key={i}
               icono={"fa-solid fa-tags " /* + etiqueta.color */}
               texto={etiqueta.nombre}
-              click={() => handleConsulta({etiqueta: etiqueta.nombre })}
+              click={() => enviarConsulta({etiqueta: etiqueta.nombre })}
             />
           ))}
           <SidebarSeccion
             icono="fa-solid fa-gear"
             texto="Gestionar"
-            click={() => handleConsulta("gestionar")}
+            click={() => enviarConsulta({etiqueta: "gestionar"})}
           />
         </div>
       ) : null}

@@ -1,10 +1,11 @@
-import {Contexto} from '../Contexto';
-import { useContext, useEffect} from 'react';
-import axios from 'axios';
+import { useContext, useEffect, useState} from 'react';
+import { MainContext } from '../contexts/MainContext';
 
 export function Busqueda (){
+
+    const [textoBusqueda, setTextoBusqueda] = useState("");
     
-    const {textoBusqueda, setTextoBusqueda, setTareasConsulta, setActualizarMain} = useContext(Contexto);
+    const {enviarConsulta} = useContext(MainContext);
 
     const handleInputChange = (e)=>{
         const {value} = e.target;
@@ -15,10 +16,7 @@ export function Busqueda (){
         <>
             <span className="busqueda row cen">
                 <input type="text" placeholder="Buscar tarea..." value={textoBusqueda} onChange={handleInputChange}/>
-                <i className="fa-solid fa-magnifying-glass lupa" onClick={()=>{
-                    setTareasConsulta("busqueda");
-                    setActualizarMain(true);
-                }}></i>
+                <i className="fa-solid fa-magnifying-glass lupa" onClick={()=> enviarConsulta({busqueda: textoBusqueda }) }></i>
             </span>
         </>
     )

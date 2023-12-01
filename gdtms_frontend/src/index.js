@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./global.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { ContextoProvider } from "./Contexto";
 import { TokenContextProvider } from "./contexts/TokenContext";
 import { ModalContextProvider} from './contexts/ModalContext';
 import { MainContextProvider } from "./contexts/MainContext";

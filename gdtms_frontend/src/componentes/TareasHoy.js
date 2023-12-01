@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import {Tarea} from "./Tarea";
 import axios from 'axios';
+import { MainContext } from '../contexts/MainContext';
 
 export function TareasHoy() {
+
+    const {formatearFechas} = useContext(MainContext);
 
     const [tareas, setTareas] = useState()
 
     useEffect(() => {
+        console.log("Se ha renderizado <TareasHoy/>");
         axios.get("http://localhost:3001/tareas/hoy")
             .then((hoyRes) => {
                 if (hoyRes) {
@@ -20,9 +25,13 @@ export function TareasHoy() {
                 console.log(`tareasHoy error: ${err}`);
             })
     }, [])
+    
+
+
 
     return (
         <div className='tareasHoy'>
+            <span>Este es el componente TareasHoy</span>
             {tareas && tareas.length > 0 ? (
                 tareas.map((tarea, i) => (
                     <Tarea

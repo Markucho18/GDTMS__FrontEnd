@@ -12,8 +12,6 @@
 
 import { useContext, useEffect} from "react";
 import { Tarea } from "./Tarea";
-import {Proximo} from './Proximo';
-import { GestionarEt } from "./GestionarEt";
 import { MainContext } from '../contexts/MainContext';
 
 export function Main() {

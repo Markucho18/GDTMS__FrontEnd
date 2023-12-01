@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import {Tarea} from "./Tarea";
 import axios from 'axios';
+import { MainContext } from '../contexts/MainContext';
 
-export function TareasHoy() {
+export function TareasBusqueda({textoBusqueda}) {
+
+    const {formatearFechas} = useContext(MainContext);
 
     const [tareas, setTareas] = useState()
 
     useEffect(() => {
-        //Aca deberia mandarle un parametro con la busqueda
-        //Y manejar ese parametro desde el BackEnd.
-        axios.get("http://localhost:3001/tareas/busqueda")
+        axios.post("http://localhost:3001/tareas/busqueda", {textoBusqueda})
             .then((busquedaRes) => {
                 if (busquedaRes) {
                     const busquedaArray = busquedaRes.data.result;

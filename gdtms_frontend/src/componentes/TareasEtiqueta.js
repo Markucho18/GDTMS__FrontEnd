@@ -1,18 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import {Tarea} from "./Tarea";
 import { MainContext } from '../contexts/MainContext';
+import axios from 'axios';
 
-export function TareasHoy() {
+export function TareasEtiqueta({etiqueta}) {
 
-    const {consulta} = useContext(MainContext);
+  const {formatearFechas} = useContext(MainContext);
 
     const [tareas, setTareas] = useState()
 
     useEffect(() => {
-        // Aca deberia mandarle un query con el nombre de la etiqueta
-        // Desde el back, con esa query obtener el id
-        // Mandar el id por query y obtener las tareas
-        axios.get(`http://localhost:3001/etiquetas/getNombre?nomEtiqueta=${consulta.etiqueta}`)
+        console.log("Se ha renderizado <TareasEtiqueta/>");
+        axios.get(`http://localhost:3001/etiquetas/getNombre?nomEtiqueta=${etiqueta}`)
           .then((nomEtiquetaRes) => {
             const idEtiqueta = nomEtiquetaRes.data.result[0];
             axios.get(`http://localhost:3001/tareas/etiqueta?idEtiqueta=${idEtiqueta}`)
@@ -38,6 +37,7 @@ export function TareasHoy() {
 
     return (
         <div className='tareasEtiqueta'>
+          <span>Este es el componente TareasEtiqueta y se ha obtenido: {etiqueta}</span>
             {tareas && tareas.length > 0 ? (
                 tareas.map((tarea, i) => (
                     <Tarea

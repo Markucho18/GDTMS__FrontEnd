@@ -13,13 +13,21 @@ export function Register({ handleForm }) {
     confPassword: "",
   })
 
-  const [msgError, setmsgError] = useState("");
+  const [msgError, setMsgError] = useState("");
 
-  const validarDatos = async (e) => {
-    e.preventDefault();
-    const usuarioNoValido = await validarUsuario();
-    const emailNoValido = await validarEmail();
-    try {
+  const validarDatos = async (e)=>{
+    try{
+      e.preventDefault();
+      //Valida el usuario:
+      axios.post("http://localhost:3001/register/username", formData)
+      .then((userRes)=>{
+        if(userRes.data.resultado.length > 0) throw new Error("El username ya esta en uso")
+      }).catch((err)=> console.log("Ha ocurrido un error al validarUsuario: ", err))
+      //Valida E-mail:
+      axios.post("http://localhost:3001/register/email", formData)
+      .then((emailRes)=>{
+        if(emailRes.data.resultado.length > 0) throw new Error("El e-mail ya esta en uso")
+      }).catch((err)=> console.log("Ha ocurrido un error al verificar el email: ", err))
       if (formData.username.length < 3)
         throw new Error("El username debe tener al menos 3 caracteres");
       if (!formData.email.includes("@"))
@@ -32,68 +40,37 @@ export function Register({ handleForm }) {
         throw new Error("La contraseña debe tener al menos 8 caracteres");
       if (formData.password !== formData.confPassword)
         throw new Error("Las contraseñas no coinciden");
-      if(usuarioNoValido)
-        throw new Error(usuarioNoValido)
-      if(emailNoValido)
-        throw new Error(emailNoValido)
-      setmsgError("");
-      await enviarDatos();
-      setFormData({
-        username: "",
-        email: "",
-        pais: "",
-        password: "",
-        confPassword: "",
-      });
-      alert("Datos enviados correctamente");
-      handleForm();
-    } catch (err) {
-      console.log(err);
-      setmsgError(err.message);
-      console.log(msgError);
+      setMsgError("");
+      enviarDatos()
+      .then((res)=>{
+        console.log("Datos enviados desde verificarDatos(): ", formData, "Datos recibidos desde el backend: ", res.data  )
+        setFormData({
+          username: "",
+          email: "",
+          pais: "",
+          password: "",
+          confPassword: "",
+        });
+        alert("Datos enviados correctamente");
+        handleForm();
+      }).catch((err)=> console.log("Ha ocurrido un error al enviar datos dentro de verificarDatos(): ", err))
     }
-    console.log("Datos del form:", formData);
-  };
-
-  const validarUsuario = async ()=>{
-    try{
-      const res = await axios.post("http://localhost:3001/register/username", formData);
-      if(res.data.resultado.length > 0) return "El username ya esta en uso"
-      else return
-     }
-    catch(err){
-      console.log("Error en validarUsuario:", err.response); 
-    }
+    catch(err){ setMsgError(err.message) };
   }
 
-  const validarEmail = async ()=>{
-    try{
-      const response = await axios.post("http://localhost:3001/register/email", formData)
-      if(response.data.resultado.length > 0) return "El e-mail ya esta en uso"
-      else return
-    }
-    catch(err){
-      console.log("Error en validarEmail:", err.response);
-    }
-  }
+  //CONTEXTO: PUEDO PRESCINDIR TOTALMENTE DE ENVIARDATOS Y USAR EL AXIOS DIRECTAMENTE EN VERIFICARDATOS()
 
-  const enviarDatos = async () => {
-    try {
-      const response = await axios.post("http://localhost:3001/register", formData);
-    } catch (err) {
-      console.log("Error:", err);
-    }
-    console.log("se ha ejecutado enviarDatos", formData);
-  };
+  const enviarDatos = async ()=>{
+    return axios.post("http://localhost:3001/register", formData)
+    .then((res)=> console.log("Datos enviados correctamente", res.data))
+    .catch((err)=> console.log("Ha ocurrido un error al enviar datos: ", err))
+  }
 
   const [paises, setPaises] = useState()
   const getPaises = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/paises");
-      setPaises(response.data)
-    } catch (err) {
-      console.log("Ocurrio un error al solicitar paises: ", err)
-    }
+    axios.get("http://localhost:3001/paises")
+    .then((res)=> setPaises(res.data) )
+    .catch((err)=> console.log("Ocurrio un error al solicitar paises: ", err))
   };
 
   return (
