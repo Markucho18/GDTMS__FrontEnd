@@ -17,29 +17,27 @@ export function Login({ handleForm }) {
   const validarDatos = async (e) => {
     e.preventDefault();
     //Comprueba si el username y contraseña existen en la DB
-    const resUsername = await axios.post(
-      "http://localhost:3001/register/username",
-      formData
-    );
-    const resPassword = await axios.post(
-      "http://localhost:3001/login/password",
-      formData
-    );
-    try {
-      if (resUsername.data.resultado.length === 0)
-        throw new Error("El username no es correcto");
-      if (resPassword.data === false)
-        throw new Error("La contraseña es incorrecta");
-      setMsgError("");
-      setFormData({
-        username: "",
-        password: "",
-      });
-      await crearToken(formData);
-    } catch (err) {
-      setMsgError(err.message);
-    }
-  };
+    axios.post("http://localhost:3001/register/username", formData)
+    .then((res)=>{
+      if (res.data.resultado.length === 0) return setMsgError("El username no es correcto");
+      else{
+        //Comprueba si la contraseña coincide
+        axios.post("http://localhost:3001/login/password", formData)
+        .then((res)=>{
+          if (res.data === false) return setMsgError("El username no es correcto");
+          else{
+            if(msgError)
+            setMsgError("");
+            setFormData({
+              username: "",
+              password: "",
+            });
+            crearToken(formData);
+          }
+        }).catch((err)=> console.log("Ha ocurrido un error al verificar la contraseña: ", err))
+      }
+    })
+  }
 
   return (
     <div className="fondoFormulario col cen">

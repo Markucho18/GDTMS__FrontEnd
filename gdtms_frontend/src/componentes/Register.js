@@ -21,12 +21,12 @@ export function Register({ handleForm }) {
       //Valida el usuario:
       axios.post("http://localhost:3001/register/username", formData)
       .then((userRes)=>{
-        if(userRes.data.resultado.length > 0) throw new Error("El username ya esta en uso")
+        if(userRes.data.resultado.length > 0) return setMsgError("El username ya esta en uso")
       }).catch((err)=> console.log("Ha ocurrido un error al validarUsuario: ", err))
       //Valida E-mail:
       axios.post("http://localhost:3001/register/email", formData)
       .then((emailRes)=>{
-        if(emailRes.data.resultado.length > 0) throw new Error("El e-mail ya esta en uso")
+        if(emailRes.data.resultado.length > 0) return setMsgError("El e-mail ya esta en uso")
       }).catch((err)=> console.log("Ha ocurrido un error al verificar el email: ", err))
       if (formData.username.length < 3)
         throw new Error("El username debe tener al menos 3 caracteres");
@@ -41,7 +41,8 @@ export function Register({ handleForm }) {
       if (formData.password !== formData.confPassword)
         throw new Error("Las contraseñas no coinciden");
       setMsgError("");
-      enviarDatos()
+      //Enviar datos al backend:
+      axios.post("http://localhost:3001/register", formData)
       .then((res)=>{
         console.log("Datos enviados desde verificarDatos(): ", formData, "Datos recibidos desde el backend: ", res.data  )
         setFormData({
@@ -56,14 +57,6 @@ export function Register({ handleForm }) {
       }).catch((err)=> console.log("Ha ocurrido un error al enviar datos dentro de verificarDatos(): ", err))
     }
     catch(err){ setMsgError(err.message) };
-  }
-
-  //CONTEXTO: PUEDO PRESCINDIR TOTALMENTE DE ENVIARDATOS Y USAR EL AXIOS DIRECTAMENTE EN VERIFICARDATOS()
-
-  const enviarDatos = async ()=>{
-    return axios.post("http://localhost:3001/register", formData)
-    .then((res)=> console.log("Datos enviados correctamente", res.data))
-    .catch((err)=> console.log("Ha ocurrido un error al enviar datos: ", err))
   }
 
   const [paises, setPaises] = useState()
@@ -104,9 +97,9 @@ export function Register({ handleForm }) {
               onChange={handleInputChange}
               onClick={getPaises}
             >
-              {paises ? paises.map(pais =>(
+              {paises && paises.map(pais =>(
                 <option key={pais.id} value={pais.id}>{pais.nombre}</option>
-              )) : null}
+              ))}
             </select>
           </label>
           <label className="col">

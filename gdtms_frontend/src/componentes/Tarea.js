@@ -10,13 +10,12 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
   const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
 
   const [nomEtiqueta, setNomEtiqueta] = useState("");
-  const getEtiquetas = async () => {
-    axios.get(`http://localhost:3001/etiquetas/getId`,{params:{idEtiqueta}})
-    .then((etiquetasRes)=>{
-      console.log(etiquetasRes);
-      const etiquetaResSQL = etiquetasRes.data?.result;
+  const getNomEtiqueta = async () => {
+    axios.get(`http://localhost:3001/etiquetas/getNombre?idEtiqueta=${idEtiqueta}`)
+    .then((etiquetaRes)=>{
+      const etiquetaResSQL = etiquetaRes.data?.result;
       if(etiquetaResSQL.length > 0) setNomEtiqueta(etiquetaResSQL[0].nombre)
-    }).catch((err)=> console.log("Hubo un error en getEtiquetas: ", err))
+    }).catch((err)=> console.log("Hubo un error en getNomEtiqueta: ", err))
   };
   
   const eliminarTarea = async ()=>{
@@ -30,7 +29,7 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
   }
   
   useEffect(()=>{
-    getEtiquetas();
+    getNomEtiqueta();
   })
 
   return (

@@ -45,7 +45,7 @@ function App() {
         (formulario === "register" && <Register handleForm={handleForm} />)
       )}
 
-      {modalAbierto === true && <ModalTarea/>}
+      {modalAbierto === "editar" || modalAbierto === "crear" && <ModalTarea/>}
 
       {tokenValido === true && (
         <>
