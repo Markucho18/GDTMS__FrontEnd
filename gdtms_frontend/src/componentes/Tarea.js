@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import { ModalContext } from '../contexts/ModalContext';
 import { MainContext } from "../contexts/MainContext";
+import { useEtiqueta } from "../hooks/useEtiqueta";
 
 export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
@@ -9,14 +10,6 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
 
   const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
 
-  const [nomEtiqueta, setNomEtiqueta] = useState("");
-  const getNomEtiqueta = async () => {
-    axios.get(`http://localhost:3001/etiquetas/getNombre?idEtiqueta=${idEtiqueta}`)
-    .then((etiquetaRes)=>{
-      const etiquetaResSQL = etiquetaRes.data?.result;
-      if(etiquetaResSQL.length > 0) setNomEtiqueta(etiquetaResSQL[0].nombre)
-    }).catch((err)=> console.log("Hubo un error en getNomEtiqueta: ", err))
-  };
   
   const eliminarTarea = async ()=>{
     let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
@@ -28,8 +21,14 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
     else return
   }
   
+  const {nomEtiqueta, getNomEtiqueta, color, getColor} = useEtiqueta();
+
   useEffect(()=>{
-    getNomEtiqueta();
+    if(idEtiqueta !== 0){
+      getNomEtiqueta(idEtiqueta);
+      getColor(idEtiqueta);
+    }
+    else return
   })
 
   return (
@@ -56,10 +55,10 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
           <i className="fa-regular fa-calendar"></i>
           {fechaVista == null ? "Sin Fecha" : fechaVista}
         </span>
-        <span className="etiqueta">{nomEtiqueta.length > 0 ? nomEtiqueta : "Sin Etiqueta"}</span>
+        <span className="etiqueta" style={{backgroundColor: color && color}}>{nomEtiqueta && nomEtiqueta.length > 0 ? nomEtiqueta : "Sin Etiqueta"}</span>
       </div>
       <div className="seccionTarea row">
-        <span className="desc">{descripcion == null ? "No hay descripcion..." : descripcion}</span>
+        <span className="desc">{descripcion == "" ? "Sin descripcion..." : descripcion}</span>
       </div>
     </div>
   );

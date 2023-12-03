@@ -15,30 +15,6 @@ body{
 
 /* COLORES --------------------------------------------------- */
 
-.rojo{
-    color: red;
-}
-
-.verde{
-    color: lime;
-}
-
-.celeste{
-    color: lightblue;
-}
-
-.amarillo{
-    color: rgb(245, 214, 43);
-}
-
-.purpura{
-    color: plum;
-}
-
-.naranja{
-    color: orange;
-}
-
 .p1{
     border: 3px solid red;
 }
@@ -89,6 +65,15 @@ body{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,30%);
+}
+
+.desplegable{
+    justify-content: space-between;
+    border: 2px solid black;
+    padding: 10px;
+    margin: 5px;
+    font-size: 20px;
+    color: black;
 }
 
 /* ESTILOS HEADER -----------------------------------------------------------------*/
@@ -196,6 +181,24 @@ body{
     flex-grow: 1;
 }
 
+.contenedorMain .flechita{
+    cursor: pointer;
+    padding: 0px 10px;
+}
+
+.contenedorMain .flechita:hover{
+    color: cornflowerblue;
+}
+
+.listaTareas{
+    gap: 5px;
+}
+
+.tareasTotales{
+    padding: 10px;
+    font-size: 20px;
+    color: black;
+}
 
 
 /* ESTILOS TAREA -----------------------------------------------------------------*/
@@ -251,7 +254,7 @@ body{
 .contenedorTarea .etiqueta{
     padding: 5px;
     border-radius: 5px;
-    color: white;
+    color: black;
     background-color: rgba(100, 149, 237, 70%);
 }
 

@@ -2,13 +2,13 @@ import { useContext, useState, useEffect } from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
 import axios from 'axios';
 import { MainContext } from "../contexts/MainContext";
-import { EtiquetaContext } from "../contexts/EtiquetaContext";
+import { useEtiqueta } from "../hooks/useEtiqueta";
 
 export function Sidebar(props) {
 
   const { enviarConsulta } = useContext(MainContext)
 
-  const { etiquetas, getEtiquetas } = useContext(EtiquetaContext)
+  const {etiquetas, getEtiquetas, handleIcono} = useEtiqueta();
 
   const [listaAbierta, setListaAbierta] = useState(false);
   const handleLista = () => setListaAbierta(!listaAbierta);
@@ -42,8 +42,9 @@ export function Sidebar(props) {
           etiquetas.map((etiqueta, i) => (
             <SidebarSeccion
               key={i}
-              icono={"fa-solid fa-tags " /* + etiqueta.color */}
               texto={etiqueta.nombre}
+              icono={handleIcono(etiqueta.id_etiqueta)}
+              color={{color: etiqueta.color}}
               click={() => enviarConsulta({etiqueta: etiqueta.nombre })}
             />
           ))}

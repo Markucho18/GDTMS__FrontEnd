@@ -26,9 +26,6 @@ export function MainContextProvider({ children }) {
         })
     }
 
-    //CONTEXTO, SEGUN SHAGGY:
-    //EL USUARIO NO PUEDE CREAR ETIQUETAS SOLO ACCEDER A ELLAS.
-
     useEffect(() => {
         console.log("consulta en MainContext es: ", consulta);
     }, [consulta])

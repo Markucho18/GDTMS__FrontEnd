@@ -4,7 +4,7 @@ import axios from "axios";
 import { TokenContext } from '../contexts/TokenContext';
 import { ModalContext } from '../contexts/ModalContext';
 import { MainContext } from '../contexts/MainContext';
-import { EtiquetaContext } from '../contexts/EtiquetaContext';
+import { useEtiqueta} from '../hooks/useEtiqueta';
 
 export function ModalTarea() {
   
@@ -13,8 +13,6 @@ export function ModalTarea() {
   const {token, tokenValido, verificarToken} = useContext(TokenContext);
 
   const { actualizarTareas } = useContext(MainContext);
-
-  const { etiquetas, getEtiquetas } = useContext(EtiquetaContext);
 
   const initialFormData = modalAbierto === "editar" ? datosTarea : {
     nombre: "",
@@ -26,9 +24,16 @@ export function ModalTarea() {
 
   const {formData, setFormData, handleInputChange} = useFormData(initialFormData);
 
+  const {etiquetas , getEtiquetas} = useEtiqueta()
+
   useEffect(()=>{
     getEtiquetas();
   },[])
+
+  useEffect(()=>{
+    console.log("ModalTarea.js ha recibido modalAbierto con el valor: ", modalAbierto);
+    console.log("ModalTarea.js ha recibido datosTarea con el valor: ", datosTarea);
+  },[modalAbierto, datosTarea])
 
   const crearTarea = async (e) => {
     console.log("crearTarea se ha ejecutado");
@@ -165,7 +170,7 @@ export function ModalTarea() {
             ) : (
               <option>...</option>
             )}
-            <option value={null}>Ninguna</option>
+            <option value={0}>Ninguna</option>
           </select>
         </label>
         <label className="col">
