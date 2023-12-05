@@ -65,6 +65,7 @@ export function TareasInbox() {
     },[actualizacion])
 
     //Mostrar o ocultar
+    
     const [sinFecha, setSinFecha] = useState(false)
     const [caducadas, setCaducadas] = useState(false)
     const handleSinFecha = ()=> setSinFecha(!sinFecha);

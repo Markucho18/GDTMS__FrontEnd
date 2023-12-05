@@ -170,7 +170,6 @@ export function ModalTarea() {
             ) : (
               <option>...</option>
             )}
-            <option value={0}>Ninguna</option>
           </select>
         </label>
         <label className="col">

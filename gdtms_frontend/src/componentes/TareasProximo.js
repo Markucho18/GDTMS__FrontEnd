@@ -7,22 +7,28 @@ import { format } from 'date-fns';
 
 export function TareasProximo(){
 
-    const [tareas, setTareas] = useState([])
-
     const [fechasUnicas, setFechasUnicas] = useState([]);
+
+    const [datosFecha, setDatosFecha] = useState([]);
 
     const [datosSeccion, setDatosSeccion] = useState([]);
 
-    const {actualizacion, setActualizacion, formatearFechas} = useContext(MainContext);
+    const {actualizacion, setActualizacion, formatearFechas, actualizarTareas} = useContext(MainContext);
 
     const getFechasUnicas = ()=>{
         return axios.get("http://localhost:3001/tareas/fechasUnicas")
         .then((fechasRes)=>{
-            const fechasUnicasArray = fechasRes.data.result.map((tarea)=>{
-                return format(new Date(tarea.fecha), 'yyyy-MM-dd');
+            //Ordena las fechas cronologicamente
+            const fechasOrdenadas = fechasRes.data.result.sort((a, b) => {
+                const dateA = new Date(a.fecha);
+                const dateB = new Date(b.fecha);
+                return dateA - dateB;
+            });
+            //Cambia el formato para poder compararlas con las fechas de las tareas
+            const fechasFormateadas = fechasOrdenadas.map((fecha)=>{
+                return format(new Date(fecha.fecha), 'yyyy-MM-dd');
             })
-            console.log("Se obtuvo datos desde getFechasUnicas(): ", fechasUnicasArray);
-            setFechasUnicas(fechasUnicasArray);
+            setFechasUnicas(fechasFormateadas);
         }).catch((err)=> console.log("getFechasUnicas error: ", err))
     }
 
@@ -34,7 +40,6 @@ export function TareasProximo(){
                     const proximoArray = proximoRes.data.result;
                     console.log("Se ha recibido respuesta desde el BackEnd & PROXIMOARRAY es: ", proximoArray);
                     const tareas = formatearFechas(proximoArray);
-                    setTareas(tareas);
                     //Devuelve un objeto con la fecha y tareas correspondientes (que se pone en datosSeccion)
                     if(fechasUnicas.length > 0 ){
                         const resultado = fechasUnicas.map(fecha => {
@@ -51,6 +56,23 @@ export function TareasProximo(){
             }).catch((err) => console.log(`tareasProximo error: ${err}`))
     }
 
+    //Esto lo que deberia hacer seria buscar dentro de datosSeccion (sin acceder al back)
+    //Y mandarselo a proximoSeccion para que renderize eso.
+
+    const [fecha, setFecha] = useState("");
+    const handleInputChange = (e)=>{
+        const {value} = e.target;
+        setFecha(value);
+    }
+
+    const tareasPorFecha = async (fecha)=>{
+        if(datosSeccion && datosSeccion.length > 0){
+            const tareasDeLaFecha = datosSeccion.filter((dato)=> dato.fecha === fecha);
+            console.log("tareasDeLaFecha: ", tareasDeLaFecha)
+            setDatosFecha(tareasDeLaFecha);
+        }
+        else console.log("datosSeccion no existe o esta vacio")
+    }
 
     useEffect(()=>{
         console.log("Se ha renderizado <TareasProximo/>");
@@ -62,44 +84,35 @@ export function TareasProximo(){
     },[fechasUnicas])
 
     useEffect(()=>{
-        console.log("datosSeccion: ", datosSeccion)
-    })
+        console.log("datosFecha: ", datosFecha)
+    },[datosFecha])
 
     //Forzar actualizacion del componente
     useEffect(()=>{
         if(actualizacion === true){
             getFechasUnicas();
-            filtrarTareas();
             setActualizacion(false);
             console.log("Se ha re-renderizado el componente con las tareas actualizadas.")
         }
         else return
     },[actualizacion])
 
+    //CONTEXTO: EL COMPONENTE
+
     return(
         <div className='tareasProximo'>
-            <span>Este es el componente TareasProximo</span><br/>
-            {datosSeccion && datosSeccion.length > 0 ? (
-                datosSeccion.map((dato)=>(
-                    <ProximoSeccion fecha={dato.fecha} tareas={dato.tareas}/>
+            <input type="date" value={fecha} onChange={handleInputChange}/>
+            <button onClick={()=> tareasPorFecha(fecha)}>Buscar Tareas</button>
+            <button onClick={()=> setDatosFecha([])}>X</button>
+            {datosFecha && datosFecha.length > 0 ? (
+                datosFecha.map((dato)=>(
+                    <ProximoSeccion dato={dato} />
                 ))
-            ): <p>Cargando...</p>}
-            {/* {tareas && tareas.length > 0 ? (
-                tareas.map((tarea, i) => (
-                    <Tarea
-                        key={i}
-                        estado={tarea.estado}
-                        prioridad={tarea.prioridad}
-                        nombre={tarea.nombre}
-                        fecha={tarea.fecha}
-                        fechaVista={tarea.fechaVista}
-                        idTarea={tarea.id_tarea}
-                        idEtiqueta={tarea.id_etiqueta}
-                        descripcion={tarea.descripcion}
-                        idUsuario={tarea.id_usuario}
-                    />
-                ))) : <p>No hay tareas...</p>
-            } */}
+            ): (datosSeccion && datosSeccion.length > 0 ? (
+                datosSeccion.map((dato)=>(
+                    <ProximoSeccion dato={dato} />
+                ))
+            ): <p>Cargando...</p>) }
         </div>
     )
 }
