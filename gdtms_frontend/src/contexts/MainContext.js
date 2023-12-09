@@ -8,7 +8,10 @@ export function MainContextProvider({ children }) {
     //A esto solo va acceder Main para renderizar segun que le llegó.
     const [consulta, setConsulta] = useState({fecha: "inbox"});
 
-    const enviarConsulta = (consulta)=> setConsulta(consulta);
+    const enviarConsulta = (consulta)=>{
+        console.log("Se ha ejecutado enviarConsulta(), consulta: ", consulta);
+        setConsulta(consulta);
+    }
 
     const [actualizacion, setActualizacion] = useState(false);
 

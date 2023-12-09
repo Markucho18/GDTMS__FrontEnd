@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Tarea } from "./Tarea";
 import { useVisible } from "../hooks/useVisible";
+import { MainContext } from "../contexts/MainContext";
 
 export function ProximoSeccion ({dato}){
+
+    const { actualizarTareas } = useContext(MainContext);
 
     function obtenerFecha(fecha) {
         const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
@@ -16,6 +19,11 @@ export function ProximoSeccion ({dato}){
 
     const {visible, handleVisible} = useVisible(false);
 
+    const [tareasOrdenadas, setTareasOrdenadas] = useState([]);
+    useEffect(()=>{
+        setTareasOrdenadas(dato.tareas.sort((a, b)=> a.prioridad - b.prioridad));
+    },[dato.tareas])
+
     return (
         <>
             <div>
@@ -27,8 +35,8 @@ export function ProximoSeccion ({dato}){
                 ) : <p>No se recibio fecha xd</p>}
                 {visible === true && (
                     <div className="listaTareas col">
-                        {dato.tareas && dato.tareas.length > 0 ? (
-                            dato.tareas.map((tarea, i) => (
+                        {tareasOrdenadas && tareasOrdenadas.length > 0 ? (
+                            tareasOrdenadas.map((tarea, i) => (
                                 <Tarea
                                     key={i}
                                     estado={tarea.estado}

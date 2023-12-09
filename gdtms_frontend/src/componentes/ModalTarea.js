@@ -17,8 +17,8 @@ export function ModalTarea() {
   const initialFormData = modalAbierto === "editar" ? datosTarea : {
     nombre: "",
     fecha: "",
-    prioridad: 0,
-    idEtiqueta: 0,
+    prioridad: 1,
+    idEtiqueta: 1,
     descripcion: null,
   }
 

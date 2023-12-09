@@ -13,7 +13,7 @@ export function TareasProximo(){
 
     const [datosSeccion, setDatosSeccion] = useState([]);
 
-    const {actualizacion, setActualizacion, formatearFechas, actualizarTareas} = useContext(MainContext);
+    const {actualizacion, setActualizacion, formatearFechas} = useContext(MainContext);
 
     const getFechasUnicas = ()=>{
         return axios.get("http://localhost:3001/tareas/fechasUnicas")
@@ -79,16 +79,8 @@ export function TareasProximo(){
         getFechasUnicas();
     },[])
 
-    useEffect(()=>{
-        filtrarTareas();
-    },[fechasUnicas])
-
-    useEffect(()=>{
-        console.log("datosFecha: ", datosFecha)
-    },[datosFecha])
-
     //Forzar actualizacion del componente
-    useEffect(()=>{
+    useEffect((e)=>{
         if(actualizacion === true){
             getFechasUnicas();
             setActualizacion(false);
@@ -97,7 +89,10 @@ export function TareasProximo(){
         else return
     },[actualizacion])
 
-    //CONTEXTO: EL COMPONENTE
+
+    useEffect(()=>{
+        console.log("Se ha renderizado el componente <TareasProximo/>")
+    },[])
 
     return(
         <div className='tareasProximo'>

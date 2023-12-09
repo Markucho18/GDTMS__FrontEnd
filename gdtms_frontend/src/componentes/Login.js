@@ -24,7 +24,7 @@ export function Login({ handleForm }) {
         //Comprueba si la contraseña coincide
         axios.post("http://localhost:3001/login/password", formData)
         .then((res)=>{
-          if (res.data === false) return setMsgError("El username no es correcto");
+          if (res.data === false) return setMsgError("La contraseña no es correcta");
           else{
             if(msgError)
             setMsgError("");

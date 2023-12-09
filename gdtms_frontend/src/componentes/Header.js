@@ -13,7 +13,10 @@ export function Header(){
                 <img src={tskLogo} alt="logo"/>
                 <Busqueda/>
             </div>
-            <span className="btnCrearTarea" onClick={()=> abrirModalTarea("crear")}><i className="fa-solid fa-plus"></i> </span>
+            <div className='acciones row cen'>
+                <span className="btnConfig"> <i className="fa-solid fa-right-from-bracket"></i> </span>
+                <span className="btnCrearTarea" onClick={()=> abrirModalTarea("crear")}><i className="fa-solid fa-plus"></i> </span>
+            </div>
         </div>
     )
 }

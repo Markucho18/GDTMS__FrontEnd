@@ -9,6 +9,7 @@ import {TareasHoy} from "./componentes/TareasHoy"
 import {TareasProximo} from "./componentes/TareasProximo"
 import {TareasEtiqueta} from "./componentes/TareasEtiqueta"
 import {TareasBusqueda} from "./componentes/TareasBusqueda"
+import { TareasCompletas } from "./componentes/TareasCompletas";
 import { ModalContext } from './contexts/ModalContext';
 import { TokenContext } from "./contexts/TokenContext";
 import { MainContext } from "./contexts/MainContext";
@@ -50,7 +51,8 @@ function App() {
                 consulta.fecha && (
                   (consulta.fecha === 'inbox' && <TareasInbox/>) ||
                   (consulta.fecha === 'hoy' && <TareasHoy/>) ||
-                  (consulta.fecha === 'proximo' && <TareasProximo/>)
+                  (consulta.fecha === 'proximo' && <TareasProximo/>) ||
+                  (consulta.fecha === 'completas' && <TareasCompletas/>)
                 ) ||
                 consulta.etiqueta && (
                   (consulta.etiqueta && <TareasEtiqueta etiqueta={consulta.etiqueta}/>)

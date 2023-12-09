@@ -5,7 +5,7 @@ import { MainContext } from '../contexts/MainContext';
 
 export function TareasInbox() {
 
-    const {actualizacion, setActualizacion, formatearFechas } = useContext(MainContext);
+    const {actualizacion, setActualizacion, formatearFechas, actualizarTareas } = useContext(MainContext);
 
     const [tareasSinFecha, setTareasSinFecha] = useState([])
 
@@ -48,6 +48,26 @@ export function TareasInbox() {
                 else console.log("No hubo respuesta CADUCADAS desde el backend")
             }).catch((err)=> console.log("caducadasRes error: ", err))
     }
+
+    const limpiarTareas = (tipo)=>{
+        let confirmar = window.confirm(`Estas seguro de limpiar las tareas ${tipo && tipo}?`);
+        if(confirmar === true){
+            if(tipo == "sinFecha"){
+                axios.delete("http://localhost:3001/tareas/sinFecha")
+                .then((res)=> console.log("Se han eliminado correctamente las tareas sin fecha", res))
+                .catch((err)=> console.log("Ha occurido un error al eliminar las tareas sin fecha", err))
+                actualizarTareas();
+            }
+            else if(tipo == "caducadas"){
+                axios.delete("http://localhost:3001/tareas/caducadas")
+                .then((res)=> console.log("Se han eliminado correctamente las tareas caducadas", res))
+                .catch((err)=> console.log("Ha occurido un error al eliminar las tareas caducadas", err))
+                actualizarTareas();
+            }
+            else console.log("limpiarTareas() no ha recibido ningun tipo", {tipo: tipo})
+        }
+        else return
+    }
     
     useEffect(() => {
         console.log("Se ha renderizado <Inbox/>");
@@ -75,7 +95,10 @@ export function TareasInbox() {
         <div className='tareasInbox'>
             <div className='desplegable row'>
                 <span>{`Tareas sin fecha(${tareasSinFecha.length}):`}</span>
-                <i className="fa-solid fa-angle-down flechita" onClick={handleSinFecha}></i>
+                <div className='acciones row'>
+                    <i className="fa-solid fa-delete-left flechita" onClick={()=> limpiarTareas("sinFecha")}></i>
+                    <i className="fa-solid fa-angle-down flechita" onClick={handleSinFecha}></i>
+                </div>
             </div>
             <div className='listaTareas col'>
                 {sinFecha === true &&
@@ -98,7 +121,10 @@ export function TareasInbox() {
             </div>
             <div className='desplegable row'>
                 <span>{`Tareas caducadas(${tareasCaducadas.length}):`}</span>
-                <i className="fa-solid fa-angle-down flechita" onClick={handleCaducadas}></i>
+                <div className='acciones row'>
+                    <i className="fa-solid fa-delete-left flechita" onClick={()=> limpiarTareas("caducadas")}></i>
+                    <i className="fa-solid fa-angle-down flechita" onClick={handleCaducadas}></i>
+                </div>
             </div>
             <div className='listaTareas col'>
                 {caducadas === true &&

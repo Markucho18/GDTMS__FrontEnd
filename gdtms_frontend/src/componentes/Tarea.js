@@ -23,6 +23,9 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
   
   const {nomEtiqueta, getNomEtiqueta, color, getColor} = useEtiqueta();
 
+  //EN VEZ DE PEDIR LA ETIQUETAS DESDE EL BACK CADA QUE SE RENDERIZE EL COMPONENTE,
+  //PEDIRLAS UNA VEZ; MEMOIZAR Y SIMPLEMENTE EMPAREJARLAS (SE MUESTRAN MAS RAPIDO)
+
   useEffect(()=>{
     if(idEtiqueta !== 0){
       getNomEtiqueta(idEtiqueta);
@@ -55,7 +58,7 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
           <i className="fa-regular fa-calendar"></i>
           {fechaVista == null ? "Sin Fecha" : fechaVista}
         </span>
-        <span className="etiqueta" style={{backgroundColor: color && color}}>{nomEtiqueta && nomEtiqueta.length > 0 ? nomEtiqueta : "Sin Etiqueta"}</span>
+        <span className="etiqueta" style={{backgroundColor: getColor(idEtiqueta)}}>{getNomEtiqueta(idEtiqueta)}</span>
       </div>
       <div className="seccionTarea row">
         <span className="desc">{descripcion == "" ? "Sin descripcion..." : descripcion}</span>

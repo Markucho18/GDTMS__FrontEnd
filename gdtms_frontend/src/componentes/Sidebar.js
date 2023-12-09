@@ -8,7 +8,7 @@ export function Sidebar(props) {
 
   const { enviarConsulta } = useContext(MainContext)
 
-  const {etiquetas, getEtiquetas, handleIcono} = useEtiqueta();
+  const {etiquetas, handleIcono} = useEtiqueta();
 
   const [listaAbierta, setListaAbierta] = useState(false);
   const handleLista = () => setListaAbierta(!listaAbierta);
@@ -34,7 +34,6 @@ export function Sidebar(props) {
         icono="fa-solid fa-tags"
         texto="Etiquetas"
         click={handleLista}
-        click2={getEtiquetas}
       />
       {listaAbierta === true ? (
         <div className="listaEtiquetas">
@@ -48,13 +47,13 @@ export function Sidebar(props) {
               click={() => enviarConsulta({etiqueta: etiqueta.nombre })}
             />
           ))}
-          <SidebarSeccion
-            icono="fa-solid fa-gear"
-            texto="Gestionar"
-            click={() => enviarConsulta({etiqueta: "gestionar"})}
-          />
         </div>
       ) : null}
+      <SidebarSeccion
+        icono="fa-solid fa-circle-check"
+        texto="Completas"
+        click={()=> enviarConsulta({fecha: "completas"})}
+      />
     </div>
   );
 }

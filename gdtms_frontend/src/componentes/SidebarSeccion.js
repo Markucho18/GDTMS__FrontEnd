@@ -1,11 +1,8 @@
 
-export function SidebarSeccion({ icono, texto, color, click, click2 }) {
+export function SidebarSeccion({ icono, texto, color, click}) {
 
   return (
-    <div className="sidebarSeccion row" onClick={()=>{
-      click();
-      click2 && click2();
-    }}>
+    <div className="sidebarSeccion row" onClick={click}>
       <i className={icono} style={color && color}></i>
       <span style={color && color}>{texto}</span>
       {texto === "Etiquetas" ? (

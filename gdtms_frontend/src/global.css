@@ -135,11 +135,27 @@ body{
     font-weight: bold;
     padding: 8px 12px;
     border-radius: 50%;
-    transition: transform .3s ease-in-out, background .3s;
+    transition: transform .3s ease-in-out, background .2s;
 }
 
 .btnCrearTarea:hover{
     background: rgb(214, 33, 33);
+    transform: scale(110%);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 70%);
+}
+
+.btnConfig{
+    cursor: pointer;
+    background-color: cornflowerblue;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px 10px;
+    border-radius: 50%;
+    transition: transform .3s ease-in-out, background .2s;
+}
+
+.btnConfig:hover{
+    background: rgb(82, 130, 221);
     transform: scale(110%);
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 70%);
 }
@@ -168,7 +184,7 @@ body{
 }
 
 .sidebarSeccion:hover{
-    background: rgb(126, 125, 125);
+    background: rgb(143, 137, 137);
     height: 70px;
 }
 
@@ -255,7 +271,6 @@ body{
     padding: 5px;
     border-radius: 5px;
     color: black;
-    background-color: rgba(100, 149, 237, 70%);
 }
 
 .contenedorTarea .desc{
