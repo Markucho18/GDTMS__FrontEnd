@@ -2,16 +2,19 @@ import { useEffect, useState, useContext } from 'react';
 import {Tarea} from "./Tarea";
 import axios from 'axios';
 import { MainContext } from '../contexts/MainContext';
+import { TokenContext } from '../contexts/TokenContext';
 
 export function TareasBusqueda({textoBusqueda}) {
 
     const {actualizacion, setActualizacion, formatearFechas} = useContext(MainContext);
 
+    const {userId} = useContext(TokenContext);
+
     const [tareas, setTareas] = useState()
 
     const getTareas = async ()=>{
         console.log("getTareas ha recibido textoBusqueda: ", textoBusqueda)
-        axios.post("http://localhost:3001/tareas/buscar", {textoBusqueda})
+        axios.post("http://localhost:3001/tareas/buscar", {textoBusqueda, userId})
         .then((busquedaRes) => {
             if (busquedaRes) {
                 const busquedaArray = busquedaRes.data.result;
@@ -50,7 +53,7 @@ export function TareasBusqueda({textoBusqueda}) {
                     tareas.map((tarea, i) => (
                         <Tarea
                             key={i}
-                            estado={tarea.estado}
+                            estadoTarea={tarea.estado}
                             prioridad={tarea.prioridad}
                             nombre={tarea.nombre}
                             fecha={tarea.fecha}

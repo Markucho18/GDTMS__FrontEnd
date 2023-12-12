@@ -4,6 +4,7 @@ import {Tarea} from "./Tarea";
 import { MainContext } from '../contexts/MainContext';
 import axios from 'axios';
 import { format } from 'date-fns';
+import { TokenContext } from '../contexts/TokenContext';
 
 export function TareasProximo(){
 
@@ -15,8 +16,10 @@ export function TareasProximo(){
 
     const {actualizacion, setActualizacion, formatearFechas} = useContext(MainContext);
 
+    const {userId} = useContext(TokenContext);
+
     const getFechasUnicas = ()=>{
-        return axios.get("http://localhost:3001/tareas/fechasUnicas")
+        return axios.get(`http://localhost:3001/tareas/fechasUnicas?userId=${userId}`)
         .then((fechasRes)=>{
             //Ordena las fechas cronologicamente
             const fechasOrdenadas = fechasRes.data.result.sort((a, b) => {
@@ -34,7 +37,7 @@ export function TareasProximo(){
 
     const filtrarTareas = async ()=>{
         //Obtiene las proximas tareas
-        axios.get("http://localhost:3001/tareas/proximo")
+        axios.get(`http://localhost:3001/tareas/proximo?userId=${userId}`)
             .then((proximoRes) => {
                 if (proximoRes) {
                     const proximoArray = proximoRes.data.result;
@@ -56,9 +59,6 @@ export function TareasProximo(){
             }).catch((err) => console.log(`tareasProximo error: ${err}`))
     }
 
-    //Esto lo que deberia hacer seria buscar dentro de datosSeccion (sin acceder al back)
-    //Y mandarselo a proximoSeccion para que renderize eso.
-
     const [fecha, setFecha] = useState("");
     const handleInputChange = (e)=>{
         const {value} = e.target;
@@ -79,6 +79,10 @@ export function TareasProximo(){
         getFechasUnicas();
     },[])
 
+    useEffect(()=>{
+        filtrarTareas();
+    },[fechasUnicas])
+
     //Forzar actualizacion del componente
     useEffect((e)=>{
         if(actualizacion === true){
@@ -88,11 +92,6 @@ export function TareasProximo(){
         }
         else return
     },[actualizacion])
-
-
-    useEffect(()=>{
-        console.log("Se ha renderizado el componente <TareasProximo/>")
-    },[])
 
     return(
         <div className='tareasProximo'>
@@ -107,7 +106,7 @@ export function TareasProximo(){
                 datosSeccion.map((dato)=>(
                     <ProximoSeccion dato={dato} />
                 ))
-            ): <p>Cargando...</p>) }
+            ): <p className='tareasTotales'>No tienes tareas</p>) }
         </div>
     )
 }

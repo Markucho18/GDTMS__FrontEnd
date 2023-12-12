@@ -2,10 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import {Tarea} from "./Tarea";
 import axios from 'axios';
 import { MainContext } from '../contexts/MainContext';
+import { TokenContext } from '../contexts/TokenContext';
 
 export function TareasInbox() {
 
     const {actualizacion, setActualizacion, formatearFechas, actualizarTareas } = useContext(MainContext);
+
+    const {userId} = useContext(TokenContext);
 
     const [tareasSinFecha, setTareasSinFecha] = useState([])
 
@@ -17,7 +20,7 @@ export function TareasInbox() {
     }
 
     const getTareasSinFecha = async ()=>{
-        axios.get("http://localhost:3001/tareas/sinFecha")
+        axios.get(`http://localhost:3001/tareas/sinFecha?userId=${userId}`)
             .then((sinFechaRes) => {
                 console.log("sinFechaRes: ", sinFechaRes);
                 if (sinFechaRes) {
@@ -33,7 +36,7 @@ export function TareasInbox() {
     }
 
     const getTareasCaducadas = async ()=>{
-        axios.get("http://localhost:3001/tareas/caducadas")
+        axios.get(`http://localhost:3001/tareas/caducadas?userId=${userId}`)
             .then((caducadasRes)=>{
                 console.log("caducadasRes: ", caducadasRes);
                 if(caducadasRes){
@@ -53,13 +56,13 @@ export function TareasInbox() {
         let confirmar = window.confirm(`Estas seguro de limpiar las tareas ${tipo && tipo}?`);
         if(confirmar === true){
             if(tipo == "sinFecha"){
-                axios.delete("http://localhost:3001/tareas/sinFecha")
+                axios.delete(`http://localhost:3001/tareas/sinFecha?userId=${userId}`)
                 .then((res)=> console.log("Se han eliminado correctamente las tareas sin fecha", res))
                 .catch((err)=> console.log("Ha occurido un error al eliminar las tareas sin fecha", err))
                 actualizarTareas();
             }
             else if(tipo == "caducadas"){
-                axios.delete("http://localhost:3001/tareas/caducadas")
+                axios.delete(`http://localhost:3001/tareas/caducadas?userId=${userId}`)
                 .then((res)=> console.log("Se han eliminado correctamente las tareas caducadas", res))
                 .catch((err)=> console.log("Ha occurido un error al eliminar las tareas caducadas", err))
                 actualizarTareas();
@@ -106,7 +109,7 @@ export function TareasInbox() {
                         tareasSinFecha.map((tarea, i) => (
                             <Tarea
                                 key={i}
-                                estado={tarea.estado}
+                                estadoTarea={tarea.estado}
                                 prioridad={tarea.prioridad}
                                 nombre={tarea.nombre}
                                 fecha={tarea.fecha}
@@ -116,7 +119,7 @@ export function TareasInbox() {
                                 descripcion={tarea.descripcion}
                                 idUsuario={tarea.id_usuario}
                             />
-                    ))) : <p>No hay tareas...</p>)            
+                    ))) : <p className='tareasTotales'>No hay tareas...</p>)            
                 }
             </div>
             <div className='desplegable row'>
@@ -132,7 +135,7 @@ export function TareasInbox() {
                         tareasCaducadas.map((tarea, i) => (
                             <Tarea
                                 key={i}
-                                estado={tarea.estado}
+                                estadoTarea={tarea.estado}
                                 prioridad={tarea.prioridad}
                                 nombre={tarea.nombre}
                                 fecha={tarea.fecha}
@@ -142,7 +145,7 @@ export function TareasInbox() {
                                 descripcion={tarea.descripcion}
                                 idUsuario={tarea.id_usuario}
                             />
-                    ))) : <p>No hay tareas...</p>)            
+                    ))) : <p className='tareasTotales'>No hay tareas...</p>)            
                 }
             </div>
 

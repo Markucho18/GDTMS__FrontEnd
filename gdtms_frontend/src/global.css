@@ -216,7 +216,6 @@ body{
     color: black;
 }
 
-
 /* ESTILOS TAREA -----------------------------------------------------------------*/
 
 .contenedorTarea{
@@ -278,6 +277,15 @@ body{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.completa{
+    background-color: rgb(240, 240, 240);
+    border: 3px solid lightgray;
+}
+
+.completa .nombreTarea{
+    text-decoration: line-through;
 }
 
 /* ESTILOS MODALTAREA -----------------------------------------------------------------*/

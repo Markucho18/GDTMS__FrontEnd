@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import axios from 'axios';
 import { format } from 'date-fns';
 
 export const MainContext = createContext();
@@ -20,14 +21,29 @@ export function MainContextProvider({ children }) {
     //Esta funcion simplemente estiliza las fechas dentro de <Tarea/>
     const formatearFechas = (array) => {
         return array.map((tarea, i) => {
-            const fechaBack = new Date(tarea.fecha);
-            const fechaVista = format(fechaBack, 'dd/MM/yy');
-            const fechaValue = format(fechaBack, 'yyyy-MM-dd')
-            tarea.fechaVista = fechaVista;
-            tarea.fecha = fechaValue;
-            return tarea
+            if(tarea.fecha !== null){
+                const fechaBack = new Date(tarea.fecha);
+                const fechaVista = format(fechaBack, 'dd/MM/yy');
+                const fechaValue = format(fechaBack, 'yyyy-MM-dd')
+                tarea.fechaVista = fechaVista;
+                tarea.fecha = fechaValue;
+                return tarea
+            }
+            else return tarea
         })
     }
+
+    const [etiquetas, setEtiquetas] = useState([]);
+
+    const getEtiquetas = async () => {
+        console.log("Se ha ejecutado getEtiquetas()");
+        axios.get("http://localhost:3001/etiquetas")
+        .then((etiquetasRes)=>{
+            console.log(etiquetasRes.data);
+            setEtiquetas(etiquetasRes.data.result)
+        } )
+        .catch((err)=> console.log("Ha ocurrido un error en getEtiquetas(): ", err))
+    };
 
     useEffect(() => {
         console.log("consulta en MainContext es: ", consulta);
@@ -41,7 +57,9 @@ export function MainContextProvider({ children }) {
             actualizacion,
             setActualizacion,
             actualizarTareas,
-            formatearFechas
+            formatearFechas,
+            etiquetas,
+            getEtiquetas
         }}>
             {children}
         </MainContext.Provider>

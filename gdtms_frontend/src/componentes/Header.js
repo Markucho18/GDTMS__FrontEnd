@@ -2,10 +2,13 @@ import { useContext } from 'react';
 import { ModalContext } from '../contexts/ModalContext';
 import {Busqueda} from './Busqueda';
 import tskLogo from '../assets/TskLogo.png';
+import { TokenContext } from '../contexts/TokenContext';
 
 export function Header(){
 
     const {abrirModalTarea} = useContext(ModalContext);
+
+    const {userId} = useContext(TokenContext);
 
     return (
         <div className="contenedorHeader row">

@@ -2,17 +2,22 @@ import { useContext, useEffect, useState } from 'react';
 import {Tarea} from "./Tarea";
 import axios from 'axios';
 import { MainContext } from '../contexts/MainContext';
+import { TokenContext } from '../contexts/TokenContext';
 
 export function TareasHoy() {
 
     const {actualizacion, setActualizacion, formatearFechas} = useContext(MainContext);
 
-    const [tareas, setTareas] = useState()
+    const {userId} = useContext(TokenContext);
 
+    const [tareas, setTareas] = useState()
+    
     const getTareas = async ()=>{
-        axios.get("http://localhost:3001/tareas/hoy")
+        console.log("userId: ", userId);
+        axios.get(`http://localhost:3001/tareas/hoy?userId=${userId}`)
             .then((hoyRes) => {
                 if (hoyRes) {
+                    console.log("hoyRes: ", hoyRes)
                     const hoyArray = hoyRes.data.result;
                     console.log("Se ha recibido respuesta desde el BackEnd & HOYARRAY es: ", hoyArray);
                     formatearFechas(hoyArray);
@@ -22,7 +27,7 @@ export function TareasHoy() {
                 else console.log("No hubo respuesta HOY desde el backend");
             })
             .catch((err) => {
-                console.log(`tareasHoy error: ${err}`);
+                console.log("tareasHoy error: ", err);
             })
     }
 
@@ -51,7 +56,7 @@ export function TareasHoy() {
                     tareas.map((tarea, i) => (
                         <Tarea
                             key={i}
-                            estado={tarea.estado}
+                            estadoTarea={tarea.estado}
                             prioridad={tarea.prioridad}
                             nombre={tarea.nombre}
                             fecha={tarea.fecha}

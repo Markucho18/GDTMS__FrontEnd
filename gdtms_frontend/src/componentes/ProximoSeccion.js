@@ -24,6 +24,10 @@ export function ProximoSeccion ({dato}){
         setTareasOrdenadas(dato.tareas.sort((a, b)=> a.prioridad - b.prioridad));
     },[dato.tareas])
 
+    useEffect(()=>{
+        console.log("Se ha renderizado ProximoSeccion");
+    },[])
+
     return (
         <>
             <div>
@@ -39,7 +43,7 @@ export function ProximoSeccion ({dato}){
                             tareasOrdenadas.map((tarea, i) => (
                                 <Tarea
                                     key={i}
-                                    estado={tarea.estado}
+                                    estadoTarea={tarea.estado}
                                     prioridad={tarea.prioridad}
                                     nombre={tarea.nombre}
                                     fecha={tarea.fecha}

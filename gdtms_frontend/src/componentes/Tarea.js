@@ -4,12 +4,11 @@ import { ModalContext } from '../contexts/ModalContext';
 import { MainContext } from "../contexts/MainContext";
 import { useEtiqueta } from "../hooks/useEtiqueta";
 
-export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
+export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
-  const {actualizarTareas} = useContext(MainContext);
+  const {actualizarTareas, consulta} = useContext(MainContext);
 
   const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
-
   
   const eliminarTarea = async ()=>{
     let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
@@ -20,6 +19,27 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
     }
     else return
   }
+
+  const [estado, setEstado] = useState(0);
+
+  const toggleEstado = ()=>{
+    if(estado == 0){
+      //Completar la tarea
+      axios.put("http://localhost:3001/tareas/completar", {idTarea, estado: 1})
+      .then((res)=>{
+        console.log(res.data);
+        setEstado(1);
+      }).catch((err)=> console.log("Ha ocurrido un error en toggleEstado: ", err))
+    }
+    else{
+      axios.put("http://localhost:3001/tareas/completar", {idTarea, estado: 0})
+      .then((res)=>{
+        console.log(res.data);
+        setEstado(0);
+      }).catch((err)=> console.log("Ha ocurrido un error en toggleEstado: ", err))
+    }
+    
+  }
   
   const {nomEtiqueta, getNomEtiqueta, color, getColor} = useEtiqueta();
 
@@ -27,18 +47,21 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
   //PEDIRLAS UNA VEZ; MEMOIZAR Y SIMPLEMENTE EMPAREJARLAS (SE MUESTRAN MAS RAPIDO)
 
   useEffect(()=>{
-    if(idEtiqueta !== 0){
-      getNomEtiqueta(idEtiqueta);
-      getColor(idEtiqueta);
-    }
-    else return
-  })
+    setEstado(estadoTarea);
+    getColor(idEtiqueta);
+    getNomEtiqueta(idEtiqueta);
+  },[])
+
+  
 
   return (
-    <div className={`contenedorTarea col cen p${prioridad}`}>
+    <div className={`contenedorTarea col cen ${estado == 1 ? "completa" : `p${prioridad}`}`}>
       <div className="seccionTarea superior row cen">
         <div className="info cen">
-          <input type="checkbox" className="estadoTarea" />
+          <input type="checkbox" className="estadoTarea" checked={estado == 1 ? true : false} onChange={()=>{
+            toggleEstado();
+            actualizarTareas();
+          }} />
           <span className="nombreTarea">{nombre}</span>
         </div>
         <div className="acciones row">
@@ -58,10 +81,10 @@ export function Tarea({idUsuario, prioridad, nombre, fecha, fechaVista, idTarea,
           <i className="fa-regular fa-calendar"></i>
           {fechaVista == null ? "Sin Fecha" : fechaVista}
         </span>
-        <span className="etiqueta" style={{backgroundColor: getColor(idEtiqueta)}}>{getNomEtiqueta(idEtiqueta)}</span>
+        <span className="etiqueta" style={{backgroundColor: color && color}}>{nomEtiqueta && nomEtiqueta}</span>
       </div>
       <div className="seccionTarea row">
-        <span className="desc">{descripcion == "" ? "Sin descripcion..." : descripcion}</span>
+        <span className="desc">{descripcion == null ? "Sin descripcion..." : descripcion}</span>
       </div>
     </div>
   );

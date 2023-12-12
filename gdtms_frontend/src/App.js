@@ -13,12 +13,13 @@ import { TareasCompletas } from "./componentes/TareasCompletas";
 import { ModalContext } from './contexts/ModalContext';
 import { TokenContext } from "./contexts/TokenContext";
 import { MainContext } from "./contexts/MainContext";
+import { useEtiqueta } from "./hooks/useEtiqueta";
 
 function App() {
 
-  const { consulta} = useContext(MainContext);
+  const { consulta, getEtiquetas} = useContext(MainContext);
 
-  const { tokenValido } = useContext(TokenContext);
+  const { tokenValido, getUserId } = useContext(TokenContext);
 
   const { modalAbierto } = useContext(ModalContext);
 
@@ -27,6 +28,10 @@ function App() {
   
   useEffect(()=>{
     console.log("En App el valor de tokenValido ha cambiado a: ", tokenValido);
+    if(tokenValido === true){
+      getEtiquetas();
+    }
+    else console.log("tokenValido es false");
   },[tokenValido])
 
   return (

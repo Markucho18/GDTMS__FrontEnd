@@ -6,9 +6,9 @@ import { useEtiqueta } from "../hooks/useEtiqueta";
 
 export function Sidebar(props) {
 
-  const { enviarConsulta } = useContext(MainContext)
+  const { enviarConsulta, etiquetas } = useContext(MainContext)
 
-  const {etiquetas, handleIcono} = useEtiqueta();
+  const {handleIcono} = useEtiqueta();
 
   const [listaAbierta, setListaAbierta] = useState(false);
   const handleLista = () => setListaAbierta(!listaAbierta);

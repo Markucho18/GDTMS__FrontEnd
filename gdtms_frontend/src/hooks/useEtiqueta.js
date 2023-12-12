@@ -1,46 +1,34 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from 'axios';
+import { MainContext } from "../contexts/MainContext";
 
 export function useEtiqueta(initialValue) {
 
-    const [etiquetas, setEtiquetas] = useState([]);
-
-    const getEtiquetas = async () => {
-        console.log("Se ha ejecutado getEtiquetas()");
-        axios.get("http://localhost:3001/etiquetas")
-        .then((etiquetasRes)=> setEtiquetas(etiquetasRes.data.result) )
-        .catch((err)=> console.log("Ha ocurrido un error en getEtiquetas(): ", err))
-    };
+    const { etiquetas } = useContext(MainContext);
 
     //CONTEXTO: AMBAS FUNCIONES GET SE ESTAN EJECUTANDO MUCHAS VECES Y NO SE PQ.
 
-    const getNomEtiqueta = (idEtiqueta)=>{
-        console.log("Se ha ejecuto getNomEtiqueta()");
-        if(etiquetas !== undefined){
-            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
-            if(etiquetaEncontrada){
-                /* console.log("etiquetaEncontrada: ", etiquetaEncontrada);
-                console.log("etiquetaEncontrada.nombre: ", etiquetaEncontrada.nombre); */
-                return etiquetaEncontrada.nombre
-            }
-            else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
-        } else console.log("Etiquetas es undefined");
-    }
-
-    const getColor = (idEtiqueta)=>{
-        console.log("Se ha ejecutado getColor()")
-        if(etiquetas !== undefined){
-            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
-            if(etiquetaEncontrada){
-                /* console.log("etiquetaEncontrada: ", etiquetaEncontrada);
-                console.log("etiquetaEncontrada.color: ", etiquetaEncontrada.color); */
-                return etiquetaEncontrada.color
-            }
-            else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
-        } else console.log("Etiquetas es undefined");
-    }
-
     const [nomEtiqueta, setNomEtiqueta] = useState("");
+    const getNomEtiqueta = (idEtiqueta)=>{
+        if(etiquetas !== undefined){
+            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
+            if(etiquetaEncontrada){
+                setNomEtiqueta(etiquetaEncontrada.nombre); 
+            }
+            else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
+        } else console.log("Etiquetas es undefined");
+    }
+
+    const [color ,setColor] = useState("");
+    const getColor = (idEtiqueta)=>{
+        if(etiquetas !== undefined){
+            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
+            if(etiquetaEncontrada){
+                setColor(etiquetaEncontrada.color);
+            }
+            else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
+        } else console.log("Etiquetas es undefined");
+    }
 
     const handleIcono = (idEtiqueta)=>{
         if(idEtiqueta !== undefined || idEtiqueta !== 0){
@@ -58,9 +46,5 @@ export function useEtiqueta(initialValue) {
         else console.log("handleIcono() ha recibido un idEtiqueta no valido: ", idEtiqueta); 
     }
 
-    useEffect(()=>{
-        getEtiquetas();
-    },[])
-
-    return { etiquetas, setEtiquetas, getEtiquetas, nomEtiqueta, setNomEtiqueta, getNomEtiqueta, handleIcono, getColor};
+    return {nomEtiqueta, setNomEtiqueta, getNomEtiqueta, handleIcono, color,  getColor};
 }

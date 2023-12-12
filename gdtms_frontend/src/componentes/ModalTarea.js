@@ -12,7 +12,7 @@ export function ModalTarea() {
 
   const {token, tokenValido, verificarToken} = useContext(TokenContext);
 
-  const { actualizarTareas } = useContext(MainContext);
+  const { actualizarTareas, etiquetas, getEtiquetas} = useContext(MainContext);
 
   const initialFormData = modalAbierto === "editar" ? datosTarea : {
     nombre: "",
@@ -23,8 +23,6 @@ export function ModalTarea() {
   }
 
   const {formData, setFormData, handleInputChange} = useFormData(initialFormData);
-
-  const {etiquetas , getEtiquetas} = useEtiqueta()
 
   useEffect(()=>{
     getEtiquetas();
