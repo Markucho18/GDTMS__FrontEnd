@@ -8,23 +8,31 @@ export function useEtiqueta(initialValue) {
 
     //CONTEXTO: AMBAS FUNCIONES GET SE ESTAN EJECUTANDO MUCHAS VECES Y NO SE PQ.
 
-    const [nomEtiqueta, setNomEtiqueta] = useState("");
-    const getNomEtiqueta = (idEtiqueta)=>{
+    const getIdEtiqueta = (nomEtiqueta) =>{
         if(etiquetas !== undefined){
-            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
+            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.nombre == nomEtiqueta);
             if(etiquetaEncontrada){
-                setNomEtiqueta(etiquetaEncontrada.nombre); 
+                return etiquetaEncontrada.id_etiqueta
             }
             else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
         } else console.log("Etiquetas es undefined");
     }
 
-    const [color ,setColor] = useState("");
+    const getNomEtiqueta = (idEtiqueta)=>{
+        if(etiquetas !== undefined){
+            const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
+            if(etiquetaEncontrada){
+                return etiquetaEncontrada.nombre 
+            }
+            else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
+        } else console.log("Etiquetas es undefined");
+    }
+
     const getColor = (idEtiqueta)=>{
         if(etiquetas !== undefined){
             const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.id_etiqueta == idEtiqueta);
             if(etiquetaEncontrada){
-                setColor(etiquetaEncontrada.color);
+                return etiquetaEncontrada.color
             }
             else console.log("etiquetaEncontrada es undefined ", etiquetaEncontrada)
         } else console.log("Etiquetas es undefined");
@@ -46,5 +54,5 @@ export function useEtiqueta(initialValue) {
         else console.log("handleIcono() ha recibido un idEtiqueta no valido: ", idEtiqueta); 
     }
 
-    return {nomEtiqueta, setNomEtiqueta, getNomEtiqueta, handleIcono, color,  getColor};
+    return {getIdEtiqueta, getNomEtiqueta, getColor, handleIcono};
 }

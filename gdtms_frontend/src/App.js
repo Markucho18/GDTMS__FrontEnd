@@ -19,7 +19,7 @@ function App() {
 
   const { consulta, getEtiquetas} = useContext(MainContext);
 
-  const { tokenValido, getUserId } = useContext(TokenContext);
+  const { tokenValido} = useContext(TokenContext);
 
   const { modalAbierto } = useContext(ModalContext);
 

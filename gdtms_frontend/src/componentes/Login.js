@@ -36,7 +36,7 @@ export function Login({ handleForm }) {
           }
         }).catch((err)=> console.log("Ha ocurrido un error al verificar la contraseña: ", err))
       }
-    })
+    }).catch((err)=> console.log("Ha ocurrido un error la validar el usuario: ", err))
   }
 
   return (

@@ -27,12 +27,19 @@ export function TokenContextProvider({children}){
         }).catch((err)=> console.log("Hubo un error al verificar el token", err) )
     };
 
+    const cerrarSesion = ()=>{
+        let respuesta = window.confirm("Estas seguro de cerrar sesion?");
+        if(respuesta === true){
+            setToken("");
+            verificarToken();
+        }
+    }
+
     const [userId, setUserId] = useState();
 
     const getUserId = ()=>{
         axios.post("http://localhost:3001/usuarios/obtenerId", {token})
         .then((res)=>{
-            console.log("res: ", res);
             setUserId(res.data.result[0].id_usuario);
         })
         .catch((err)=> console.log("Ha ocurrido un error en getUserId: ", err))
@@ -48,7 +55,7 @@ export function TokenContextProvider({children}){
     },[token])
 
     return (
-        <TokenContext.Provider value={{token, setToken, tokenValido, setTokenValido, crearToken, verificarToken, userId, getUserId}}>
+        <TokenContext.Provider value={{token, setToken, tokenValido, setTokenValido, crearToken, verificarToken, userId, getUserId, cerrarSesion}}>
             {children}
         </TokenContext.Provider>
     )

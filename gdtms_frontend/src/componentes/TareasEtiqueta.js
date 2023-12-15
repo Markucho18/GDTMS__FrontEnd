@@ -3,6 +3,7 @@ import {Tarea} from "./Tarea";
 import { MainContext } from '../contexts/MainContext';
 import axios from 'axios';
 import { TokenContext } from '../contexts/TokenContext';
+import { useEtiqueta } from '../hooks/useEtiqueta';
 
 export function TareasEtiqueta({etiqueta}) {
 
@@ -12,34 +13,31 @@ export function TareasEtiqueta({etiqueta}) {
 
   const {userId} = useContext(TokenContext);
 
+  const {getIdEtiqueta} = useEtiqueta();
+
   //CONTEXTO: SOLO ME DEVUELVE LAS TAREAS DE ALGUNAS ETIQUETAS, DE OTRAS NO DEVUELVE NADA (error en tareas/etiqueta).
 
   const  getTareas = async ()=>{
     console.log("getTareas() ha recibido en etiqueta: ", etiqueta)
     //Obtengo el ID de la etiqueta mediante el nombre
-    axios.get(`http://localhost:3001/etiquetas/getId?nomEtiqueta=${etiqueta}`)
-        .then((nomEtiquetaRes) => {
-          const idEtiqueta = nomEtiquetaRes.data.result[0].id_etiqueta;
-          //Obtengo las tareas con esa etiqueta mediante el idEtiqueta
-          axios.get(`http://localhost:3001/tareas/etiqueta?idEtiqueta=${idEtiqueta}&userId=${userId}`)
-            .then((etiquetaRes) => {
-              if (etiquetaRes) {
-                const etiquetaArray = etiquetaRes.data.result;
-                console.log("Se ha recibido respuesta desde el BackEnd & etiquetaARRAY es: ", etiquetaArray);
-                formatearFechas(etiquetaArray);
-                etiquetaArray.sort((a, b)=> a.prioridad - b.prioridad);
-                setTareas(etiquetaArray);
-              } else {
-                console.log("No hubo respuesta etiqueta desde el backend");
-              }
-            })
-            .catch((err) => {
-              console.log(`getTareas x idEtiqueta error: ${err}`);
-            });
-        })
-        .catch((err) => {
-          console.log(`getIdEtiqueta error: ${err}`);
-        });
+    const idEtiqueta = getIdEtiqueta(etiqueta);
+    console.log("idEtiqueta: ", idEtiqueta)
+    //Obtener las tareas mediante el ID
+    axios.get(`http://localhost:3001/tareas/etiqueta?idEtiqueta=${idEtiqueta}&userId=${userId}`)
+      .then((etiquetaRes) => {
+        if (etiquetaRes) {
+          const etiquetaArray = etiquetaRes.data.result;
+          console.log("Se ha recibido respuesta desde el BackEnd & etiquetaARRAY es: ", etiquetaArray);
+          formatearFechas(etiquetaArray);
+          etiquetaArray.sort((a, b)=> a.prioridad - b.prioridad);
+          setTareas(etiquetaArray);
+        } else {
+          console.log("No hubo respuesta etiqueta desde el backend");
+        }
+      })
+      .catch((err) => {
+        console.log(`getTareas x idEtiqueta error: ${err}`);
+      });
   } 
 
   useEffect(() => {
@@ -60,7 +58,6 @@ export function TareasEtiqueta({etiqueta}) {
 
   return (
       <div className='tareasEtiqueta'>
-        <span>Este es el componente TareasEtiqueta y se ha obtenido: {etiqueta}</span>
           <div className='listaTareas col'>
             {tareas && tareas.length > 0 ? (
                 tareas.map((tarea, i) => (

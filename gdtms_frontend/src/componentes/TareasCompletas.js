@@ -34,14 +34,18 @@ export function TareasCompletas(){
     //CONTEXTO: ME TIRA ERROR
 
     const limpiarTareas = ()=>{
-        axios.delete(`http://localhost:3001/tareas/completas?userId=${userId}`)
-        .then((res)=>{
-            if (res) {
-                console.log("Backend: ", res.data);
-                actualizarTareas();
-            }
-            else console.log("No hubo respuesta limpiarTareas() desde el backend");
-        }).catch((err)=> console.log("Ha ocurrido un error en limpiarTareas(): ", err))
+        let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
+        if(confirmar === true){
+            axios.delete(`http://localhost:3001/tareas/completas?userId=${userId}`)
+            .then((res)=>{
+                if (res) {
+                    console.log("Backend: ", res.data);
+                    actualizarTareas();
+                }
+                else console.log("No hubo respuesta limpiarTareas() desde el backend");
+            }).catch((err)=> console.log("Ha ocurrido un error en limpiarTareas(): ", err))
+        }
+        else return
     }
 
     useEffect(() => {

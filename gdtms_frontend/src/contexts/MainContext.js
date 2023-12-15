@@ -36,7 +36,6 @@ export function MainContextProvider({ children }) {
     const [etiquetas, setEtiquetas] = useState([]);
 
     const getEtiquetas = async () => {
-        console.log("Se ha ejecutado getEtiquetas()");
         axios.get("http://localhost:3001/etiquetas")
         .then((etiquetasRes)=>{
             console.log(etiquetasRes.data);

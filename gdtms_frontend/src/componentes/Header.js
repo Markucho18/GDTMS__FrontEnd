@@ -8,7 +8,7 @@ export function Header(){
 
     const {abrirModalTarea} = useContext(ModalContext);
 
-    const {userId} = useContext(TokenContext);
+    const {cerrarSesion} = useContext(TokenContext);
 
     return (
         <div className="contenedorHeader row">
@@ -17,7 +17,7 @@ export function Header(){
                 <Busqueda/>
             </div>
             <div className='acciones row cen'>
-                <span className="btnConfig"> <i className="fa-solid fa-right-from-bracket"></i> </span>
+                <span className="btnLogout"> <i className="fa-solid fa-right-from-bracket"></i> </span>
                 <span className="btnCrearTarea" onClick={()=> abrirModalTarea("crear")}><i className="fa-solid fa-plus"></i> </span>
             </div>
         </div>

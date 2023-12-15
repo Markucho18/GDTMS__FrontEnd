@@ -6,7 +6,7 @@ import { useEtiqueta } from "../hooks/useEtiqueta";
 
 export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
-  const {actualizarTareas, consulta} = useContext(MainContext);
+  const {actualizarTareas} = useContext(MainContext);
 
   const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
   
@@ -38,18 +38,15 @@ export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVi
         setEstado(0);
       }).catch((err)=> console.log("Ha ocurrido un error en toggleEstado: ", err))
     }
-    
   }
   
-  const {nomEtiqueta, getNomEtiqueta, color, getColor} = useEtiqueta();
+  const {getNomEtiqueta, getColor} = useEtiqueta();
 
   //EN VEZ DE PEDIR LA ETIQUETAS DESDE EL BACK CADA QUE SE RENDERIZE EL COMPONENTE,
   //PEDIRLAS UNA VEZ; MEMOIZAR Y SIMPLEMENTE EMPAREJARLAS (SE MUESTRAN MAS RAPIDO)
 
   useEffect(()=>{
     setEstado(estadoTarea);
-    getColor(idEtiqueta);
-    getNomEtiqueta(idEtiqueta);
   },[])
 
   
@@ -81,7 +78,7 @@ export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVi
           <i className="fa-regular fa-calendar"></i>
           {fechaVista == null ? "Sin Fecha" : fechaVista}
         </span>
-        <span className="etiqueta" style={{backgroundColor: color && color}}>{nomEtiqueta && nomEtiqueta}</span>
+        <span className="etiqueta" style={{backgroundColor: getColor(idEtiqueta)}}>{getNomEtiqueta(idEtiqueta)}</span>
       </div>
       <div className="seccionTarea row">
         <span className="desc">{descripcion == null ? "Sin descripcion..." : descripcion}</span>
