@@ -46,7 +46,7 @@ export function TareasBusqueda({textoBusqueda}) {
     },[actualizacion])
 
     return (
-        <div className='tareasBusqueda'>
+        <div className='tareas'>
             <div className='listaTareas col'>
                 <span className='tareasTotales'>{tareas && tareas.length > 0 ? `Coincidencias: ${tareas.length}` : "No se encontraron coincidencias"}</span>
                 {tareas && tareas.length > 0 ? (

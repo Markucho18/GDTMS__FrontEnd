@@ -49,7 +49,7 @@ export function TareasHoy() {
 
 
     return (
-        <div className='tareasHoy'>
+        <div className='tareas'>
             <div className='listaTareas col'>
                 <span className='tareasTotales'>{tareas && tareas.length > 0 ? `Tareas Totales: ${tareas.length}` : "No hay tareas"}</span>
                 {tareas && tareas.length > 0 ? (

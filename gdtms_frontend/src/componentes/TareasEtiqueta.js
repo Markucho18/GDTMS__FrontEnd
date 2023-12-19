@@ -57,7 +57,7 @@ export function TareasEtiqueta({etiqueta}) {
       
 
   return (
-      <div className='tareasEtiqueta'>
+      <div className='tareas'>
           <div className='listaTareas col'>
             {tareas && tareas.length > 0 ? (
                 tareas.map((tarea, i) => (

@@ -34,7 +34,7 @@ export function TareasCompletas(){
     //CONTEXTO: ME TIRA ERROR
 
     const limpiarTareas = ()=>{
-        let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
+        let confirmar = window.confirm("Estas seguro de eliminar todas las tareas completas");
         if(confirmar === true){
             axios.delete(`http://localhost:3001/tareas/completas?userId=${userId}`)
             .then((res)=>{
@@ -64,7 +64,7 @@ export function TareasCompletas(){
     },[actualizacion])
 
     return (
-        <div className='tareasCompletas'>
+        <div className='tareas'>
             <div className='listaTareas col'>
                 <div className="row cen">
                     <span className='tareasTotales'>{tareas && tareas.length > 0 ? `Tareas Totales: ${tareas.length}` : "No hay tareas"}</span>

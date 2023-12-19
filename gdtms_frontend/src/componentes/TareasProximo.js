@@ -94,10 +94,12 @@ export function TareasProximo(){
     },[actualizacion])
 
     return(
-        <div className='tareasProximo'>
-            <input type="date" value={fecha} onChange={handleInputChange}/>
-            <button onClick={()=> tareasPorFecha(fecha)}>Buscar Tareas</button>
-            <button onClick={()=> setDatosFecha([])}>X</button>
+        <div className='tareas'>
+            <div className='proximoAcciones row cen'> 
+                <input type="date" value={fecha} onChange={handleInputChange}/>
+                <button onClick={()=> tareasPorFecha(fecha)}>Buscar Tareas</button>
+                <button onClick={()=> setDatosFecha([])}>X</button>
+            </div>
             {datosFecha && datosFecha.length > 0 ? (
                 datosFecha.map((dato)=>(
                     <ProximoSeccion dato={dato} />

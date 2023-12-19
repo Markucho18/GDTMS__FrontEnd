@@ -95,7 +95,7 @@ export function TareasInbox() {
     const handleCaducadas = ()=> setCaducadas(!caducadas);
 
     return (
-        <div className='tareasInbox'>
+        <div className='tareas'>
             <div className='desplegable row'>
                 <span>{`Tareas sin fecha(${tareasSinFecha.length}):`}</span>
                 <div className='acciones row'>

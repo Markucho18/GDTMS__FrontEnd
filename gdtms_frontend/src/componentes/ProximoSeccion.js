@@ -38,7 +38,7 @@ export function ProximoSeccion ({dato}){
                     </div>
                 ) : <p>No se recibio fecha xd</p>}
                 {visible === true && (
-                    <div className="listaTareas col">
+                    <div className="listaTareas listaProximo col">
                         {tareasOrdenadas && tareasOrdenadas.length > 0 ? (
                             tareasOrdenadas.map((tarea, i) => (
                                 <Tarea

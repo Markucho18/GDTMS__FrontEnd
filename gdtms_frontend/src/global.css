@@ -11,6 +11,7 @@ body{
 
 .sidebarMain{
     height: 100%;
+    overflow: hidden;
 }
 
 /* COLORES --------------------------------------------------- */
@@ -206,14 +207,31 @@ body{
     color: cornflowerblue;
 }
 
+.contenedorMain .tareas{
+    overflow-y: auto;
+}
+
 .listaTareas{
     gap: 5px;
+}
+
+.listaTareas.listaProximo{
+    padding-left: 10px;
 }
 
 .tareasTotales{
     padding: 10px;
     font-size: 20px;
     color: black;
+}
+
+.proximoAcciones{
+    margin: 10px;
+    gap: 10px;
+}
+
+.proximoAcciones *{
+    font-size: 18px;
 }
 
 /* ESTILOS TAREA -----------------------------------------------------------------*/
