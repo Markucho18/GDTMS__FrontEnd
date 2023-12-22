@@ -1,12 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Tarea } from "./Tarea";
 import { useVisible } from "../hooks/useVisible";
-import { MainContext } from "../contexts/MainContext";
 
 export function ProximoSeccion ({dato}){
 
-    const { actualizarTareas } = useContext(MainContext);
-
+    //Devuelve un string de la fecha que mostrara la interfaz en base a la fecha recibida.
     function obtenerFecha(fecha) {
         const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         const dia = diasSemana[new Date(fecha).getDay()];
@@ -15,10 +13,14 @@ export function ProximoSeccion ({dato}){
         const mes = meses[new Date(fecha).getMonth()];
         const anio = new Date(fecha).getFullYear();
         return `${dia}, ${numFecha} de ${mes} de ${anio}`;
+        //Ejemplo: Martes, 19 de Diciembre de 2023
     }
 
+    //Un custom hook que permite que cada seccion maneje su propia variable para mostrar/ocultar.
+    //Si cada ProximoSeccion renderizado usara una variable propia del componente se alterarian entre si, o eso me pasó.
     const {visible, handleVisible} = useVisible(false);
 
+    //Ordena las fechas al renderizar
     const [tareasOrdenadas, setTareasOrdenadas] = useState([]);
     useEffect(()=>{
         setTareasOrdenadas(dato.tareas.sort((a, b)=> a.prioridad - b.prioridad));
@@ -33,10 +35,10 @@ export function ProximoSeccion ({dato}){
             <div>
                 {dato.fecha && dato.fecha.length > 0 ? (
                     <div className='desplegable row'>
-                    <span>{`(${dato.tareas.length}) ${obtenerFecha(dato.fecha)}`}</span>
-                    <i className="fa-solid fa-angle-down flechita" onClick={handleVisible}></i>
+                        <span>{`(${dato.tareas.length}) ${obtenerFecha(dato.fecha)}`}</span>
+                        <i className="fa-solid fa-angle-down flechita" onClick={handleVisible}></i>
                     </div>
-                ) : <p>No se recibio fecha xd</p>}
+                ) : <p>No se recibio fecha</p>}
                 {visible === true && (
                     <div className="listaTareas listaProximo col">
                         {tareasOrdenadas && tareasOrdenadas.length > 0 ? (

@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
 import {Tarea} from "./Tarea";
-import axios from 'axios';
 import { MainContext } from '../contexts/MainContext';
 import { TokenContext } from '../contexts/TokenContext';
+import axios from 'axios';
 
 export function TareasBusqueda({textoBusqueda}) {
 
@@ -13,12 +13,10 @@ export function TareasBusqueda({textoBusqueda}) {
     const [tareas, setTareas] = useState()
 
     const getTareas = async ()=>{
-        console.log("getTareas ha recibido textoBusqueda: ", textoBusqueda)
         axios.post("http://localhost:3001/tareas/buscar", {textoBusqueda, userId})
         .then((busquedaRes) => {
             if (busquedaRes) {
                 const busquedaArray = busquedaRes.data.result;
-                console.log("Se ha recibido respuesta desde el BackEnd & BUSQUEDAARRAY es: ", busquedaArray);
                 formatearFechas(busquedaArray);
                 busquedaArray.sort((a, b)=> a.prioridad - b.prioridad);
                 setTareas(busquedaArray);

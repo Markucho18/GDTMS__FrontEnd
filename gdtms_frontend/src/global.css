@@ -145,28 +145,13 @@ body{
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 70%);
 }
 
-.btnLogout{
-    cursor: pointer;
-    background-color: cornflowerblue;
-    font-size: 30px;
-    font-weight: bold;
-    padding: 10px 10px;
-    border-radius: 50%;
-    transition: transform .3s ease-in-out, background .2s;
-}
-
-.btnLogout:hover{
-    background: rgb(82, 130, 221);
-    transform: scale(110%);
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 70%);
-}
-
 /* ESTILOS SIDEBAR -----------------------------------------------------------------*/
 .contenedorSidebar{
     background-color: dimgray;
     min-width: 15%;
     height: 100%;
     border-right: 2px solid black;
+    overflow-y: auto;
 }
 
 /* ESTILOS SIDEBARSECCION -----------------------------------------------------------------*/
@@ -193,7 +178,7 @@ body{
     padding-left: 30px;
 }
 
-/* ESTILOS MAIN -----------------------------------------------------------------*/
+/* ESTILOS PANTALLA TAREAS -----------------------------------------------------------------*/
 .contenedorMain{
     flex-grow: 1;
 }

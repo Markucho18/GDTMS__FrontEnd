@@ -25,11 +25,11 @@ export function TareasInbox() {
                 console.log("sinFechaRes: ", sinFechaRes);
                 if (sinFechaRes) {
                     const sinFechaArray = sinFechaRes.data.result;
-                    console.log("Se ha recibido respuesta desde el BackEnd & sinFechaARRAY es: ", sinFechaArray);
                     if (sinFechaArray !== undefined){
                         sinFechaArray.sort((a, b)=> a.prioridad - b.prioridad);
                         setTareasSinFecha(sinFechaArray);
                     }
+                    else console.log("sinFechaArray es undefined");
                 }
                 else console.log("No hubo respuesta sinFecha desde el backend");
             }) .catch((err) => console.log(`sinFechaRes error: ${err}`) )
@@ -41,7 +41,6 @@ export function TareasInbox() {
                 console.log("caducadasRes: ", caducadasRes);
                 if(caducadasRes){
                     const caducadasArray = caducadasRes.data.result;
-                    console.log("Se ha recibido respuesta desde el BackEnd & CADUCADASARRAY es: ", caducadasArray);
                     if(caducadasArray !== undefined){
                         formatearFechas(caducadasArray);
                         caducadasArray.sort((a, b)=> a.prioridad - b.prioridad);
@@ -88,7 +87,6 @@ export function TareasInbox() {
     },[actualizacion])
 
     //Mostrar o ocultar
-    
     const [sinFecha, setSinFecha] = useState(false)
     const [caducadas, setCaducadas] = useState(false)
     const handleSinFecha = ()=> setSinFecha(!sinFecha);

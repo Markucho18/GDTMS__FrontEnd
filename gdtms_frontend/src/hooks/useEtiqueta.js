@@ -6,8 +6,6 @@ export function useEtiqueta(initialValue) {
 
     const { etiquetas } = useContext(MainContext);
 
-    //CONTEXTO: AMBAS FUNCIONES GET SE ESTAN EJECUTANDO MUCHAS VECES Y NO SE PQ.
-
     const getIdEtiqueta = (nomEtiqueta) =>{
         if(etiquetas !== undefined){
             const etiquetaEncontrada = etiquetas.find(etiqueta => etiqueta.nombre == nomEtiqueta);
@@ -38,6 +36,7 @@ export function useEtiqueta(initialValue) {
         } else console.log("Etiquetas es undefined");
     }
 
+    //Le asigna un icono segun el Id
     const handleIcono = (idEtiqueta)=>{
         if(idEtiqueta !== undefined || idEtiqueta !== 0){
             if(idEtiqueta === 1 ) return "fa-solid fa-code" //Programacion

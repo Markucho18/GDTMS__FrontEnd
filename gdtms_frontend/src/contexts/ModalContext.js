@@ -8,9 +8,9 @@ export function ModalContextProvider({children}){
 
     const [datosTarea, setDatosTarea] = useState();
 
-    useEffect(()=>{
+/*     useEffect(()=>{
         console.log("En modalContext, datosTareas es: ", datosTarea);
-    },[datosTarea])
+    },[datosTarea]) */
 
     const handleDatosTarea = (datos) => setDatosTarea(datos);
 

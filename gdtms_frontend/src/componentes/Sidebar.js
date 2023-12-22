@@ -1,6 +1,5 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
-import axios from 'axios';
 import { MainContext } from "../contexts/MainContext";
 import { useEtiqueta } from "../hooks/useEtiqueta";
 

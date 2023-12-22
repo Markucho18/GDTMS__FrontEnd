@@ -13,7 +13,6 @@ export function TareasHoy() {
     const [tareas, setTareas] = useState()
     
     const getTareas = async ()=>{
-        console.log("userId: ", userId);
         axios.get(`http://localhost:3001/tareas/hoy?userId=${userId}`)
             .then((hoyRes) => {
                 if (hoyRes) {

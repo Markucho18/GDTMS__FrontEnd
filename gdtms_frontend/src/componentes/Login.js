@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext} from "react";
+import { useState, useContext} from "react";
 import {useFormData} from "../hooks/useFormData";
 import axios from "axios";
 import { TokenContext } from "../contexts/TokenContext";
@@ -26,8 +26,7 @@ export function Login({ handleForm }) {
         .then((res)=>{
           if (res.data === false) return setMsgError("La contraseña no es correcta");
           else{
-            if(msgError)
-            setMsgError("");
+            if(msgError) setMsgError("");
             setFormData({
               username: "",
               password: "",
@@ -70,6 +69,7 @@ export function Login({ handleForm }) {
           </span>
         </form>
       </div>
+      {/* Muestra el mensaje de error que obtenga de validarDatos() */}
       {msgError.length > 0 ? (
         <span className="msgError">{msgError}</span>
       ) : null}

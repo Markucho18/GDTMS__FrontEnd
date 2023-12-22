@@ -1,19 +1,19 @@
-import { useState, useContext, useEffect} from "react";
+import { useContext, useEffect} from "react";
 import { useFormData } from '../hooks/useFormData';
-import axios from "axios";
 import { TokenContext } from '../contexts/TokenContext';
 import { ModalContext } from '../contexts/ModalContext';
 import { MainContext } from '../contexts/MainContext';
-import { useEtiqueta} from '../hooks/useEtiqueta';
+import axios from "axios";
 
 export function ModalTarea() {
   
   const {modalAbierto, datosTarea, cerrarModalTarea} = useContext(ModalContext);
 
-  const {token, tokenValido, verificarToken} = useContext(TokenContext);
+  const {tokenValido, verificarToken, userId} = useContext(TokenContext);
 
   const { actualizarTareas, etiquetas, getEtiquetas} = useContext(MainContext);
 
+  //Si es llamado para editar pone los datos de la tarea
   const initialFormData = modalAbierto === "editar" ? datosTarea : {
     nombre: "",
     fecha: "",
@@ -28,41 +28,28 @@ export function ModalTarea() {
     getEtiquetas();
   },[])
 
-  useEffect(()=>{
-    console.log("ModalTarea.js ha recibido modalAbierto con el valor: ", modalAbierto);
-    console.log("ModalTarea.js ha recibido datosTarea con el valor: ", datosTarea);
-  },[modalAbierto, datosTarea])
-
   const crearTarea = async (e) => {
-    console.log("crearTarea se ha ejecutado");
     e.preventDefault();
     try{
       await verificarToken();
       if(tokenValido === true){
-        console.log("crearTarea() dice que el token es: ", token);
         if(formData.nombre.length < 5) throw new Error("La tarea debe contener un nombre");
         else{
-          //Obtiene el id de usuario
-          axios.post("http://localhost:3001/usuarios/obtenerId", {token})
-          .then((usuarioRes)=>{
-            const nuevoId = usuarioRes.data.result[0].id_usuario;
-            const nuevoformData = {...formData, idUsuario: nuevoId};
-            //Crea la tarea añadiendole ademas de los datos introducidos, el idUsuario
-            axios.post("http://localhost:3001/tareas/crear", nuevoformData)
-            .then((tareaRes)=>{
-              console.log("tareaRes: ", tareaRes);
-              alert("Tarea creada correctamente");
-              setFormData({
-                nombre: "",
-                fecha: "",
-                prioridad: "",
-                idEtiqueta: "",
-                descripcion: ""
-              })
-              actualizarTareas();
-              cerrarModalTarea();
-            }).catch((err)=> console.log("Hubo un error al consultar tareas/crear"))
-          }).catch((err)=> console.log("Hubo un error al consultar usuarios/obtenerId"))
+          //Añade el userId
+          const nuevoformData = {...formData, idUsuario: userId};
+          axios.post("http://localhost:3001/tareas/crear", nuevoformData)
+          .then((tareaRes)=>{
+            alert("Tarea creada correctamente");
+            setFormData({
+              nombre: "",
+              fecha: "",
+              prioridad: "",
+              idEtiqueta: "",
+              descripcion: ""
+            })
+            actualizarTareas();
+            cerrarModalTarea();
+          }).catch((err)=> console.log("Hubo un error al consultar tareas/crear"))
         }
       } else throw new Error("El token es invalido")
     }

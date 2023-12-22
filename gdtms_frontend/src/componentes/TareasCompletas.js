@@ -1,9 +1,8 @@
 import { useContext, useState , useEffect} from "react";
 import { Tarea } from "./Tarea";
 import { MainContext } from "../contexts/MainContext";
-import axios from 'axios';
 import { TokenContext } from "../contexts/TokenContext";
-import { areIntervalsOverlapping } from "date-fns";
+import axios from 'axios';
 
 export function TareasCompletas(){
 
@@ -18,7 +17,6 @@ export function TareasCompletas(){
         .then((res)=>{
             if (res) {
                 const completasArray = res.data.result;
-                console.log("Se ha recibido respuesta desde el BackEnd & completasARRAY es: ", completasArray);
                 formatearFechas(completasArray);
                 const completasOrdenadas = completasArray.sort((a, b) => {
                     const dateA = new Date(a.fecha);
@@ -31,17 +29,12 @@ export function TareasCompletas(){
         }).catch((err)=> console.log("Ha ocurrido un error en getTareas() (TareasCompletas): ", err))
     }
 
-    //CONTEXTO: ME TIRA ERROR
-
     const limpiarTareas = ()=>{
         let confirmar = window.confirm("Estas seguro de eliminar todas las tareas completas");
         if(confirmar === true){
             axios.delete(`http://localhost:3001/tareas/completas?userId=${userId}`)
             .then((res)=>{
-                if (res) {
-                    console.log("Backend: ", res.data);
-                    actualizarTareas();
-                }
+                if (res) actualizarTareas();
                 else console.log("No hubo respuesta limpiarTareas() desde el backend");
             }).catch((err)=> console.log("Ha ocurrido un error en limpiarTareas(): ", err))
         }

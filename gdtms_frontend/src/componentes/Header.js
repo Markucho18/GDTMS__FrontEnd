@@ -2,13 +2,10 @@ import { useContext } from 'react';
 import { ModalContext } from '../contexts/ModalContext';
 import {Busqueda} from './Busqueda';
 import tskLogo from '../assets/TskLogo.png';
-import { TokenContext } from '../contexts/TokenContext';
 
 export function Header(){
 
     const {abrirModalTarea} = useContext(ModalContext);
-
-    const {cerrarSesion} = useContext(TokenContext);
 
     return (
         <div className="contenedorHeader row">
@@ -17,7 +14,6 @@ export function Header(){
                 <Busqueda/>
             </div>
             <div className='acciones row cen'>
-                <span className="btnLogout"> <i className="fa-solid fa-right-from-bracket"></i> </span>
                 <span className="btnCrearTarea" onClick={()=> abrirModalTarea("crear")}><i className="fa-solid fa-plus"></i> </span>
             </div>
         </div>

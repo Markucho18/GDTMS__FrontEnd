@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import axios from 'axios';
 import { ModalContext } from '../contexts/ModalContext';
 import { MainContext } from "../contexts/MainContext";
 import { useEtiqueta } from "../hooks/useEtiqueta";
+import axios from 'axios';
 
 export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVista, idTarea, idEtiqueta, descripcion}) {
 
@@ -10,6 +10,8 @@ export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVi
 
   const {abrirModalTarea, handleDatosTarea} = useContext(ModalContext);
   
+  const {getNomEtiqueta, getColor} = useEtiqueta();
+
   const eliminarTarea = async ()=>{
     let confirmar = window.confirm("Estas seguro de eliminar esta tarea?");
     if(confirmar === true){
@@ -27,29 +29,20 @@ export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVi
       //Completar la tarea
       axios.put("http://localhost:3001/tareas/completar", {idTarea, estado: 1})
       .then((res)=>{
-        console.log(res.data);
         setEstado(1);
       }).catch((err)=> console.log("Ha ocurrido un error en toggleEstado: ", err))
     }
     else{
       axios.put("http://localhost:3001/tareas/completar", {idTarea, estado: 0})
       .then((res)=>{
-        console.log(res.data);
         setEstado(0);
       }).catch((err)=> console.log("Ha ocurrido un error en toggleEstado: ", err))
     }
   }
   
-  const {getNomEtiqueta, getColor} = useEtiqueta();
-
-  //EN VEZ DE PEDIR LA ETIQUETAS DESDE EL BACK CADA QUE SE RENDERIZE EL COMPONENTE,
-  //PEDIRLAS UNA VEZ; MEMOIZAR Y SIMPLEMENTE EMPAREJARLAS (SE MUESTRAN MAS RAPIDO)
-
   useEffect(()=>{
     setEstado(estadoTarea);
   },[])
-
-  
 
   return (
     <div className={`contenedorTarea col cen ${estado == 1 ? "completa" : `p${prioridad}`}`}>
@@ -63,8 +56,8 @@ export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVi
         </div>
         <div className="acciones row">
           <span className="accion" onClick={()=>{
-          handleDatosTarea({idUsuario, idTarea, idEtiqueta, nombre, prioridad, fecha, descripcion});
-          abrirModalTarea("editar");
+            handleDatosTarea({idUsuario, idTarea, idEtiqueta, nombre, prioridad, fecha, descripcion});
+            abrirModalTarea("editar");
           }}>
             <i className="fa-solid fa-pen-to-square"></i>
           </span>

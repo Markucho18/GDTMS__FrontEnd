@@ -1,4 +1,3 @@
-//Register.js
 import { useState } from "react";
 import { useFormData } from "../hooks/useFormData";
 import axios from "axios";
@@ -44,7 +43,6 @@ export function Register({ handleForm }) {
       //Enviar datos al backend:
       axios.post("http://localhost:3001/register", formData)
       .then((res)=>{
-        console.log("Datos enviados desde verificarDatos(): ", formData, "Datos recibidos desde el backend: ", res.data  )
         setFormData({
           username: "",
           email: "",
@@ -53,6 +51,7 @@ export function Register({ handleForm }) {
           confPassword: "",
         });
         alert("Datos enviados correctamente");
+        //Redirecciona al login
         handleForm();
       }).catch((err)=> console.log("Ha ocurrido un error al enviar datos dentro de verificarDatos(): ", err))
     }
@@ -128,6 +127,7 @@ export function Register({ handleForm }) {
           </span>
         </form>
       </div>
+      {/* Muestra el mensaje de error que obtenga de validarDatos() */}
       {msgError.length > 0 ? (
         <span className="msgError">{msgError}</span>
       ) : null}

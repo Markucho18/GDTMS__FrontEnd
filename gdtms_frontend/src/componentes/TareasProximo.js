@@ -43,7 +43,6 @@ export function TareasProximo(){
                     const proximoArray = proximoRes.data.result;
                     console.log("Se ha recibido respuesta desde el BackEnd & PROXIMOARRAY es: ", proximoArray);
                     const tareas = formatearFechas(proximoArray);
-                    //Devuelve un objeto con la fecha y tareas correspondientes (que se pone en datosSeccion)
                     if(fechasUnicas.length > 0 ){
                         const resultado = fechasUnicas.map(fecha => {
                             // Filtra las tareas que tienen la fecha actual
@@ -65,6 +64,7 @@ export function TareasProximo(){
         setFecha(value);
     }
 
+    //Buscar las tareas de una fecha exacta en datosSeccion.
     const tareasPorFecha = async (fecha)=>{
         if(datosSeccion && datosSeccion.length > 0){
             const tareasDeLaFecha = datosSeccion.filter((dato)=> dato.fecha === fecha);
@@ -101,12 +101,12 @@ export function TareasProximo(){
                 <button onClick={()=> setDatosFecha([])}>X</button>
             </div>
             {datosFecha && datosFecha.length > 0 ? (
-                datosFecha.map((dato)=>(
-                    <ProximoSeccion dato={dato} />
+                datosFecha.map((dato, i)=>(
+                    <ProximoSeccion key={i} dato={dato} />
                 ))
             ): (datosSeccion && datosSeccion.length > 0 ? (
-                datosSeccion.map((dato)=>(
-                    <ProximoSeccion dato={dato} />
+                datosSeccion.map((dato, i)=>(
+                    <ProximoSeccion key={i} dato={dato} />
                 ))
             ): <p className='tareasTotales'>No tienes tareas</p>) }
         </div>

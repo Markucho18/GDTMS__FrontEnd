@@ -13,7 +13,6 @@ import { TareasCompletas } from "./componentes/TareasCompletas";
 import { ModalContext } from './contexts/ModalContext';
 import { TokenContext } from "./contexts/TokenContext";
 import { MainContext } from "./contexts/MainContext";
-import { useEtiqueta } from "./hooks/useEtiqueta";
 
 function App() {
 
@@ -49,9 +48,8 @@ function App() {
           <Header />
           <div className="sidebarMain row">
             <Sidebar />
-            {/* Se renderizan tareas segun que consulta recibe */}
+            {/* Se renderiza un componente segun que consulta recibe */}
             <div className="contenedorMain col">
-              {/* ORDENAR TAREAS POR PRIORIDAD */}
               {consulta && (
                 consulta.fecha && (
                   (consulta.fecha === 'inbox' && <TareasInbox/>) ||

@@ -15,19 +15,14 @@ export function TareasEtiqueta({etiqueta}) {
 
   const {getIdEtiqueta} = useEtiqueta();
 
-  //CONTEXTO: SOLO ME DEVUELVE LAS TAREAS DE ALGUNAS ETIQUETAS, DE OTRAS NO DEVUELVE NADA (error en tareas/etiqueta).
-
   const  getTareas = async ()=>{
-    console.log("getTareas() ha recibido en etiqueta: ", etiqueta)
     //Obtengo el ID de la etiqueta mediante el nombre
     const idEtiqueta = getIdEtiqueta(etiqueta);
-    console.log("idEtiqueta: ", idEtiqueta)
     //Obtener las tareas mediante el ID
     axios.get(`http://localhost:3001/tareas/etiqueta?idEtiqueta=${idEtiqueta}&userId=${userId}`)
       .then((etiquetaRes) => {
         if (etiquetaRes) {
           const etiquetaArray = etiquetaRes.data.result;
-          console.log("Se ha recibido respuesta desde el BackEnd & etiquetaARRAY es: ", etiquetaArray);
           formatearFechas(etiquetaArray);
           etiquetaArray.sort((a, b)=> a.prioridad - b.prioridad);
           setTareas(etiquetaArray);
@@ -59,6 +54,7 @@ export function TareasEtiqueta({etiqueta}) {
   return (
       <div className='tareas'>
           <div className='listaTareas col'>
+            <span className='tareasTotales'>{tareas && tareas.length > 0 ? `Tareas Totales: ${tareas.length}` : "No hay tareas"}</span>
             {tareas && tareas.length > 0 ? (
                 tareas.map((tarea, i) => (
                     <Tarea

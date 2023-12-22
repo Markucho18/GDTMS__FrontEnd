@@ -18,7 +18,6 @@ export function TokenContextProvider({children}){
     const [tokenValido, setTokenValido] = useState(false);
     
     const verificarToken = async () => {
-        //Deberia haber un return antes del axios para que retorne una promesa y asi poder gestionarlo con .then/.catch en vez de async/await (en ModalTarea)
         axios.post("http://localhost:3001/token/verify", { token })
         .then((verifyRes)=>{
             setTokenValido(verifyRes.data.valido);
@@ -26,14 +25,6 @@ export function TokenContextProvider({children}){
             console.log("Se ha creado y verificado el token correctamente")
         }).catch((err)=> console.log("Hubo un error al verificar el token", err) )
     };
-
-    const cerrarSesion = ()=>{
-        let respuesta = window.confirm("Estas seguro de cerrar sesion?");
-        if(respuesta === true){
-            setToken("");
-            verificarToken();
-        }
-    }
 
     const [userId, setUserId] = useState();
 
@@ -45,9 +36,9 @@ export function TokenContextProvider({children}){
         .catch((err)=> console.log("Ha ocurrido un error en getUserId: ", err))
     }
 
-    useEffect(()=>{
+/*     useEffect(()=>{
         console.log("Se ha registrado el userId: ", userId);
-    },[userId])
+    },[userId]) */
 
     useEffect(()=>{
         if(token.length > 0) verificarToken()
@@ -55,7 +46,7 @@ export function TokenContextProvider({children}){
     },[token])
 
     return (
-        <TokenContext.Provider value={{token, setToken, tokenValido, setTokenValido, crearToken, verificarToken, userId, getUserId, cerrarSesion}}>
+        <TokenContext.Provider value={{token, setToken, tokenValido, setTokenValido, crearToken, verificarToken, userId, getUserId}}>
             {children}
         </TokenContext.Provider>
     )
