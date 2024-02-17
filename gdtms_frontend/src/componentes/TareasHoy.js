@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import {Tarea} from "./Tarea";
-import axios from 'axios';
 import { MainContext } from '../contexts/MainContext';
 import { TokenContext } from '../contexts/TokenContext';
+import axios from 'axios';
 
 export function TareasHoy() {
 
@@ -16,9 +16,7 @@ export function TareasHoy() {
         axios.get(`http://localhost:3001/tareas/hoy?userId=${userId}`)
             .then((hoyRes) => {
                 if (hoyRes) {
-                    console.log("hoyRes: ", hoyRes)
                     const hoyArray = hoyRes.data.result;
-                    console.log("Se ha recibido respuesta desde el BackEnd & HOYARRAY es: ", hoyArray);
                     formatearFechas(hoyArray);
                     hoyArray.sort((a, b)=> a.prioridad - b.prioridad);
                     setTareas(hoyArray);
