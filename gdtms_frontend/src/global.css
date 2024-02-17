@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body{
     margin: 0;
     padding: 0;
@@ -7,11 +11,6 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     width: 100vw;
     height: 100vh;
-}
-
-.sidebarMain{
-    height: 100%;
-    overflow: hidden;
 }
 
 /* COLORES --------------------------------------------------- */
@@ -77,111 +76,9 @@ body{
     color: black;
 }
 
-/* ESTILOS HEADER -----------------------------------------------------------------*/
-.contenedorHeader{
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 40px 20px;
-    width: 100%;
-    height: 70px;
-    color: white;
-    background-color: darksalmon;
-    border-bottom: 2px solid black;
-}
-
-.contenedorHeader .ladoIzquierdo{
-    gap: 20px;
-}
-
-.contenedorHeader img{
-    width: 60px;
-    height: 60px;
-}
-
-.contenedorHeader .busqueda{
-    width: 350px;
-    overflow: hidden;
-    border-radius: 20px;
-    background-color: white;
-    border: 1px solid black;
-}
-
-.contenedorHeader .busqueda input{
-    width: 100%;
-    padding: 15px;
-    font-size: 16px;
-    border: none;
-}
-
-.contenedorHeader .busqueda input:focus{
-    outline: none;
-}
-
-.contenedorHeader .busqueda .lupa{
-    padding: 15px;
-    color: black;
-    user-select: none;
-    cursor: pointer;
-}
-
-.contenedorHeader .busqueda .lupa:hover{
-    color: cornflowerblue;
-}
-
-.btnCrearTarea{
-    cursor: pointer;
-    background-color: red;
-    font-size: 30px;
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 50%;
-    transition: transform .3s ease-in-out, background .2s;
-}
-
-.btnCrearTarea:hover{
-    background: rgb(214, 33, 33);
-    transform: scale(110%);
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 70%);
-}
-
-/* ESTILOS SIDEBAR -----------------------------------------------------------------*/
-.contenedorSidebar{
-    background-color: dimgray;
-    min-width: 15%;
-    height: 100%;
-    border-right: 2px solid black;
-    overflow-y: auto;
-}
-
-/* ESTILOS SIDEBARSECCION -----------------------------------------------------------------*/
-.sidebarSeccion{
-    user-select: none;
-    width: 100%;
-    height: 60px;
-    cursor: pointer;
-    color: white;
-    font-size: 18px;
-    gap: 10px;
-    padding: 20px 10px;
-    box-sizing: border-box;
-    border-bottom: 2px solid rgb(50, 50, 50);
-    transition: height .3s ease-in-out;
-}
-
-.sidebarSeccion:hover{
-    background: rgb(143, 137, 137);
-    height: 70px;
-}
-
-.listaEtiquetas .sidebarSeccion{
-    padding-left: 30px;
-}
 
 /* ESTILOS PANTALLA TAREAS -----------------------------------------------------------------*/
-.contenedorMain{
-    flex-grow: 1;
-}
+
 
 .contenedorMain .flechita{
     cursor: pointer;

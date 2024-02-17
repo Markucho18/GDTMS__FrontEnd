@@ -93,15 +93,19 @@ export function TareasInbox() {
     const handleCaducadas = ()=> setCaducadas(!caducadas);
 
     return (
-        <div className='tareas'>
-            <div className='desplegable row'>
-                <span>{`Tareas sin fecha(${tareasSinFecha.length}):`}</span>
-                <div className='acciones row'>
-                    <i className="fa-solid fa-delete-left flechita" onClick={()=> limpiarTareas("sinFecha")}></i>
-                    <i className="fa-solid fa-angle-down flechita" onClick={handleSinFecha}></i>
+        <div>
+            <div className='flex justify-between border-2 border-black p-3 m-1 text-xl'>
+                <p>{`Tareas sin fecha(${tareasSinFecha.length}):`}</p>
+                <div className='flex gap-3'>
+                    <button>
+                      <i className="fa-solid fa-delete-left flechita" onClick={()=> limpiarTareas("sinFecha")}></i>
+                    </button>
+                    <button>
+                      <i className="fa-solid fa-angle-down flechita" onClick={handleSinFecha}></i>
+                    </button>
                 </div>
             </div>
-            <div className='listaTareas col'>
+            <ul className='flex flex-col gap-1 overflow-y-auto [&>li]:ml-5'>
                 {sinFecha === true &&
                     (tareasSinFecha && tareasSinFecha.length > 0 ? (
                         tareasSinFecha.map((tarea, i) => (
@@ -117,17 +121,21 @@ export function TareasInbox() {
                                 descripcion={tarea.descripcion}
                                 idUsuario={tarea.id_usuario}
                             />
-                    ))) : <p className='tareasTotales'>No hay tareas...</p>)            
+                    ))) : <p className='p-3 text-xl text-black'>No hay tareas...</p>)            
                 }
-            </div>
-            <div className='desplegable row'>
-                <span>{`Tareas caducadas(${tareasCaducadas.length}):`}</span>
-                <div className='acciones row'>
-                    <i className="fa-solid fa-delete-left flechita" onClick={()=> limpiarTareas("caducadas")}></i>
-                    <i className="fa-solid fa-angle-down flechita" onClick={handleCaducadas}></i>
+            </ul>
+            <div className='flex justify-between border-2 border-black p-3 m-1 text-xl'>
+                <p>{`Tareas caducadas(${tareasCaducadas.length}):`}</p>
+                <div className='flex gap-3'>
+                    <button>
+                      <i className="fa-solid fa-delete-left flechita" onClick={()=> limpiarTareas("caducadas")}></i>
+                    </button>
+                    <button>
+                      <i className="fa-solid fa-angle-down flechita" onClick={handleCaducadas}></i>
+                    </button>
                 </div>
             </div>
-            <div className='listaTareas col'>
+            <ul className='flex flex-col gap-1 overflow-y-auto [&>li]:ml-5'>
                 {caducadas === true &&
                     (tareasCaducadas && tareasCaducadas.length > 0 ? (
                         tareasCaducadas.map((tarea, i) => (
@@ -143,10 +151,9 @@ export function TareasInbox() {
                                 descripcion={tarea.descripcion}
                                 idUsuario={tarea.id_usuario}
                             />
-                    ))) : <p className='tareasTotales'>No hay tareas...</p>)            
+                    ))) : <p className='p-3 text-xl text-black'>No hay tareas...</p>)            
                 }
-            </div>
-
+            </ul>
         </div>
     )
 }

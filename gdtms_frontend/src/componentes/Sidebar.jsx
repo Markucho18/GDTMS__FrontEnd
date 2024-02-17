@@ -3,7 +3,7 @@ import { SidebarSeccion } from "./SidebarSeccion";
 import { MainContext } from "../contexts/MainContext";
 import { useEtiqueta } from "../hooks/useEtiqueta";
 
-export function Sidebar(props) {
+export function Sidebar() {
 
   const { enviarConsulta, etiquetas } = useContext(MainContext)
 
@@ -13,7 +13,7 @@ export function Sidebar(props) {
   const handleLista = () => setListaAbierta(!listaAbierta);
 
   return (
-    <div className="contenedorSidebar col">
+    <aside className="flex flex-col bg-zinc-600 h-full min-w-[250px] border-r-2 border-black overflow-y-auto ">
       <SidebarSeccion
         icono="fa-solid fa-inbox"
         texto="Inbox"
@@ -35,7 +35,7 @@ export function Sidebar(props) {
         click={handleLista}
       />
       {listaAbierta === true ? (
-        <div className="listaEtiquetas">
+        <div className="[&>button]:pl-8">
           {etiquetas.length > 0 &&
           etiquetas.map((etiqueta, i) => (
             <SidebarSeccion
@@ -53,6 +53,6 @@ export function Sidebar(props) {
         texto="Completas"
         click={()=> enviarConsulta({fecha: "completas"})}
       />
-    </div>
+    </aside>
   );
 }

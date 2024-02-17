@@ -44,26 +44,26 @@ export function TareasBusqueda({textoBusqueda}) {
     },[actualizacion])
 
     return (
-        <div className='tareas'>
-            <div className='listaTareas col'>
-                <span className='tareasTotales'>{tareas && tareas.length > 0 ? `Coincidencias: ${tareas.length}` : "No se encontraron coincidencias"}</span>
-                {tareas && tareas.length > 0 ? (
-                    tareas.map((tarea, i) => (
-                        <Tarea
-                            key={i}
-                            estadoTarea={tarea.estado}
-                            prioridad={tarea.prioridad}
-                            nombre={tarea.nombre}
-                            fecha={tarea.fecha}
-                            fechaVista={tarea.fechaVista}
-                            idTarea={tarea.id_tarea}
-                            idEtiqueta={tarea.id_etiqueta}
-                            descripcion={tarea.descripcion}
-                            idUsuario={tarea.id_usuario}
-                        />
-                    ))) : null
-                }
-            </div>
-        </div>
+      <ul className='flex flex-col gap-1 overflow-y-auto'>
+        <p className='p-3 text-xl text-black'>
+          {tareas && tareas.length > 0 ? `Coincidencias: ${tareas.length}` : "No se encontraron coincidencias"}
+        </p>
+        {tareas && tareas.length > 0 && (
+          tareas.map((tarea, i) => (
+            <Tarea
+              key={i}
+              estadoTarea={tarea.estado}
+              prioridad={tarea.prioridad}
+              nombre={tarea.nombre}
+              fecha={tarea.fecha}
+              fechaVista={tarea.fechaVista}
+              idTarea={tarea.id_tarea}
+              idEtiqueta={tarea.id_etiqueta}
+              descripcion={tarea.descripcion}
+              idUsuario={tarea.id_usuario}
+            />
+          )))
+          }
+      </ul>
     )
 }

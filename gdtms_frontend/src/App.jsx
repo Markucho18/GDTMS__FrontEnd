@@ -46,10 +46,10 @@ function App() {
       {tokenValido === true && (
         <>
           <Header />
-          <div className="sidebarMain row">
+          <div className="flex h-full overflow-hidden">
             <Sidebar />
             {/* Se renderiza un componente segun que consulta recibe */}
-            <div className="contenedorMain col">
+            <main className="flex flex-col grow">
               {consulta && (
                 consulta.fecha && (
                   (consulta.fecha === 'inbox' && <TareasInbox/>) ||
@@ -64,7 +64,7 @@ function App() {
                   <TareasBusqueda textoBusqueda={consulta.busqueda}/>
                 )
               )}
-            </div>
+            </main>
           </div>
         </>
       )}

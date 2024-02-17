@@ -45,37 +45,40 @@ export function Tarea({estadoTarea, idUsuario, prioridad, nombre, fecha, fechaVi
   },[])
 
   return (
-    <div className={`contenedorTarea col cen ${estado == 1 ? "completa" : `p${prioridad}`}`}>
-      <div className="seccionTarea superior row cen">
-        <div className="info cen">
+    <li
+      className={`p-3 m-1     contenedorTarea col cen ${estado == 1 ? "completa" : `p${prioridad}`}`}
+      style={{boxShadow: "0px 0px 3px 0px rgba(0, 0, 0, 70%)"}}  
+    >
+      <section className="flex items-center justify-between w-full mb-2 truncate">
+        <div className="flex items-center justify-center gap-2">
           <input type="checkbox" className="estadoTarea" checked={estado == 1 ? true : false} onChange={()=>{
             toggleEstado();
             actualizarTareas();
           }} />
-          <span className="nombreTarea">{nombre}</span>
+          <p className="text-xl">{nombre}</p>
         </div>
-        <div className="acciones row">
-          <span className="accion" onClick={()=>{
+        <div className="flex gap-3 items-center">
+          <button className="rounded border-[1px] border-black py-1 px-2 hover:bg-gray-100" onClick={()=>{
             handleDatosTarea({idUsuario, idTarea, idEtiqueta, nombre, prioridad, fecha, descripcion});
             abrirModalTarea("editar");
           }}>
             <i className="fa-solid fa-pen-to-square"></i>
-          </span>
-          <span className="accion" onClick={eliminarTarea}>
+          </button>
+          <button className="rounded border-[1px] border-black py-1 px-2 hover:bg-gray-100" onClick={eliminarTarea}>
             <i className="fa-solid fa-trash-can"></i>
-          </span>
+          </button>
         </div>
-      </div>
-      <div className="seccionTarea medio row">
-        <span className="fecha row">
+      </section>
+      <section className="flex w-full gap-3 items-center">
+        <p className="flex gap-1 items-center text-lg">
           <i className="fa-regular fa-calendar"></i>
           {fechaVista == null ? "Sin Fecha" : fechaVista}
-        </span>
-        <span className="etiqueta" style={{backgroundColor: getColor(idEtiqueta)}}>{getNomEtiqueta(idEtiqueta)}</span>
-      </div>
-      <div className="seccionTarea row">
-        <span className="desc">{descripcion == null ? "Sin descripcion..." : descripcion}</span>
-      </div>
-    </div>
+        </p>
+        <p className="p-1 rounded text-lg" style={{backgroundColor: getColor(idEtiqueta)}}>{getNomEtiqueta(idEtiqueta)}</p>
+      </section>
+      <section className="flex w-full">
+        <p className="desc">{descripcion == null ? "Sin descripcion..." : `${descripcion.slice(0, 60)}...`}</p>
+      </section>
+    </li>
   );
 }
