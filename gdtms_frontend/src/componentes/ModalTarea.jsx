@@ -90,54 +90,57 @@ export function ModalTarea() {
   }
 
   return (
-    <div className="fondoModal cen col">
-      <form onSubmit={modalAbierto === "editar" ? editarTarea : crearTarea} className="contenedorModal cen col">
-        <label className="row">
-          Nombre:
+    <div className="flex flex-col z-10 items-center justify-center fixed size-full top-0 left-0 bg-black/30">
+      <form
+        onSubmit={modalAbierto === "editar" ? editarTarea : crearTarea}
+        className="flex flex-col items-center justify-center w-[450px] h-[500px] rounded-lg px-3 gap-5 border-2 border-blue-500 bg-white text-lg"
+      >
+        <label className="flex items-center justify-start w-full gap-1">
+          <p className="w-1/4">Nombre:</p>
           <input
             type="text"
-            className="modalNombre"
+            className="grow border-2 border-black rounded px-1 focus:outline-none"
             name="nombre"
             value={formData.nombre}
             onChange={handleInputChange}
           />
         </label>
-        <label className="row">
-          Fecha:
+        <label className="flex items-center justify-start w-full gap-1">
+          <p className="w-1/4">Fecha:</p>
           <input
             type="date"
-            className="modalFecha"
+            className="grow text-center border-2 border-black rounded focus:outline-none"
             name="fecha"
             value={formData.fecha}
             onChange={handleInputChange}
           />
         </label>
-        <label className="row">
-          Prioridad:
+        <label className="flex items-center justify-start w-full gap-1">
+          <p className="w-1/4">Prioridad:</p>
           <select
-            className='modalPrioridad'
+            className='w-1/4 px-2 py-1 text-center rounded border-2 border-zinc-300'
             name="prioridad"
             value={formData.prioridad}
             onChange={handleInputChange}
           >
-            <option value={1} className="rojo">
+            <option value={1} className="bg-red-500 text-center">
               1
             </option>
-            <option value={2} className="naranja">
+            <option value={2} className="bg-orange-500 text-center">
               2
             </option>
-            <option value={3} className="amarillo">
+            <option value={3} className="bg-yellow-500 text-center">
               3
             </option>
-            <option value={4} className="celeste">
+            <option value={4} className="bg-sky-500 text-center">
               4
             </option>
           </select>
         </label>
-        <label className="row">
-          Etiqueta:
+        <label className="flex items-center justify-start w-full gap-1">
+          <p className="w-1/4">Etiqueta:</p>
           <select
-            className='modalEtiqueta'
+            className='w-2/4 text-center px-2 py-1 rounded border-2 border-zinc-300'
             name="idEtiqueta"
             value={formData.idEtiqueta}
             onChange={handleInputChange}
@@ -146,7 +149,8 @@ export function ModalTarea() {
               etiquetas.map((etiqueta, i) => (
                 <option
                   key={i}
-                  className={etiqueta.color}
+                  style={{color: etiqueta.color}}
+                  className="w-full bg-white"
                   value={etiqueta.id_etiqueta}
                 >
                   {etiqueta.nombre}
@@ -157,27 +161,30 @@ export function ModalTarea() {
             )}
           </select>
         </label>
-        <label className="col">
-          Descripcion:
+        <label className="flex flex-col items-center justify-start w-full gap-1">
+          <p>Descripcion:</p>
           <textarea
-            className="modalDesc"
-            maxLength={80}
+            className="w-full h-24 resize-none focus:outline-none border-2 border-sky-500 p-2 text-zinc-600 text-sm"
+            maxLength={130}
             name="descripcion"
             value={formData.descripcion}
             onChange={handleInputChange}
           ></textarea>
         </label>
-        <div className="botones row">
-          <button className="btn" onClick={cerrarModalTarea}>
+        <footer className="flex w-full gap-3">
+          <button
+            className="text-lg border-non w-full py-3 rounded bg-sky-500 text-white hover:bg-sky-600"
+            onClick={cerrarModalTarea}
+          >
             Cancelar
           </button>
           <button
             type="submit"
-            className="btn"
+            className="text-lg border-none w-full py-3 rounded bg-sky-500 text-white hover:bg-sky-600"
           >
             {modalAbierto === "editar" ? "Editar" : "Guardar"}
           </button>
-        </div>
+        </footer>
       </form>
     </div>
   );

@@ -66,31 +66,37 @@ export function Register({ handleForm }) {
   };
 
   return (
-    <div className="fondoFormulario col cen">
-      <div className="contenedorFormulario register col">
-        <h1>Registro</h1>
-        <form className="col" onSubmit={validarDatos}>
-          <label className="col">
+    <div className="flex flex-col items-center justify-center size-full bg-sky-500">
+       <main
+        className="flex flex-col text-center bg-white rounded-xl py-5 px-10 border-2 border-black "
+        style={{boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 70%)"}}
+      >
+        <h1 className="text-4xl text-sky-800">Registro</h1>
+        <form className="flex flex-col gap-3 text-xl w-full" onSubmit={validarDatos}>
+          <label className="flex flex-col gap-3 w-full">
             Username:
             <input
+              className="border-b-2 border-b-black px-1 focus:outline-none"
               type="text"
               name="username"
               value={formData.username}
               onChange={handleInputChange}
             />
           </label>
-          <label className="col">
+          <label className="flex flex-col gap-3 w-full">
             E-Mail:
             <input
+              className="border-b-2 border-b-black px-1 focus:outline-none"
               type="text"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
             />
           </label>
-          <label className="col">
+          <label className="flex flex-col gap-3 w-full">
             Pais:
             <select
+              className="text-center px-2 py-1 rounded border-2 border-zinc-300"
               name="pais"
               value={formData.pais}
               onChange={handleInputChange}
@@ -101,18 +107,20 @@ export function Register({ handleForm }) {
               ))}
             </select>
           </label>
-          <label className="col">
+          <label className="flex flex-col gap-3 w-full">
             Contraseña:
             <input
+              className="border-b-2 border-b-black px-1 focus:outline-none"
               type="password"
               name="password"
               value={formData.password}
               onChange={handleInputChange}
             />
           </label>
-          <label className="col">
+          <label className="flex flex-col gap-3 w-full">
             Confirmar contraseña:
             <input
+              className="border-b-2 border-b-black px-1 focus:outline-none"
               type="password"
               name="confPassword"
               value={formData.confPassword}
@@ -122,11 +130,11 @@ export function Register({ handleForm }) {
           <button type="submit" className="btn">
             CREAR CUENTA
           </button>
-          <span className="cambiarForm" onClick={handleForm}>
+          <a href="#" className="cambiarForm" onClick={handleForm}>
             Iniciar sesion
-          </span>
+          </a>
         </form>
-      </div>
+      </main>
       {/* Muestra el mensaje de error que obtenga de validarDatos() */}
       {msgError.length > 0 ? (
         <span className="msgError">{msgError}</span>

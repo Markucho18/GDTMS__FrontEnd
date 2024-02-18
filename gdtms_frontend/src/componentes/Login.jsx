@@ -39,22 +39,27 @@ export function Login({ handleForm }) {
   }
 
   return (
-    <div className="fondoFormulario col cen">
-      <div className="contenedorFormulario login col">
-        <h1>Login</h1>
-        <form className="col" onSubmit={validarDatos}>
-          <label className="col">
+    <div className="flex flex-col items-center justify-center size-full bg-sky-500">
+      <main
+        className="flex flex-col text-center bg-white rounded-xl p-5 border-2 border-black"
+        style={{boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 70%)"}}
+      >
+        <h1 className="text-4xl text-sky-800">Login</h1>
+        <form className="flex flex-col gap-3 text-xl w-full" onSubmit={validarDatos}>
+          <label className="flex flex-col gap-3 w-full">
             Username:
             <input
+              className="border-b-2 border-b-black px-1 focus:outline-none"
               type="text"
               name="username"
               value={formData.username}
               onChange={handleInputChange}
             />
           </label>
-          <label className="col">
+          <label className="flex flex-col gap-3 w-full">
             Contraseña:
             <input
+              className="border-b-2 border-b-black px-1 focus:outline-none"
               type="password"
               name="password"
               value={formData.password}
@@ -64,11 +69,11 @@ export function Login({ handleForm }) {
           <button type="submit" className="btn">
             INICIAR SESION
           </button>
-          <span className="cambiarForm" onClick={handleForm}>
+          <a href="#" className="cambiarForm" onClick={handleForm}>
             Registrarse
-          </span>
+          </a>
         </form>
-      </div>
+      </main>
       {/* Muestra el mensaje de error que obtenga de validarDatos() */}
       {msgError.length > 0 ? (
         <span className="msgError">{msgError}</span>

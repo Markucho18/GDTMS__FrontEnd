@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { SidebarSeccion } from "./SidebarSeccion";
+import Icon from "./Icon"
 import { MainContext } from "../contexts/MainContext";
 import { useEtiqueta } from "../hooks/useEtiqueta";
 
@@ -15,25 +16,29 @@ export function Sidebar() {
   return (
     <aside className="flex flex-col bg-zinc-600 h-full min-w-[250px] border-r-2 border-black overflow-y-auto ">
       <SidebarSeccion
-        icono="fa-solid fa-inbox"
         texto="Inbox"
         click={() => enviarConsulta({fecha: "inbox"})}
-      />
+      >
+        <Icon name="inbox"/>
+      </SidebarSeccion>
       <SidebarSeccion
-        icono="fa-solid fa-thumbtack"
         texto="Hoy"
         click={() => enviarConsulta({fecha: "hoy"})}
-      />
+      >
+        <Icon name="hoy"/>
+      </SidebarSeccion>
       <SidebarSeccion
-        icono="fa-regular fa-calendar-plus"
         texto="Proximo"
         click={() => enviarConsulta({fecha: "proximo"})}
-      />
+      >
+        <Icon name="proximo"/>
+      </SidebarSeccion>
       <SidebarSeccion
-        icono="fa-solid fa-tags"
         texto="Etiquetas"
         click={handleLista}
-      />
+      >
+        <Icon name="etiquetas"/>
+      </SidebarSeccion>
       {listaAbierta === true ? (
         <div className="[&>button]:pl-8">
           {etiquetas.length > 0 &&
@@ -41,18 +46,23 @@ export function Sidebar() {
             <SidebarSeccion
               key={i}
               texto={etiqueta.nombre}
-              icono={handleIcono(etiqueta.id_etiqueta)}
               color={{color: etiqueta.color}}
               click={() => enviarConsulta({etiqueta: etiqueta.nombre })}
-            />
+            >
+              <Icon
+                name={etiqueta.nombre}
+                color={etiqueta.color}
+              />
+            </SidebarSeccion>
           ))}
         </div>
       ) : null}
       <SidebarSeccion
-        icono="fa-solid fa-circle-check"
         texto="Completas"
-        click={()=> enviarConsulta({fecha: "completas"})}
-      />
+        click={() => enviarConsulta({fecha: "completas"})}
+      >
+        <Icon name="completas" />
+      </SidebarSeccion>
     </aside>
   );
 }

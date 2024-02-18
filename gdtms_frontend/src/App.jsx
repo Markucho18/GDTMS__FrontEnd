@@ -49,7 +49,7 @@ function App() {
           <div className="flex h-full overflow-hidden">
             <Sidebar />
             {/* Se renderiza un componente segun que consulta recibe */}
-            <main className="flex flex-col grow">
+            <main className="flex flex-col grow overflow-y-auto">
               {consulta && (
                 consulta.fecha && (
                   (consulta.fecha === 'inbox' && <TareasInbox/>) ||

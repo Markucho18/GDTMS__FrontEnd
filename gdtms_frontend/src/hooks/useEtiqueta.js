@@ -36,7 +36,7 @@ export function useEtiqueta(initialValue) {
         } else console.log("Etiquetas es undefined");
     }
 
-    //Le asigna un icono segun el Id
+/*     //Le asigna un icono segun el Id
     const handleIcono = (idEtiqueta)=>{
         if(idEtiqueta !== undefined || idEtiqueta !== 0){
             if(idEtiqueta === 1 ) return "fa-solid fa-code" //Programacion
@@ -51,7 +51,7 @@ export function useEtiqueta(initialValue) {
             else if(idEtiqueta === 10) return "fa-solid fa-palette" //Arte
         }
         else console.log("handleIcono() ha recibido un idEtiqueta no valido: ", idEtiqueta); 
-    }
+    } */
 
-    return {getIdEtiqueta, getNomEtiqueta, getColor, handleIcono};
+    return {getIdEtiqueta, getNomEtiqueta, getColor};
 }
